@@ -1,8 +1,6 @@
-package hu.nye.pandragon.wumpus.lovel;
+package hu.nye.pandragon.wumpus.lovel.entities;
 
-import hu.nye.pandragon.wumpus.Entity;
-
-import java.awt.*;
+import hu.nye.pandragon.wumpus.lovel.Entity;
 
 public class Gold extends Entity {
 

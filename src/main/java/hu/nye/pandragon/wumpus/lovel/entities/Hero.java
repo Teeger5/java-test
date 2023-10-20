@@ -1,17 +1,14 @@
-package hu.nye.pandragon.wumpus.lovel;
+package hu.nye.pandragon.wumpus.lovel.entities;
 
-import hu.nye.pandragon.wumpus.Entity;
+import hu.nye.pandragon.wumpus.lovel.Entity;
 
-import java.awt.*;
-
-public class Hero extends Entity {
+public class Hero extends Entity implements LivingEntity {
 
 	private int arrows;
 
 	public Hero() {
 		super(true, "Hős", 'H', true);
 		arrows = 5;
-		var x = "▀ \t▁ \t▂ \t▃ \t▄ \t▅ \t▆ \t▇ \t█ \t▉ \t▊ \t▋ \t▌ \t▍ \t▎ \t▏\nU+259x \t▐ \t░ \t▒ \t▓ \t▔ \t▕ \t▖ \t▗ \t▘ \t▙ \t▚ \t▛ \t▜ \t▝ \t▞ \t▟ ";
 	}
 
 	public void onShootArrow () {

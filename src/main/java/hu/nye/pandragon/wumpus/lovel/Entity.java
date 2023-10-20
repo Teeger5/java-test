@@ -1,4 +1,4 @@
-package hu.nye.pandragon.wumpus;
+package hu.nye.pandragon.wumpus.lovel;
 
 import java.awt.*;
 

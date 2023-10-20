@@ -1,10 +1,8 @@
-package hu.nye.pandragon.wumpus.lovel;
+package hu.nye.pandragon.wumpus.lovel.entities;
 
-import hu.nye.pandragon.wumpus.Entity;
+import hu.nye.pandragon.wumpus.lovel.Entity;
 
-import java.awt.*;
-
-public class Wumpus extends Entity {
+public class Wumpus extends Entity implements LivingEntity {
 
 	public Wumpus() {
 		super(true, "Wumpus", 'W', false);
