@@ -1,11 +1,8 @@
 package hu.nye.pandragon.wumpus.lovel;
 
-import hu.nye.pandragon.wumpus.lovel.Directions;
-import hu.nye.pandragon.wumpus.lovel.Level;
 import hu.nye.pandragon.wumpus.lovel.entities.LivingEntity;
 
 import java.awt.*;
-import java.util.Map;
 
 /**
  * Ez az osztály egy lény egy pályán való mozgatásáért felel

@@ -8,6 +8,7 @@ import hu.nye.pandragon.wumpus.lovel.entities.traits.CanShoot;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Ez az osztály a játékost, mint a főhőst írja le
@@ -68,5 +69,32 @@ public class Hero extends LivingEntity implements CanShoot {
 	@Override
 	public void setAmmoAmount(int count) {
 		arrows = count;
+	}
+
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder("Hero {\n");
+		sb.append("\tarrows = ").append(arrows + ",\n");
+		sb.append("\tposition = ").append(position + ",\n");
+		sb.append("\tinventory = ").append(inventory + ",\n");
+		sb.append("\talive = ").append(alive + ",\n");
+		sb.append("\tposition = ").append(position + ",\n");
+		sb.append("\tdirection = ").append(direction + ",\n");
+		sb.append("\tdisplaySymbol = ").append(displaySymbol + ",\n");
+		sb.append("}");
+		return sb.toString();
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Hero hero = (Hero) o;
+		return arrows == hero.arrows && Objects.equals(position, hero.position) && Objects.equals(inventory, hero.inventory);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(arrows, position, inventory);
 	}
 }

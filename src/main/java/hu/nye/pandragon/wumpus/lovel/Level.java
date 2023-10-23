@@ -5,6 +5,8 @@ import hu.nye.pandragon.wumpus.lovel.entities.Hero;
 import hu.nye.pandragon.wumpus.lovel.entities.LivingEntity;
 import hu.nye.pandragon.wumpus.lovel.entities.Wall;
 import hu.nye.pandragon.wumpus.lovel.entities.traits.Entity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.util.*;
@@ -15,6 +17,9 @@ import java.util.List;
  * Azért van egyben a kettő, mert a pálya minden elemét egy Map tartalmazza benne
  */
 public class Level {
+
+	private static final Logger logger = LoggerFactory.getLogger(Level.class);
+
 	/**
 	 * A pálya egy oldalának mérete
 	 */
@@ -57,11 +62,11 @@ public class Level {
 			placeEntity(i, 1, new Wall());
 			placeEntity(i, size, new Wall());
 		}
-		for (int i = 2; i < size; i++) {
+/*		for (int i = 2; i < size; i++) {
 			for (int j = 2; j < size; j++) {
 				placeEntity(i, j, Entities.Empty.createNewInstance());
 			}
-		}
+		}*/
 	}
 
 	/**
@@ -72,8 +77,8 @@ public class Level {
 	 * @param entity lény
 	 * @return true, ha sikerült hozzáadni
 	 */
-	public boolean addLivingEntity (LivingEntity entity, int x, int y) {
-		return addLivingEntity(entity, x, y, false);
+	public boolean placeLivingEntity (int x, int y, LivingEntity entity) {
+		return placeLivingEntity(x, y, entity, false);
 	}
 
 	/**
@@ -85,10 +90,28 @@ public class Level {
 	 * @param replace felül legyen-e írva, ha már létezik a pályán
 	 * @return true, ha sikerült hozzáadni
 	 */
-	public boolean addLivingEntity (LivingEntity entity, int x, int y, boolean replace) {
-		if (entity.isUnique() && !replace && livingEntities.containsValue(entity)) {
+	public boolean placeLivingEntity (int x, int y, LivingEntity entity, boolean replace) {
+/*		if (entity.isUnique() && !replace && livingEntities.containsValue(entity)) {
 			return false;
+		}*/
+		logger.debug(String.format("livingEntities.containsValue %s : %s", entity, livingEntities.containsValue(entity)));
+		if (entity.isUnique()) {
+			var it = livingEntities.values().iterator();
+			while (it.hasNext()) {
+				var e = it.next();
+				if (entity.getClass() == e.getClass()) {
+					it.remove();
+					e.setPosition(x, y);
+					livingEntities.put(e.getPosition(), e);
+					logger.debug(String.format("Unique entity megvan, pozíció -> %d %d", x, y));
+					logger.debug(String.format("Key: " + livingEntities.get(e.getPosition())));
+					return true;
+				}
+			}
+			for (LivingEntity e : livingEntities.values()) {
+			}
 		}
+		logger.debug(String.format("Új lény hozzáadása: %s -> %d %d", entity.getName(), x, y));
 		entity.setPosition(x, y);
 		livingEntities.put(entity.getPosition(), entity);
 		return true;
@@ -103,6 +126,12 @@ public class Level {
 		return null;
 	}
 
+	/**
+	 * Ez a metódus összegyűjti a pályán lévő lényeket,
+	 * létrehoz mindhez egy Entitycontroller-t,
+	 * majd ezek listáját adja vissza
+	 * @return az Entitycontroller-ek listája
+	 */
 	public List<EntityController> getEntityControllers () {
 		var controllers = new ArrayList<EntityController>();
 		for (LivingEntity e : livingEntities.values()) {
@@ -116,6 +145,19 @@ public class Level {
 	}
 
 	/**
+	 * Ez a metódus megkeresi és beállítja a kezdőhely pontját
+	 * Ez azért kell, hogy tudjuk, hová kell visszavinnie a hősnek az aranyat
+	 * A hős pozíciója a kezdőhely, és nem hoz létre hozzá új Point objektumot
+	 */
+	private void determineStartPoint () {
+		var hero = getHero();
+		if (hero != null) {
+			var position = hero.getPosition();
+			startpoint.setLocation(position.x, position.y);
+		}
+	}
+
+	/**
 	 * Ez a metódus összegyűjti az adott pozíció körüli járható pozíciókat,
 	 * ahová egy lény léphet.
 	 * Minden pozíció járható, amelyiken nincs blokkoló elem, pl. fal
@@ -124,7 +166,7 @@ public class Level {
 	 * @return a szomszédos járható pozíciók
 	 */
 	public Map<Directions, Point> getPossibleMoves (Point position) {
-		var possibleDirections = new HashMap<Directions, Point>();
+		var possibleDirections = new EnumMap<Directions, Point>(Directions.class);
 		var checkingPoint = new Point(position.x, position.y);
 		checkingPoint.y--;
 		var entity = staticEntites.get(checkingPoint);
@@ -181,23 +223,46 @@ public class Level {
 		isEditing = editing;
 	}
 
-	public void placeEntity (int x, int y, Entity entity) {
+	public boolean placeEntity (int x, int y, Entity entity) {
+		return placeEntity(x, y, entity, false);
+	}
+
+	/**
+	 * Új pályaelem hozzáadása
+	 * Lehet statikus (pl. fal) és lény is
+	 * A lényt az elhelyezkedése teszi egyedivé
+	 * Egy statikus és egy élő pályaelem lehet egy pozíción, ezek szét vannak választva
+	 * Egy pályaelemet a maga kategóriájában az elhelyezkedése tesz egyedivé
+	 * Viszont referencia alapján teszünk különbséget köztük,
+	 * így oda kell figyelni arra, hogy ne kerüljön két azonos típus egy pozícióra
+	 * @param entity pályaelem
+	 * @param x sor száma
+	 * @param y oszlop száma
+	 * @param replace 
+	 * @return
+	 */
+	public boolean placeEntity (int x, int y, Entity entity, boolean replace) {
+		if (entity instanceof LivingEntity livingEntity) {
+			return placeLivingEntity(x, y, livingEntity);
+		}
 		if (entity.isUnique()) {
-			for (Map.Entry<Point, Entity> e : staticEntites.entrySet()) {
+/*			for (Map.Entry<Point, Entity> e : staticEntites.entrySet()) {
 				if (e.getValue().getClass() == entity.getClass()) {
 					staticEntites.put(e.getKey(), new Empty());
 				}
-			}
+			}*/
 //			staticEntites.entrySet().removeIf(e -> e.getValue().getClass() == entity.getClass());
+			return false;
 		}
 		staticEntites.put(new Point(y, x), entity);
+		return true;
 	}
 
 	public void placeEntity (int x, int y, Entities entity) {
-		staticEntites.put(new Point(y, x), entity.createNewInstance());
+		placeEntity(y, x, entity.createNewInstance());
 	}
 
-	public void placeEntities (Point from, Point to, Entities type) {
+	public void placeEntities (Point from, Point to, Entity type) {
 		if (from.x < to.x) {
 			if (from.y < to.y) {
 				for (int i = from.x; i <= to.x; i++) {
@@ -272,10 +337,23 @@ public class Level {
 			drawing.append(' ').append((char) (65 + i)).append(' ');
 		}
 		drawing.append('\n');
+		var gettingpoint = new Point(0, 0);
 		for (int i = 1; i <= size; i++) {
 			drawing.append(String.format(" %2d ", i));
 			for (int j = 1; j <= size; j++) {
-				var entity = staticEntites.get(new Point(j, i));
+				gettingpoint.setLocation(i, j);
+				Entity entity = livingEntities.get(gettingpoint);
+//				logger.debug(String.format("  -> %2d %2d %s", j, i, (entity == null ? "null" : entity.getName())));
+				if (entity == null) {
+					gettingpoint.setLocation(j, i);
+					entity = staticEntites.get(gettingpoint);
+				}
+//				logger.debug(String.format(" ==> %2d %2d %s", j, i, (entity == null ? "null" : entity.getName())));
+				if (entity == null) {
+					var c = isEditing ? '•' : ' ';
+					drawing.append(' ').append(c).append(' ');
+					continue;
+				}
 				if (entity.shouldExtendInCell()) {
 					if (entity instanceof Wall w) {
 						var c = switch (w.getShape()) {
@@ -296,11 +374,7 @@ public class Level {
 					}
 				}
 				else {
-					var c = entity.getDisplaySymbol();
-					if (isEditing && entity instanceof Empty) {
-						c = '•';
-					}
-					drawing.append(' ').append(c).append(' ');
+					drawing.append(' ').append(entity.getDisplaySymbol()).append(' ');
 				}
 			}
 			drawing.append('\n');
