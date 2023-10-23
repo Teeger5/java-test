@@ -1,9 +1,11 @@
 package hu.nye.pandragon.wumpus.lovel;
 
 import hu.nye.pandragon.wumpus.lovel.entities.*;
+import hu.nye.pandragon.wumpus.lovel.entities.traits.Entity;
 
 public enum Entities {
 	Wall(new Wall()),
+	Gold(new Gold()),
 	Pit(new Pit()),
 	Wumpus(new Wumpus()),
 	Hero(new Hero()),
@@ -18,6 +20,7 @@ public enum Entities {
 	public Entity createNewInstance () {
 		return switch (this) {
 			case Wall -> new Wall();
+			case Gold -> new Gold();
 			case Pit -> new Pit();
 			case Wumpus -> new Wumpus();
 			case Hero -> new Hero();
@@ -25,8 +28,16 @@ public enum Entities {
 		};
 	}
 
-	// Egy mintául szolgáló példány az egyes pályaelemekből,
-	// így a tulajdonságaikat könnyen le lehet kérdezni
+	public boolean isLivingEntity () {
+		return getEntity() instanceof LivingEntity;
+	}
+
+	/**
+	 * Egy mintául szolgáló példány az egyes pályaelemekből,
+	 * így a tulajdonságaikat könnyen le lehet kérdezni
+	 * Ezek a dolgok statikusak alapból,
+	 * nem lesz belőlük új létrehozva az enum használatakor
+ 	 */
 	private Entity entity;
 	Entities(Entity entity2) {
 		entity = entity2;

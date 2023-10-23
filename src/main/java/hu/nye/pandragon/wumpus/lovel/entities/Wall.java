@@ -1,27 +1,40 @@
 package hu.nye.pandragon.wumpus.lovel.entities;
 
-import hu.nye.pandragon.wumpus.lovel.Entity;
+import hu.nye.pandragon.wumpus.lovel.entities.traits.Entity;
 import hu.nye.pandragon.wumpus.lovel.WallShape;
+import hu.nye.pandragon.wumpus.lovel.entities.traits.StaticEntity;
 
 import java.awt.*;
 import java.util.Map;
 
-public class Wall extends Entity {
+public class Wall extends Entity implements StaticEntity {
 
 	private WallShape shape;
 
 	public Wall () {
-		super(true, "Fal", WallShape.Single.getSymbol(), false);
-		var x = "▀ \t▁ \t▂ \t▃ \t▄ \t▅ \t▆ \t▇ \t█ \t▉ \t▊ \t▋ \t▌ \t▍ \t▎ \t▏\nU+259x \t▐ \t░ \t▒ \t▓ \t▔ \t▕ \t▖ \t▗ \t▘ \t▙ \t▚ \t▛ \t▜ \t▝ \t▞ \t▟ ";
-		shape = WallShape.Verticcal;
+		super(true, "Fal", '_', false, true);
+		displaySymbol = ' ';
+		shape = WallShape.Single;
 	}
 
 	public WallShape getShape() {
 		return shape;
 	}
 
-	public char getSymbol () {
+	public void setShape(WallShape shape) {
+		this.shape = shape;
+	}
+
+	@Override
+	public char getDisplaySymbol() {
 		return shape.getSymbol();
+	}
+
+	@Override
+	public Entity clone() {
+		var clone = new Wall();
+		clone.setShape(shape);
+		return clone;
 	}
 
 	/**

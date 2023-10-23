@@ -1,20 +1,21 @@
 package hu.nye.pandragon.wumpus.lovel.entities;
 
-import hu.nye.pandragon.wumpus.lovel.Entity;
+import hu.nye.pandragon.wumpus.lovel.entities.traits.Entity;
 
+/**
+ * Ez az osztály az pályán lévő üres részt írja le
+ * Ahol nincs más pályaelem, ott ez van
+ * Elvégre legalább semmi mindig van
+ */
 public class Empty extends Entity {
 
-	private Entity containedEntity;
-
 	public Empty() {
-		super(false, "Út", ' ', false);
+		super(false, "Út", '_', false, false);
+		displaySymbol = ' ';
 	}
 
-	public Entity getContainedEntity() {
-		return containedEntity;
-	}
-
-	public void setContainedEntity(Entity containedEntity) {
-		this.containedEntity = containedEntity;
+	@Override
+	public Entity clone() {
+		return new Empty();
 	}
 }

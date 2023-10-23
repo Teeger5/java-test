@@ -1,14 +1,19 @@
-package hu.nye.pandragon.wumpus.lovel;
+package hu.nye.pandragon.wumpus.ui;
 
 import hu.nye.pandragon.wumpus.Utils;
+import hu.nye.pandragon.wumpus.lovel.Entities;
+import hu.nye.pandragon.wumpus.lovel.Level;
 import hu.nye.pandragon.wumpus.lovel.entities.Empty;
 
 import java.awt.*;
 
-public class LevelEditor {
+/**
+ * Ez az osztály a pályaszerkesztőt írja le, és működteti
+ */
+public class LevelEditorScreen {
 	private Level level;
 
-	public LevelEditor () {
+	public LevelEditorScreen() {
 		onStart();
 	}
 
@@ -17,9 +22,15 @@ public class LevelEditor {
 		var site = requestMapSize();
 		System.out.printf("A pálya %d x %d méretű lesz\n", site, site);
 		level = new Level(site);
+		level.setEditing(true);
 		readCommands();
 	}
 
+	/**
+	 * Ez a metódus bekéri a pálya méretét a felhasználótól,
+	 * majd visszaadja egész száámmá alakítva
+	 * @return
+	 */
 	private int requestMapSize () {
 		while (true) {
 			System.out.print("Add meg a pálya oldalhosszát: ");
@@ -34,6 +45,10 @@ public class LevelEditor {
 		}
 	}
 
+	/**
+	 * Ez a metódus fogadja a parancsokat a felhasználótól
+	 * Egy végtelen while ciklus fut benne, amit a kilépés parancsa szakít meg
+	 */
 	public void readCommands () {
 		var entitiesAvailable = Entities.getAsString();
 		System.out.printf(
@@ -62,6 +77,17 @@ public class LevelEditor {
 		}
 	}
 
+	/**
+	 * Ez a metódus értelmezi a pályaszerkesztési parancsokat, és végre is hajtja őket
+	 * Jelenleg elérhető parancsok:
+	 *  - egy pályaelem létrehozása:
+	 *    `legyen <pályaelem> <sorszám> <oszlopbetűjel>`
+	 *  - több pályaelem létrehozása:
+	 *    `legyenek <pályaelem> <kezdőpont sorszám> <kezdőpont oszlopbetűjel> <végpont sorszám> <végpont oszlopbetűjel>`
+	 *  - pályaelem törlése:
+	 *    `törlés <sorszám> <oszlopbetűjel>`
+	 * @param command a bemenet a felhasználótól
+	 */
 	private void processBuildCommand (String command) {
 		var words = command.split("\\s+");
 		command = words[0];
@@ -130,7 +156,13 @@ public class LevelEditor {
 				}
 				return;
 			}
-			var x = Integer.parseInt(words[2]);
+			int x;
+			try {
+				x = Integer.parseInt(words[2]);
+			} catch (NumberFormatException e) {
+				System.out.println("Érvénytelen szám: " + words[2]);
+				return;
+			}
 			var c = words[3].toUpperCase().toCharArray()[0];
 			var y = c - 64;
 			if (y < 1 || y > level.getSize()) {
@@ -146,6 +178,7 @@ public class LevelEditor {
 				return;
 			}
 			try {
+				System.out.println("legyenek started");
 				var entity = Entities.parse(words[1]);
 				var x1 = Integer.parseInt(words[2]);
 				var x2 = Integer.parseInt(words[4]);
