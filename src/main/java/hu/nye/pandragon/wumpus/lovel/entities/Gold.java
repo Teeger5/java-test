@@ -1,7 +1,5 @@
 package hu.nye.pandragon.wumpus.lovel.entities;
 
-import hu.nye.pandragon.wumpus.lovel.entities.traits.Entity;
-
 /**
  * Ez az osztály az aranyat, mint pályaelemet írja le
  */

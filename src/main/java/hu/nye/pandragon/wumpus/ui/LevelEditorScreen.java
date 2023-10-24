@@ -79,6 +79,11 @@ public class LevelEditorScreen {
 				System.out.println("Rendben, majd próbáld ki a pályát! Viszlát!");
 				break;
 			}
+			else if (command.equalsIgnoreCase("teszt")) {
+				System.out.println("Teszt indítása...");
+				var gameplay = new GameplayScreen(level.toLevelVO(), "játékos");
+				gameplay.start();
+			}
 			else {
 				messageFromProcessing = processBuildCommand(command);
 			}

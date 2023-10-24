@@ -2,7 +2,6 @@ package hu.nye.pandragon.wumpus.lovel.entities;
 
 import hu.nye.pandragon.wumpus.lovel.Directions;
 import hu.nye.pandragon.wumpus.lovel.Items;
-import hu.nye.pandragon.wumpus.lovel.entities.traits.Entity;
 import hu.nye.pandragon.wumpus.lovel.entities.traits.CanShoot;
 
 import java.awt.*;
@@ -19,14 +18,12 @@ public class Hero extends LivingEntity implements CanShoot {
 	 * A játékos nyilainak száma
 	 */
 	private int arrows;
-	private final Point position;
 	private final List<Items> inventory;
 
 	public Hero() {
 		super("Hős", 'H', true);
 		arrows = 3;
 		direction = Directions.North;
-		position = new Point(0, 0);
 		inventory = new ArrayList<>();
 	}
 
@@ -49,11 +46,15 @@ public class Hero extends LivingEntity implements CanShoot {
 
 	@Override
 	public Entity clone() {
-		var hero = new Hero();
-		hero.setAmmoAmount(arrows);
-		hero.setDirection(direction);
-		hero.setAlive(alive);
-		return hero;
+		var clone = new Hero();
+		clone.setAmmoAmount(arrows);
+		clone.setPosition(position.x, position.y);
+		clone.setDirection(direction);
+		clone.setAlive(alive);
+		for (Items item : inventory) {
+			clone.addItem(item);
+		}
+		return clone;
 	}
 
 	@Override

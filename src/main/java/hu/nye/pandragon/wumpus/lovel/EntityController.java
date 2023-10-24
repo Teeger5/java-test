@@ -1,6 +1,8 @@
 package hu.nye.pandragon.wumpus.lovel;
 
 import hu.nye.pandragon.wumpus.lovel.entities.LivingEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 
@@ -8,6 +10,9 @@ import java.awt.*;
  * Ez az osztály egy lény egy pályán való mozgatásáért felel
  */
 public class EntityController {
+
+	private final Logger logger = LoggerFactory.getLogger(EntityController.class);
+
 	private final LivingEntity entity;
 	private final Level level;
 	private final Point entityPosition;
@@ -18,8 +23,13 @@ public class EntityController {
 		this.entityPosition = entity.getPosition();
 	}
 
-	public void moveForward () {
+	public boolean moveForward () {
 		var direction = entity.getDirection();
+		var possibleDirections = level.getPossibleMoves(entityPosition);
+		logger.debug("Lehetséges járható irányok: " + possibleDirections);
+		if (!possibleDirections.containsKey(direction)) {
+			return false;
+		}
 		if (direction == Directions.North) {
 			entityPosition.y--;
 		}
@@ -32,6 +42,8 @@ public class EntityController {
 		else if (direction == Directions.West) {
 			entityPosition.x--;
 		}
+		level.placeLivingEntity(entityPosition.x, entityPosition.y, entity);
+		return true;
 	}
 
 	public void turnRight () {

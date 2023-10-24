@@ -1,7 +1,5 @@
 package hu.nye.pandragon.wumpus.lovel.entities;
 
-import hu.nye.pandragon.wumpus.lovel.entities.traits.Entity;
-
 /**
  * Ez az osztály az pályán lévő üres részt írja le
  * Ahol nincs más pályaelem, ott ez van

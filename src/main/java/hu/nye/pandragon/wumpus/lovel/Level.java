@@ -1,10 +1,9 @@
 package hu.nye.pandragon.wumpus.lovel;
 
-import hu.nye.pandragon.wumpus.lovel.entities.Empty;
 import hu.nye.pandragon.wumpus.lovel.entities.Hero;
 import hu.nye.pandragon.wumpus.lovel.entities.LivingEntity;
 import hu.nye.pandragon.wumpus.lovel.entities.Wall;
-import hu.nye.pandragon.wumpus.lovel.entities.traits.Entity;
+import hu.nye.pandragon.wumpus.lovel.entities.Entity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,11 +61,17 @@ public class Level {
 			placeEntity(i, 1, new Wall());
 			placeEntity(i, size, new Wall());
 		}
-/*		for (int i = 2; i < size; i++) {
-			for (int j = 2; j < size; j++) {
-				placeEntity(i, j, Entities.Empty.createNewInstance());
-			}
-		}*/
+		startpoint = new Point(1, 1);
+	}
+	public Level (LevelVO levelVO) {
+		size = levelVO.getSize();
+		staticEntites = levelVO.getStaticEntities();
+		livingEntities = levelVO.getLivingEnties();
+		determineStartPoint();
+	}
+
+	public LevelVO toLevelVO () {
+		return new LevelVO(staticEntites, livingEntities, size);
 	}
 
 	/**
@@ -94,7 +99,7 @@ public class Level {
 /*		if (entity.isUnique() && !replace && livingEntities.containsValue(entity)) {
 			return false;
 		}*/
-		logger.debug(String.format("livingEntities.containsValue %s : %s", entity, livingEntities.containsValue(entity)));
+		logger.debug(String.format("LivingEntity hozzáadása: %s -> %d %d", entity, x, y));
 		if (entity.isUnique()) {
 			var it = livingEntities.values().iterator();
 			while (it.hasNext()) {
@@ -108,11 +113,12 @@ public class Level {
 					return true;
 				}
 			}
-			for (LivingEntity e : livingEntities.values()) {
+			if (entity instanceof Hero) {
+				determineStartPoint();
 			}
 		}
 		logger.debug(String.format("Új lény hozzáadása: %s -> %d %d", entity.getName(), x, y));
-		entity.setPosition(x, y);
+		entity.setPosition(y, x);
 		livingEntities.put(entity.getPosition(), entity);
 		return true;
 	}
@@ -135,12 +141,17 @@ public class Level {
 	public List<EntityController> getEntityControllers () {
 		var controllers = new ArrayList<EntityController>();
 		for (LivingEntity e : livingEntities.values()) {
-			controllers.add(new EntityController(this, e));
+			if (!(e instanceof Hero)) {
+				controllers.add(new EntityController(this, e));
+			}
 		}
 		return controllers;
 	}
 
 	public Point getStartPoint () {
+		if (startpoint == null) {
+			determineStartPoint();
+		}
 		return new Point(startpoint.x, startpoint.y);
 	}
 
@@ -153,7 +164,12 @@ public class Level {
 		var hero = getHero();
 		if (hero != null) {
 			var position = hero.getPosition();
-			startpoint.setLocation(position.x, position.y);
+			if (startpoint == null) {
+				startpoint = new Point(position.x, position.y);
+			}
+			else {
+				startpoint.setLocation(position.x, position.y);
+			}
 		}
 	}
 
@@ -170,25 +186,25 @@ public class Level {
 		var checkingPoint = new Point(position.x, position.y);
 		checkingPoint.y--;
 		var entity = staticEntites.get(checkingPoint);
-		if (entity != null && !entity.isBlocking()) {
+		if (entity == null || entity != null && !entity.isBlocking()) {
 			possibleDirections.put(Directions.North, new Point(checkingPoint.x, checkingPoint.y));
 		}
 		checkingPoint.y++;
 		checkingPoint.x++;
 		entity = staticEntites.get(checkingPoint);
-		if (entity != null && !entity.isBlocking()) {
+		if (entity == null || entity != null && !entity.isBlocking()) {
 			possibleDirections.put(Directions.East, new Point(checkingPoint.x, checkingPoint.y));
 		}
 		checkingPoint.x--;
 		checkingPoint.y++;
 		entity = staticEntites.get(checkingPoint);
-		if (entity != null && !entity.isBlocking()) {
+		if (entity == null || entity != null && !entity.isBlocking()) {
 			possibleDirections.put(Directions.South, new Point(checkingPoint.x, checkingPoint.y));
 		}
 		checkingPoint.y--;
 		checkingPoint.x--;
 		entity = staticEntites.get(checkingPoint);
-		if (entity != null && !entity.isBlocking()) {
+		if (entity == null || entity != null && !entity.isBlocking()) {
 			possibleDirections.put(Directions.West, new Point(checkingPoint.x, checkingPoint.y));
 		}
 		return possibleDirections;
@@ -310,11 +326,11 @@ public class Level {
 			case South: dy = 1; break;
 			case West: dx = -1; break;
 		}
-		while (entity instanceof Empty) {
+		while (entity == null) {
 			entity = staticEntites.get(point);
-			if (entity instanceof Empty) {
-				entity = livingEntities.get(point);
-			}
+/*			if (entity instanceof LivingEntity || entity instanceof Wall) {
+				break;
+			}*/
 			point.x += dx;
 			point.y += dy;
 		}
@@ -338,14 +354,14 @@ public class Level {
 		}
 		drawing.append('\n');
 		var gettingpoint = new Point(0, 0);
-		for (int i = 1; i <= size; i++) {
-			drawing.append(String.format(" %2d ", i));
-			for (int j = 1; j <= size; j++) {
-				gettingpoint.setLocation(i, j);
+		for (int y = 1; y <= size; y++) {
+			drawing.append(String.format(" %2d ", y));
+			for (int x = 1; x <= size; x++) {
+				gettingpoint.setLocation(x, y);
 				Entity entity = livingEntities.get(gettingpoint);
 //				logger.debug(String.format("  -> %2d %2d %s", j, i, (entity == null ? "null" : entity.getName())));
 				if (entity == null) {
-					gettingpoint.setLocation(j, i);
+					gettingpoint.setLocation(x, y);
 					entity = staticEntites.get(gettingpoint);
 				}
 //				logger.debug(String.format(" ==> %2d %2d %s", j, i, (entity == null ? "null" : entity.getName())));

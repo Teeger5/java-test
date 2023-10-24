@@ -1,4 +1,4 @@
-package hu.nye.pandragon.wumpus.lovel.entities.traits;
+package hu.nye.pandragon.wumpus.lovel.entities;
 
 public abstract class Entity {
 	/**

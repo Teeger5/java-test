@@ -52,7 +52,7 @@ public class GameMainScreen {
 				enterEditor();
 				showMenuOptions();
 			}
-			else if (command.equals("2")) {
+			else if (command.equals("3")) {
 				exit();
 			}
 			else {

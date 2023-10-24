@@ -1,13 +1,13 @@
 package hu.nye.pandragon.wumpus.lovel.entities;
 
-import hu.nye.pandragon.wumpus.lovel.entities.traits.Entity;
 import hu.nye.pandragon.wumpus.lovel.WallShape;
 import hu.nye.pandragon.wumpus.lovel.entities.traits.StaticEntity;
+import hu.nye.pandragon.wumpus.lovel.entities.traits.WallsFitTo;
 
 import java.awt.*;
 import java.util.Map;
 
-public class Wall extends Entity implements StaticEntity {
+public class Wall extends Entity implements StaticEntity, WallsFitTo {
 
 	private WallShape shape;
 
@@ -52,10 +52,10 @@ public class Wall extends Entity implements StaticEntity {
 		var x = currentPosition.x;
 		var y = currentPosition.y;
 
-		var top = entities.get(new Point(x, y - 1)) instanceof Wall;
-		var right = entities.get(new Point(x + 1, y)) instanceof Wall;
-		var bottom = entities.get(new Point(x, y + 1)) instanceof Wall;
-		var left = entities.get(new Point(x - 1, y)) instanceof Wall;
+		var top = entities.get(new Point(x, y - 1)) instanceof WallsFitTo;
+		var right = entities.get(new Point(x + 1, y)) instanceof WallsFitTo;
+		var bottom = entities.get(new Point(x, y + 1)) instanceof WallsFitTo;
+		var left = entities.get(new Point(x - 1, y)) instanceof WallsFitTo;
 //		System.out.printf("wall: %2d, %2d -> %s %s %s %s\n", x, x, top, right, bottom, left);
 		shape = WallShape.getShape(top, right, bottom, left);
 //		System.out.println(" - shape -> " + shape.getSymbol());

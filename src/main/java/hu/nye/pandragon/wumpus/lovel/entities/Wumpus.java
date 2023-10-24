@@ -1,6 +1,5 @@
 package hu.nye.pandragon.wumpus.lovel.entities;
 
-import hu.nye.pandragon.wumpus.lovel.entities.traits.Entity;
 import hu.nye.pandragon.wumpus.lovel.entities.traits.ActionOnHeroEnters;
 
 public class Wumpus extends LivingEntity implements ActionOnHeroEnters {
