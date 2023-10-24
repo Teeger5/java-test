@@ -1,7 +1,7 @@
 package hu.nye.pandragon.wumpus.ui;
 
 import hu.nye.pandragon.wumpus.Utils;
-import hu.nye.pandragon.wumpus.lovel.Directions;
+import hu.nye.pandragon.wumpus.model.Directions;
 import hu.nye.pandragon.wumpus.lovel.Entities;
 import hu.nye.pandragon.wumpus.lovel.Level;
 import hu.nye.pandragon.wumpus.lovel.entities.Empty;

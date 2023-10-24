@@ -4,6 +4,8 @@ import hu.nye.pandragon.wumpus.lovel.entities.Hero;
 import hu.nye.pandragon.wumpus.lovel.entities.LivingEntity;
 import hu.nye.pandragon.wumpus.lovel.entities.Wall;
 import hu.nye.pandragon.wumpus.lovel.entities.Entity;
+import hu.nye.pandragon.wumpus.model.Directions;
+import hu.nye.pandragon.wumpus.model.LevelVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

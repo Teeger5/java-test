@@ -1,6 +1,6 @@
 package hu.nye.pandragon.wumpus.lovel.entities;
 
-import hu.nye.pandragon.wumpus.lovel.Directions;
+import hu.nye.pandragon.wumpus.model.Directions;
 
 import java.awt.*;
 

@@ -4,7 +4,7 @@ import hu.nye.pandragon.wumpus.Utils;
 import hu.nye.pandragon.wumpus.lovel.EntityController;
 import hu.nye.pandragon.wumpus.lovel.Items;
 import hu.nye.pandragon.wumpus.lovel.Level;
-import hu.nye.pandragon.wumpus.lovel.LevelVO;
+import hu.nye.pandragon.wumpus.model.LevelVO;
 import hu.nye.pandragon.wumpus.lovel.entities.Hero;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

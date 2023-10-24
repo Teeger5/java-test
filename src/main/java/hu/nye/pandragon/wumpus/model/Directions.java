@@ -1,4 +1,4 @@
-package hu.nye.pandragon.wumpus.lovel;
+package hu.nye.pandragon.wumpus.model;
 
 public enum Directions {
 	North('N', '▲'),

@@ -1,6 +1,8 @@
 package hu.nye.pandragon.wumpus.lovel;
 
 import hu.nye.pandragon.wumpus.lovel.entities.LivingEntity;
+import hu.nye.pandragon.wumpus.model.Directions;
+import hu.nye.pandragon.wumpus.model.TurnDirections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +46,15 @@ public class EntityController {
 		}
 		level.placeLivingEntity(entityPosition.x, entityPosition.y, entity);
 		return true;
+	}
+
+	public void turn (TurnDirections direction) {
+		if (direction == TurnDirections.Left) {
+			turnLeft();
+		}
+		else {
+			turnRight();
+		}
 	}
 
 	public void turnRight () {

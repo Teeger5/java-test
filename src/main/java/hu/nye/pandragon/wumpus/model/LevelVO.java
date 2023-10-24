@@ -1,4 +1,4 @@
-package hu.nye.pandragon.wumpus.lovel;
+package hu.nye.pandragon.wumpus.model;
 
 import hu.nye.pandragon.wumpus.lovel.entities.LivingEntity;
 import hu.nye.pandragon.wumpus.lovel.entities.Entity;

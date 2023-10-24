@@ -1,10 +1,9 @@
 package hu.nye.pandragon.wumpus.lovel.entities;
 
-import hu.nye.pandragon.wumpus.lovel.Directions;
+import hu.nye.pandragon.wumpus.model.Directions;
 import hu.nye.pandragon.wumpus.lovel.Items;
 import hu.nye.pandragon.wumpus.lovel.entities.traits.CanShoot;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
