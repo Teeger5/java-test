@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  * Ez az enum a hős számára a játékban elérhető parancsokat tartalmazza
  */
 public enum GameplayCommands {
-	Turn ("fordul jobbra|balra", "^fordul\\s+(jobbra|balra)$"),
+	Turn ("fordul jobbra|balra", "^fordul (jobbra|balra)$"),
 	PickUpGold ("aranyat felszed", "^aranyat felszed$"),
 	Shoot ("lő", "^lő$"),
 	MoveForward ("lép", "^lép$"),
@@ -42,17 +42,18 @@ public enum GameplayCommands {
 		return Optional.of(new CanProcessResult());
 	}
 
-	public Command getCommand (Level level, LevelPrinter levelPrinter) {
+	public Command getCommand (Level level) {
 		switch (this) {
-			case Turn -> new HeroTurnCommand(level, levelPrinter);
-			case MoveForward -> new HeroMoveCommand(level, levelPrinter);
+			case Turn -> new HeroTurnCommand(level);
+			case MoveForward -> new HeroMoveCommand(level);
 		}
 		return null;
 	}
 
 	GameplayCommands(String usage, String regex) {
 		this.usage = usage;
-		this.regex = regex;
+		this.regex = regex
+				.replaceAll("[ ]+", "\\\\s+");
 		if (!usage.contains(" ")) {
 			base = usage;
 		}
@@ -61,10 +62,10 @@ public enum GameplayCommands {
 		}
 	}
 
-	public static EnumMap<GameplayCommands, Command> toCommandMap (Level level, LevelPrinter levelPrinter) {
+	public static EnumMap<GameplayCommands, Command> toCommandMap (Level level) {
 		var commands = new EnumMap<GameplayCommands, Command>(GameplayCommands.class);
 		for (GameplayCommands command : GameplayCommands.values()) {
-			commands.put(command, command.getCommand(level, levelPrinter));
+			commands.put(command, command.getCommand(level));
 		}
 		return commands;
 	}

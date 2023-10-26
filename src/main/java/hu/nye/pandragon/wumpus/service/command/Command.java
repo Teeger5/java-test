@@ -28,15 +28,30 @@ public interface Command {
 	void process (String input);
 
 	/**
-	 * Ez a metódus a parancs argumentumait adja vissza
-	 * Például ha a parancs 'fordul jobbra',
-	 * akkor a visszaadott tömb ['jobbra'] lesz
-	 * @param input felhasználói bemenet, azaz a parancs
+	 * Visszaadja a parancs paramétereit, feltételezve, hogy
+	 * a parancs maga a bemenet első szava
+	 * Ennek a metódusnak van egy másik változata,
+	 * amelynél meg lehet adni, hány szóból áll maga a parancs
+	 * @param input a bemenet a felhasználótól
 	 * @return a parancs argumentumai
 	 */
 	static String[] getCommandArgs (String input) {
+		return getCommandArgs(1, input);
+	}
+
+	/**
+	 * Ez a metódus a parancs argumentumait adja vissza
+	 * Például ha a parancs 'fordul jobbra',
+	 * akkor a visszaadott tömb ['jobbra'] lesz
+	 * @param from hány szó maga a parancs
+	 * @param input felhasználói bemenet, azaz a parancs
+	 * @return a parancs argumentumai
+	 */
+	static String[] getCommandArgs (int from, String input) {
 		var list = new ArrayList<>(Arrays.asList(input.split("\\s+")));
-		list.remove(0);
+		for (int i = 0; i < from; i++) {
+			list.remove(0);
+		}
 		return list.toArray(new String[0]);
 	}
 }

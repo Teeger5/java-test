@@ -318,6 +318,14 @@ public class Level {
 		placeEntity(x, y, entity.createNewInstance());
 	}*/
 
+	/**
+	 * Eltávolít egy pályaelemet a pozíciója alapján
+	 * Először a lényeket nézi, majd ha azt nem talál,
+	 * akkor a statikusakat
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public Entity removeEntity (int x, int y) {
 		Entity entity = livingEntities.remove(new Point(x, y));
 		if (entity == null) {
@@ -374,11 +382,13 @@ public class Level {
 			case South: dy = 1; break;
 			case West: dx = -1; break;
 		}
+		point.x += dx;
+		point.y += dy;
 		while (entity == null) {
-			entity = staticEntites.get(point);
-/*			if (entity instanceof LivingEntity || entity instanceof Wall) {
-				break;
-			}*/
+			entity = livingEntities.get(point);
+			if (entity == null) {
+				entity = staticEntites.get(point);
+			}
 			point.x += dx;
 			point.y += dy;
 		}

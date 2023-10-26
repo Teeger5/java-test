@@ -6,9 +6,16 @@ import hu.nye.pandragon.wumpus.lovel.Items;
 import hu.nye.pandragon.wumpus.lovel.Level;
 import hu.nye.pandragon.wumpus.model.LevelVO;
 import hu.nye.pandragon.wumpus.lovel.entities.Hero;
+import hu.nye.pandragon.wumpus.model.PlayernameVO;
+import hu.nye.pandragon.wumpus.service.command.InputHandler;
+import hu.nye.pandragon.wumpus.service.command.impl.gameplay.GameplayExitCommand;
+import hu.nye.pandragon.wumpus.service.command.impl.gameplay.HeroMoveCommand;
+import hu.nye.pandragon.wumpus.service.command.impl.gameplay.HeroShootCommand;
+import hu.nye.pandragon.wumpus.service.command.impl.gameplay.HeroTurnCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -33,7 +40,7 @@ public class GameplayScreen extends Screen {
 	/**
 	 * A játékos neve
 	 */
-	private final String playerName;
+	private final PlayernameVO playerName;
 	/**
 	 * A pályán lévő lények EntityController objektumai
 	 * Ezekkel lehet irányítani a mozgásukat
@@ -41,8 +48,9 @@ public class GameplayScreen extends Screen {
 	 */
 	private final List<EntityController> entityControllers;
 	private final EntityController heroController;
+	private final InputHandler inputHandler;
 
-	public GameplayScreen(LevelVO levelVO, String playerName) {
+	public GameplayScreen(LevelVO levelVO, PlayernameVO playerName) {
 		this.level = new Level(levelVO);
 		this.playerName = playerName;
 		numberOfMoves = 0;
@@ -50,6 +58,12 @@ public class GameplayScreen extends Screen {
 		LOGGER.debug("Hős: " + hero);
 		this.entityControllers = level.getEntityControllers();
 		heroController = new EntityController(level, hero);
+		inputHandler = new InputHandler(Arrays.asList(
+				new HeroMoveCommand(level),
+				new HeroTurnCommand(level),
+				new HeroShootCommand(level),
+				new GameplayExitCommand(this)
+		));
 	}
 
 	public void start () {
@@ -77,23 +91,37 @@ public class GameplayScreen extends Screen {
 				System.out.printf("Győztél, sikeresen visszahoztad az aranyat a kiindulási helyre\n Megtettél %d lépést.\n", numberOfMoves);
 				break;
 			}
-			LevelPrinter.printGameLevel(level.toLevelVO(), hero);
-			System.out.println(messageFromCommandProcessing);
-			System.out.printf(
+			if (shouldExit) {
+				System.out.println("Kilépés a játékból...");
+				break;
+			}
+			LevelPrinter.printLevel(level.toLevelVO());
+			if (messageFromCommandProcessing != null) {
+				System.out.println(messageFromCommandProcessing);
+			}
+/*			System.out.printf(
 					"Hős: %c | %d %s | %d nyíl\n",
 					hero.getDisplaySymbol(),
 					hero.getPosition().y,
 					(char) (hero.getPosition().x + 64),
-					hero.getAmmoAmount());
+					hero.getAmmoAmount());*/
+			LevelPrinter.printHeroBar(hero);
 			System.out.print("> ");
 			var command = Utils.readFromConsole().trim().toLowerCase();
-			if (command.equals("felad")) {
+/*			if (command.equals("felad")) {
 				System.out.println("Kilépés a játékból...");
 				break;
 			}
-			else {
-				messageFromCommandProcessing = processCommands(command);
+			else {*/
+//				messageFromCommandProcessing = processCommands(command);
+			try {
+				inputHandler.handleInput(command);
+				messageFromCommandProcessing = null;
 			}
+			catch (RuntimeException e) {
+				messageFromCommandProcessing = e.getMessage();
+			}
+//			}
 		}
 	}
 

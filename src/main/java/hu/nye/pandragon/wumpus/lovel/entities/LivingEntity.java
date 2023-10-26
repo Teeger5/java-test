@@ -1,5 +1,6 @@
 package hu.nye.pandragon.wumpus.lovel.entities;
 
+import hu.nye.pandragon.wumpus.lovel.Level;
 import hu.nye.pandragon.wumpus.model.Directions;
 
 import java.awt.*;
@@ -47,8 +48,9 @@ public abstract class LivingEntity extends Entity {
 		this.direction = direction;
 	}
 
-	public void kill () {
+	public void kill (Level level) {
 		alive = false;
+		level.removeEntity(position.x, position.y);
 	}
 
 	public boolean isAlive() {

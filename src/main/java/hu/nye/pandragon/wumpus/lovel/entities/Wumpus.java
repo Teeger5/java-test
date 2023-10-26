@@ -1,5 +1,6 @@
 package hu.nye.pandragon.wumpus.lovel.entities;
 
+import hu.nye.pandragon.wumpus.lovel.Level;
 import hu.nye.pandragon.wumpus.lovel.entities.traits.ActionOnHeroEnters;
 
 public class Wumpus extends LivingEntity implements ActionOnHeroEnters {
@@ -10,17 +11,13 @@ public class Wumpus extends LivingEntity implements ActionOnHeroEnters {
 
 	@Override
 	public void onHeroEnters(Hero hero) {
-		hero.kill();
+		hero.kill(null);
 	}
 
 	@Override
-	public void kill() {
+	public void kill(Level level) {
 		System.out.println("Wumpus: Áááá!");
-	}
-
-	@Override
-	public boolean isAlive() {
-		return false;
+		super.kill(level);
 	}
 
 	@Override

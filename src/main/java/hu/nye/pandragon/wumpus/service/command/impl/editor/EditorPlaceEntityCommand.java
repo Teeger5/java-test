@@ -2,6 +2,7 @@ package hu.nye.pandragon.wumpus.service.command.impl.editor;
 
 import hu.nye.pandragon.wumpus.lovel.Entities;
 import hu.nye.pandragon.wumpus.lovel.Level;
+import hu.nye.pandragon.wumpus.lovel.entities.Hero;
 import hu.nye.pandragon.wumpus.lovel.entities.Wumpus;
 import hu.nye.pandragon.wumpus.service.command.CanProcessResult;
 import hu.nye.pandragon.wumpus.service.command.Command;
@@ -42,6 +43,9 @@ public class EditorPlaceEntityCommand implements Command {
 		}
 		var position = CommandUtils.getCoordinates(args[1], args[2], level.getSize());
 		level.placeEntity(position.x, position.y, entity);
+		if (entity instanceof Hero hero) {
+			hero.setAmmoAmount(level.getMaxWumpus());
+		}
 		LOGGER.info("Új pályaelem: {} -> {}, {}", entity.getName(), position.x, position.y);
 	}
 }

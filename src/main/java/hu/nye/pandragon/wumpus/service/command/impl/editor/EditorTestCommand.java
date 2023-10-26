@@ -4,6 +4,7 @@ import hu.nye.pandragon.wumpus.lovel.Entities;
 import hu.nye.pandragon.wumpus.lovel.Level;
 import hu.nye.pandragon.wumpus.lovel.entities.Wumpus;
 import hu.nye.pandragon.wumpus.model.LevelVO;
+import hu.nye.pandragon.wumpus.model.PlayernameVO;
 import hu.nye.pandragon.wumpus.service.command.CanProcessResult;
 import hu.nye.pandragon.wumpus.service.command.Command;
 import hu.nye.pandragon.wumpus.service.command.LevelEditorCommands;
@@ -36,7 +37,7 @@ public class EditorTestCommand implements Command {
 	public void process(String input) {
 		LOGGER.info("Pálya tesztelésének indítása...");
 
-		var gameplay = new GameplayScreen(levelVO, "Teszt");
+		var gameplay = new GameplayScreen(levelVO, new PlayernameVO("Teszt"));
 		gameplay.start();
 
 		LOGGER.info("Új pályaelem: {} -> {}, {}");

@@ -6,6 +6,7 @@ import hu.nye.pandragon.wumpus.lovel.Entities;
 import hu.nye.pandragon.wumpus.lovel.Level;
 import hu.nye.pandragon.wumpus.lovel.entities.Empty;
 import hu.nye.pandragon.wumpus.service.command.InputHandler;
+import hu.nye.pandragon.wumpus.service.command.impl.EditorExitCommand;
 import hu.nye.pandragon.wumpus.service.command.impl.editor.EditorRemoveEntityCommand;
 import hu.nye.pandragon.wumpus.service.command.impl.editor.EditorRotateCommand;
 import hu.nye.pandragon.wumpus.service.command.impl.editor.EditorPlaceEntityCommand;
@@ -25,17 +26,25 @@ public class LevelEditorScreen extends Screen {
 	private static final Logger logger = LoggerFactory.getLogger(LevelEditorScreen.class);
 
 	private Level level;
+	private final InputHandler inputHandler;
 
 	public LevelEditorScreen() {
-		onStart();
-	}
-
-	public void onStart () {
 		System.out.println("Pályaszerkesztő");
 		var site = requestMapSize();
 		System.out.printf("A pálya %d x %d méretű lesz\n", site, site);
 		level = new Level(site);
 		level.setEditing(true);
+		inputHandler = new InputHandler(Arrays.asList(
+				new EditorPlaceEntityCommand(level),
+				new EditorExitCommand(this),
+				new EditorRotateCommand(level),
+				new EditorRemoveEntityCommand(level),
+				new EditorTestCommand(level.toLevelVO())
+		));
+		onStart();
+	}
+
+	public void onStart () {
 		readCommands();
 	}
 
@@ -64,13 +73,6 @@ public class LevelEditorScreen extends Screen {
 	 */
 	protected void readCommands () {
 		String entitiesAvailable = Entities.getAsString();
-		var inputHandler = new InputHandler(Arrays.asList(
-				new EditorPlaceEntityCommand(level),
-				new GameplayExitCommand(this),
-				new EditorRotateCommand(level.getHero()),
-				new EditorRemoveEntityCommand(level),
-				new EditorTestCommand(level.toLevelVO())
-		));
 		System.out.printf(
 				"A következő parancsokat tudom végrehajtani:\n" +
 						" - uj pályaelem létrehozása: legyen %s sor_száma oszlop_betűjele\n" +
@@ -82,7 +84,9 @@ public class LevelEditorScreen extends Screen {
 		var messageFromProcessing = "Próbáld ki az egyik parancsot";
 		while (true) {
 			LevelPrinter.printEditorLevel(level.toLevelVO());
-			System.out.println(messageFromProcessing);
+			if (messageFromProcessing != null) {
+				System.out.println(messageFromProcessing);
+			}
 			System.out.print("> ");
 			var command = Utils.readFromConsole();
 /*			if (command.equals("mentés")) {
@@ -100,13 +104,13 @@ public class LevelEditorScreen extends Screen {
 			}
 			else {*/
 //				messageFromProcessing = processBuildCommand(command);
-				try {
+//				try {
 					inputHandler.handleInput(command);
-					messageFromProcessing = "";
-				}
+					messageFromProcessing = null;
+/*				}
 				catch (RuntimeException e) {
 					messageFromProcessing = e.getMessage();
-				}
+				}*/
 //			}
 		}
 	}

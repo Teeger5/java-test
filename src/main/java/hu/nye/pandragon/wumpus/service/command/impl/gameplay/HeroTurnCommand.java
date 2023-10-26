@@ -19,11 +19,9 @@ public class HeroTurnCommand implements Command {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(HeroTurnCommand.class);
 	private final Level level;
-	private final LevelPrinter levelPrinter;
 
-	public HeroTurnCommand(Level level, LevelPrinter levelPrinter) {
+	public HeroTurnCommand(Level level) {
 		this.level = level;
-		this.levelPrinter = levelPrinter;
 	}
 
 	@Override

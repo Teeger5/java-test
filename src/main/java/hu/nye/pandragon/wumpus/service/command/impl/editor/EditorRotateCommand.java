@@ -5,6 +5,7 @@ import hu.nye.pandragon.wumpus.lovel.EntityController;
 import hu.nye.pandragon.wumpus.lovel.Level;
 import hu.nye.pandragon.wumpus.lovel.entities.Hero;
 import hu.nye.pandragon.wumpus.lovel.entities.Wumpus;
+import hu.nye.pandragon.wumpus.model.Directions;
 import hu.nye.pandragon.wumpus.model.TurnDirections;
 import hu.nye.pandragon.wumpus.service.command.CanProcessResult;
 import hu.nye.pandragon.wumpus.service.command.Command;
@@ -21,10 +22,10 @@ import java.util.Optional;
 public class EditorRotateCommand implements Command {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(EditorRotateCommand.class);
-	private final Hero hero;
+	private final Level level;
 
-	public EditorRotateCommand(Hero hero) {
-		this.hero = hero;
+	public EditorRotateCommand(Level level) {
+		this.level = level;
 	}
 
 	@Override
@@ -35,10 +36,10 @@ public class EditorRotateCommand implements Command {
 	@Override
 	public void process(String input) {
 		LOGGER.info("Hős elforgatása");
-		var args = Command.getCommandArgs(input);
-		var direction = TurnDirections.parse(args[0]);
-		var controller = new EntityController(null, hero);
-		controller.turn(direction);
+		var args = Command.getCommandArgs(2, input);
+		var direction = Directions.parseSymbol(args[0].toUpperCase().toCharArray()[0]);
+		var hero = level.getHero();
+		hero.setDirection(direction);
 		LOGGER.info("Hős elforgatva " + direction.name());
 	}
 }

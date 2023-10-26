@@ -1,6 +1,10 @@
 package hu.nye.pandragon.wumpus.lovel;
 
+import hu.nye.pandragon.wumpus.lovel.entities.Entity;
+import hu.nye.pandragon.wumpus.lovel.entities.Hero;
 import hu.nye.pandragon.wumpus.lovel.entities.LivingEntity;
+import hu.nye.pandragon.wumpus.lovel.entities.traits.ActionOnHeroEnters;
+import hu.nye.pandragon.wumpus.lovel.entities.traits.CanShoot;
 import hu.nye.pandragon.wumpus.model.Directions;
 import hu.nye.pandragon.wumpus.model.TurnDirections;
 import org.slf4j.Logger;
@@ -13,7 +17,7 @@ import java.awt.*;
  */
 public class EntityController {
 
-	private final Logger logger = LoggerFactory.getLogger(EntityController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(EntityController.class);
 
 	private final LivingEntity entity;
 	private final Level level;
@@ -28,26 +32,47 @@ public class EntityController {
 	public boolean moveForward () {
 		var direction = entity.getDirection();
 		var possibleDirections = level.getPossibleMoves(entityPosition);
-		logger.debug("Lehetséges járható irányok: " + possibleDirections);
+		LOGGER.debug("Lehetséges járható irányok: " + possibleDirections);
 		if (!possibleDirections.containsKey(direction)) {
 			return false;
 		}
+		int x = entityPosition.x, y = entityPosition.y;
 		if (direction == Directions.North) {
-			entityPosition.y--;
+			y--;
 		}
 		else if (direction == Directions.East) {
-			entityPosition.x++;
+			x++;
 		}
 		else if (direction == Directions.South) {
-			entityPosition.y++;
+			y++;
 		}
 		else if (direction == Directions.West) {
-			entityPosition.x--;
+			x--;
 		}
-		level.placeEntity(entityPosition.x, entityPosition.y, entity);
+		if (entity instanceof Hero hero) {
+			var levelVO = level.toLevelVO();
+			var point = new Point(x, y);
+			Entity nextEntity = levelVO.getLivingEntities().get(point);
+			if (nextEntity == null) {
+				nextEntity = levelVO.getStaticEntities().get(point);
+			}
+			LOGGER.debug("hero move next entity: " + nextEntity);
+			if (nextEntity instanceof ActionOnHeroEnters actionOnHeroEnters) {
+				actionOnHeroEnters.onHeroEnters(hero);
+			}
+		}
+		level.placeEntity(x, y, entity);
 		return true;
 	}
 
+	public boolean canMoveForward () {
+		return level.getPossibleMoves(entityPosition).containsKey(entity.getDirection());
+	}
+/*
+	public Point getNextPosition () {
+
+	}
+*/
 	public void turn (TurnDirections direction) {
 		if (direction == TurnDirections.Left) {
 			turnLeft();
@@ -63,5 +88,16 @@ public class EntityController {
 
 	public void turnLeft () {
 		entity.setDirection(entity.getDirection().getClockwisePrevious());
+	}
+
+	public void shoot () {
+		if (entity instanceof CanShoot shooter) {
+			var target = level.getFirstEntityInDirection(entityPosition, entity.getDirection());
+			System.out.println("target: " + target.getClass());
+			if (target instanceof LivingEntity livingEntity) {
+				livingEntity.kill(level);
+			}
+			shooter.onShoot();
+		}
 	}
 }

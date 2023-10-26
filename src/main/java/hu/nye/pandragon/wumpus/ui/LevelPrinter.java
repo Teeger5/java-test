@@ -20,12 +20,16 @@ public class LevelPrinter {
 		System.out.println(drawing);
 	}
 
-	private static void printLevel (LevelVO levelVO) {
+	public static void printLevel (LevelVO levelVO) {
 		printLevel(levelVO, false);
 	}
 
 	private static void printLevel (LevelVO levelVO, boolean isEditing) {
 		System.out.println(drawLevel(levelVO, isEditing));
+	}
+
+	public static void printHeroBar (Hero hero) {
+		System.out.println(drawHeroBar(hero));
 	}
 
 	private static String drawLevel (LevelVO levelVO) {
@@ -47,44 +51,55 @@ public class LevelPrinter {
 			drawing.append(String.format(" %2d ", y));
 			for (int x = 1; x <= size; x++) {
 				gettingpoint.setLocation(x, y);
-				Entity entity = livingEntities.get(gettingpoint);
+				var livingEntity = livingEntities.get(gettingpoint);
 //				logger.debug(String.format("  -> %2d %2d %s", j, i, (entity == null ? "null" : entity.getName())));
-				if (entity == null) {
-					gettingpoint.setLocation(x, y);
-					entity = staticEntities.get(gettingpoint);
-				}
+				var staticEntity = staticEntities.get(gettingpoint);
 //				logger.debug(String.format(" ==> %2d %2d %s", j, i, (entity == null ? "null" : entity.getName())));
-				if (entity == null) {
+				if (staticEntity == null && livingEntity == null) {
 					var c = isEditing ? '•' : ' ';
 					drawing.append(' ').append(c).append(' ');
 					continue;
 				}
-				if (entity.shouldExtendInCell()) {
-					if (entity instanceof Wall w) {
-						var c = switch (w.getShape()) {
-							case Middle, Horizontal, TopRight, BottomRight, HorizontalBottom, HorizontalTop, VerticalLeft, Single -> WallShape.Horizontal.getSymbol();
-							default -> ' ';
-						};
-						drawing.append(c).append(w.getDisplaySymbol());
-
-						c = switch (w.getShape()) {
-							case Middle, Horizontal, HorizontalBottom, HorizontalTop, BottomLeft, VerticalRight, TopLeft, Single -> WallShape.Horizontal.getSymbol();
-							default -> ' ';
-						};
-						drawing.append(c);
-					}
+				if (staticEntity != null && staticEntity.shouldExtendInCell()) {
+					if (staticEntity instanceof Wall wall) {
+//						var wallExtensionSymbol = getWallExtensionSymbol(wall);
+						drawing.append(getWallLeftExtensionSymbol(wall))
+								.append(wall.getDisplaySymbol())
+								.append(getWallRightExtensionSymbol(wall));}
 					else {
-						char c = entity.getDisplaySymbol();
-						drawing.append(c).append(c).append(c);
+						char c = staticEntity.getDisplaySymbol();
+						var middle = c;
+						if (livingEntity != null) {
+							middle = livingEntity.getDisplaySymbol();
+						}
+						drawing.append(c).append(middle).append(c);
 					}
 				}
 				else {
+					Entity entity = livingEntity;
+					if (entity == null) {
+						entity = staticEntity;
+					}
 					drawing.append(' ').append(entity.getDisplaySymbol()).append(' ');
 				}
 			}
 			drawing.append('\n');
 		}
 		return drawing.toString();
+	}
+
+	private static char getWallRightExtensionSymbol (Wall wall) {
+		return switch (wall.getShape()) {
+			case Middle, Horizontal, HorizontalBottom, HorizontalTop, BottomLeft, VerticalRight, TopLeft, Single -> WallShape.Horizontal.getSymbol();
+			default -> ' ';
+		};
+	}
+
+	private static char getWallLeftExtensionSymbol (Wall wall) {
+		return switch (wall.getShape()) {
+			case Middle, Horizontal, HorizontalBottom, HorizontalTop, BottomRight, VerticalRight, TopRight, Single -> WallShape.Horizontal.getSymbol();
+			default -> ' ';
+		};
 	}
 
 	private static String drawHeroBar (Hero hero) {

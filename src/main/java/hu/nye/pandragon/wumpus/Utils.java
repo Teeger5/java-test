@@ -1,8 +1,5 @@
 package hu.nye.pandragon.wumpus;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class Utils {

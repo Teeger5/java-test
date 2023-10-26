@@ -2,6 +2,7 @@ package hu.nye.pandragon.wumpus.service.command.impl.gameplay;
 
 import hu.nye.pandragon.wumpus.lovel.EntityController;
 import hu.nye.pandragon.wumpus.lovel.Level;
+import hu.nye.pandragon.wumpus.model.TurnDirections;
 import hu.nye.pandragon.wumpus.service.command.CanProcessResult;
 import hu.nye.pandragon.wumpus.service.command.Command;
 import hu.nye.pandragon.wumpus.service.command.GameplayCommands;
@@ -14,30 +15,30 @@ import java.util.Optional;
 /**
  * Command used to write a number to a given field of the map.
  */
-public class HeroMoveCommand implements Command {
+public class HeroShootCommand implements Command {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(HeroMoveCommand.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(HeroShootCommand.class);
 	private final Level level;
 
-	public HeroMoveCommand(Level level) {
+	public HeroShootCommand(Level level) {
 		this.level = level;
 	}
 
 	@Override
 	public Optional<CanProcessResult> canProcess(String input) {
-		return GameplayCommands.MoveForward.matches(input);
+		return GameplayCommands.Shoot.matches(input);
 	}
 
 	@Override
 	public void process(String input) {
-		LOGGER.info("A előre lép egyet");
+		LOGGER.info("A hős lő");
 		var hero = level.getHero();
 		var controller = new EntityController(level, hero);
-//		if (controller.canMoveForward() && ) {}
-		if (!controller.moveForward()) {
-			LOGGER.warn("Nem lehet lépni ebben az irányban");
-			throw new RuntimeException("Nem lehet lépni ebben az irányban");
+		if (hero.getAmmoAmount() < 1) {
+			LOGGER.error("A hősnek nincs nyila");
+			throw new RuntimeException("A hősnek nincs nyila");
 		}
-		LOGGER.info("A hős új pozíciója: " + hero.getPosition());
+		controller.shoot();
+		LOGGER.info("Hős lőtt {} irányban, {} nyila maradt", hero.getDirection(), hero.getAmmoAmount());
 	}
 }

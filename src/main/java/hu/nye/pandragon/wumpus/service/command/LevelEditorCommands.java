@@ -16,11 +16,10 @@ public enum LevelEditorCommands {
 	Remove ("törlés osztlop_betűje sor_száma", "^törlés [a-z] \\d+$"),
 	RotateHero ("hős fordul {DIRECTIONS}", "^hős fordul ({DIRECTIONS})$"),
 	Test ("teszt", "^teszt$"),
-	Exit ("kész | kilépés", "^(kész|kilépés)$");
-
+	Exit ("kész | kilépés | vissza", "^(kész|kilépés|vissza)$");
 
 	private final String usage;
-	private String regex;
+	private final String regex;
 	private final String base;
 
 	public boolean checkSyntax (String s) {
@@ -58,9 +57,5 @@ public enum LevelEditorCommands {
 		}
 		System.out.println("regex: " + this.regex);
 		System.out.println("base: " + base);
-	}
-
-	public boolean equals (String s) {
-		return this.name().toLowerCase().equals(s);
 	}
 }
