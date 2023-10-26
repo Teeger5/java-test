@@ -2,14 +2,14 @@ package hu.nye.pandragon.wumpus.service.command;
 
 import java.util.EnumMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Component that handles a given input.
  */
 public class InputHandler {
 
-    private final EnumMap<HeroCommands, Command> commandList;
+//    private final EnumMap<GameplayCommands, Command> commandList;
+    private final List<Command> commandList;
 
     /**
      * Itt a parancsokat előre listába kell szedni egyolyan helyen, ahol elérhető a Level objektum,
@@ -28,7 +28,7 @@ public class InputHandler {
      * @param input the input as a string to be handled
      */
     public void handleInput(String input) {
-        for (HeroCommands command : commandList.keySet()) {
+        for (GameplayCommands command : commandList.keySet()) {
             var result = command.matches(input);
             if (result.isPresent()) {
                 var content = result.get();

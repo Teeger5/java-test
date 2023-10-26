@@ -5,10 +5,14 @@ import hu.nye.pandragon.wumpus.model.Directions;
 import hu.nye.pandragon.wumpus.lovel.Entities;
 import hu.nye.pandragon.wumpus.lovel.Level;
 import hu.nye.pandragon.wumpus.lovel.entities.Empty;
+import hu.nye.pandragon.wumpus.service.command.InputHandler;
+import hu.nye.pandragon.wumpus.service.command.impl.editor.LevelPlaceEntityCommand;
+import hu.nye.pandragon.wumpus.service.input.UserInputReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
+import java.util.Arrays;
 
 /**
  * Ez az osztály a pályaszerkesztőt írja le, és működteti
@@ -56,7 +60,9 @@ public class LevelEditorScreen {
 	 * Egy végtelen while ciklus fut benne, amit a kilépés parancsa szakít meg
 	 */
 	public void readCommands () {
-		var entitiesAvailable = Entities.getAsString();
+		var inputHandler = new InputHandler(Arrays.asList(
+				new LevelPlaceEntityCommand(level)
+		));
 		System.out.printf(
 				"A következő parancsokat tudom végrehajtani:\n" +
 						" - uj pályaelem létrehozása: legyen %s sor_száma oszlop_betűjele\n" +

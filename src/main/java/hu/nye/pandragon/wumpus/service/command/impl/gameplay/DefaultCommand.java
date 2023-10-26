@@ -1,4 +1,4 @@
-package hu.nye.pandragon.wumpus.service.command.impl;
+package hu.nye.pandragon.wumpus.service.command.impl.gameplay;
 
 import hu.nye.pandragon.wumpus.service.command.Command;
 import hu.nye.pandragon.wumpus.ui.PrintWrapper;

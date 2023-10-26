@@ -1,9 +1,6 @@
 package hu.nye.pandragon.wumpus.lovel;
 
-import hu.nye.pandragon.wumpus.lovel.entities.Hero;
-import hu.nye.pandragon.wumpus.lovel.entities.LivingEntity;
-import hu.nye.pandragon.wumpus.lovel.entities.Wall;
-import hu.nye.pandragon.wumpus.lovel.entities.Entity;
+import hu.nye.pandragon.wumpus.lovel.entities.*;
 import hu.nye.pandragon.wumpus.model.Directions;
 import hu.nye.pandragon.wumpus.model.LevelVO;
 import org.slf4j.Logger;
@@ -19,7 +16,7 @@ import java.util.List;
  */
 public class Level {
 
-	private static final Logger logger = LoggerFactory.getLogger(Level.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Level.class);
 
 	/**
 	 * A pálya egy oldalának mérete
@@ -46,15 +43,6 @@ public class Level {
 
 	public Level(int size) {
 		this.size = size;
-		if (size < 9) {
-			maxWumpus = 1;
-		}
-		else if (size < 15) {
-			maxWumpus = 2;
-		}
-		else {
-			maxWumpus = 3;
-		}
 		livingEntities = new HashMap<>();
 		staticEntites = new HashMap<>();
 		for (int i = 1; i <= size; i++) {
@@ -64,12 +52,16 @@ public class Level {
 			placeEntity(i, size, new Wall());
 		}
 		startpoint = new Point(1, 1);
+		determineStartPoint();
+		determineMaxWumpus();
 	}
+
 	public Level (LevelVO levelVO) {
 		size = levelVO.getSize();
 		staticEntites = levelVO.getStaticEntities();
-		livingEntities = levelVO.getLivingEnties();
+		livingEntities = levelVO.getLivingEntities();
 		determineStartPoint();
+		determineMaxWumpus();
 	}
 
 	public LevelVO toLevelVO () {
@@ -84,45 +76,70 @@ public class Level {
 	 * @param entity lény
 	 * @return true, ha sikerült hozzáadni
 	 */
-	public boolean placeLivingEntity (int x, int y, LivingEntity entity) {
-		return placeLivingEntity(x, y, entity, false);
+/*	public boolean placeLivingEntity (int x, int y, LivingEntity entity) {
+		return placeLivingEntity(x, y, entity);
 	}
-
+*/
 	/**
 	 * Új lény hozzáadása a pályához
 	 *
 	 * @param x sor száma
 	 * @param y oszlop száma
 	 * @param entity lény
-	 * @param replace felül legyen-e írva, ha már létezik a pályán
 	 * @return true, ha sikerült hozzáadni
 	 */
-	public boolean placeLivingEntity (int x, int y, LivingEntity entity, boolean replace) {
+	public void placeLivingEntity (int x, int y, LivingEntity entity) {
 /*		if (entity.isUnique() && !replace && livingEntities.containsValue(entity)) {
 			return false;
 		}*/
-		logger.debug(String.format("LivingEntity hozzáadása: %s -> %d %d", entity, x, y));
+		LOGGER.debug(String.format("LivingEntity hozzáadása: %s -> %d %d", entity, x, y));;
 		if (entity.isUnique()) {
-			var it = livingEntities.values().iterator();
-			while (it.hasNext()) {
-				var e = it.next();
-				if (entity.getClass() == e.getClass()) {
-					it.remove();
-					e.setPosition(x, y);
-					livingEntities.put(e.getPosition(), e);
-					logger.debug(String.format("Unique entity megvan, pozíció -> %d %d", x, y));
-					logger.debug(String.format("Key: " + livingEntities.get(e.getPosition())));
-					return true;
-				}
+			var e = (LivingEntity) removeEntityIfExists(entity);
+			if (e != null) {
+				entity = e;
 			}
+			LOGGER.debug(String.format("Unique entity megvan, pozíció -> %d %d", x, y));
+			LOGGER.debug(String.format("Key: " + livingEntities.get(e.getPosition())));
 			if (entity instanceof Hero) {
 				determineStartPoint();
 			}
 		}
-		logger.debug(String.format("Új lény hozzáadása: %s -> %d %d", entity.getName(), x, y));
-		entity.setPosition(y, x);
+		LOGGER.debug(String.format("Új lény hozzáadása: %s -> %d %d", entity.getName(), x, y));
+		entity.setPosition(x, y);
 		livingEntities.put(entity.getPosition(), entity);
-		return true;
+	}
+
+	private <V extends Entity> Entity removeEntityIfExists (Entity entity, Map<Point, V> map) {
+//		var map = living ? livingEntities : staticEntites;
+		var it = map.values().iterator();
+		while (it.hasNext()) {
+			var value = it.next();
+			if (entity.getClass() == value.getClass()) {
+				it.remove();
+				return value;
+			}
+		}
+		return null;
+	}
+
+	public Entity removeEntityIfExists (Entity entity) {
+		var map = entity instanceof LivingEntity ? livingEntities : staticEntites;
+		return removeEntityIfExists(entity, map);
+	}
+
+	public int getEntityCount (Entity entity) {
+		var map = entity instanceof LivingEntity ? livingEntities : staticEntites;
+		return getEntityCount(entity, map);
+	}
+
+	private <V extends Entity> int getEntityCount (Entity entity, Map<Point, V> map) {
+		int count = 0;
+		for (Entity value : map.values()) {
+			if (entity.getClass() == value.getClass()) {
+				count++;
+			}
+		}
+		return count;
 	}
 
 	public Hero getHero () {
@@ -172,6 +189,18 @@ public class Level {
 			else {
 				startpoint.setLocation(position.x, position.y);
 			}
+		}
+	}
+
+	private void determineMaxWumpus () {
+		if (size < 9) {
+			maxWumpus = 1;
+		}
+		else if (size < 15) {
+			maxWumpus = 2;
+		}
+		else {
+			maxWumpus = 3;
 		}
 	}
 
@@ -240,11 +269,11 @@ public class Level {
 	public void setEditing(boolean editing) {
 		isEditing = editing;
 	}
-
+/*
 	public boolean placeEntity (int x, int y, Entity entity) {
 		return placeEntity(x, y, entity, false);
 	}
-
+*/
 	/**
 	 * Új pályaelem hozzáadása
 	 * Lehet statikus (pl. fal) és lény is
@@ -256,28 +285,44 @@ public class Level {
 	 * @param entity pályaelem
 	 * @param x sor száma
 	 * @param y oszlop száma
-	 * @param replace 
 	 * @return
 	 */
-	public boolean placeEntity (int x, int y, Entity entity, boolean replace) {
-		if (entity instanceof LivingEntity livingEntity) {
-			return placeLivingEntity(x, y, livingEntity);
-		}
+	public void placeEntity (int x, int y, Entity entity) {
+/*		if (entity instanceof LivingEntity livingEntity) {
+			placeLivingEntity(x, y, livingEntity);
+		}*/
+//		Map<Point, ? extends Entity> entites = entity instanceof LivingEntity ? livingEntities : staticEntites;
 		if (entity.isUnique()) {
-/*			for (Map.Entry<Point, Entity> e : staticEntites.entrySet()) {
-				if (e.getValue().getClass() == entity.getClass()) {
-					staticEntites.put(e.getKey(), new Empty());
-				}
-			}*/
+			var e = removeEntityIfExists(entity);
+			if (e != null) {
+				entity = e;
+			}
 //			staticEntites.entrySet().removeIf(e -> e.getValue().getClass() == entity.getClass());
-			return false;
+//			return false;
 		}
-		staticEntites.put(new Point(y, x), entity);
-		return true;
+		if (entity instanceof LivingEntity e) {
+			e.setPosition(x, y);
+			livingEntities.put(e.getPosition(), e);
+			if (entity instanceof Hero) {
+				determineStartPoint();
+			}
+		}
+		else {
+			staticEntites.put(new Point(x, y), entity);
+		}
+//		return true;
 	}
 
-	public void placeEntity (int x, int y, Entities entity) {
-		placeEntity(y, x, entity.createNewInstance());
+/*	public void placeEntity (int x, int y, Entities entity) {
+		placeEntity(x, y, entity.createNewInstance());
+	}*/
+
+	public boolean removeEntity (int x, int y) {
+		Entity entity = livingEntities.remove(new Point(x, y));
+		if (entity == null) {
+			entity = staticEntites.remove(new Point(x, y));
+		}
+		return entity != null;
 	}
 
 	public void placeEntities (Point from, Point to, Entity type) {
@@ -347,7 +392,7 @@ public class Level {
 		}
 	}
 
-	public String drawLevel () {
+	private String drawLevel () {
 		var drawing = new StringBuilder();
 		alignWalls();
 		drawing.append("    ");
@@ -361,12 +406,12 @@ public class Level {
 			for (int x = 1; x <= size; x++) {
 				gettingpoint.setLocation(x, y);
 				Entity entity = livingEntities.get(gettingpoint);
-//				logger.debug(String.format("  -> %2d %2d %s", j, i, (entity == null ? "null" : entity.getName())));
+//				LOGGER.debug(String.format("  -> %2d %2d %s", j, i, (entity == null ? "null" : entity.getName())));
 				if (entity == null) {
 					gettingpoint.setLocation(x, y);
 					entity = staticEntites.get(gettingpoint);
 				}
-//				logger.debug(String.format(" ==> %2d %2d %s", j, i, (entity == null ? "null" : entity.getName())));
+//				LOGGER.debug(String.format(" ==> %2d %2d %s", j, i, (entity == null ? "null" : entity.getName())));
 				if (entity == null) {
 					var c = isEditing ? '•' : ' ';
 					drawing.append(' ').append(c).append(' ');
@@ -402,5 +447,9 @@ public class Level {
 
 	public int getSize() {
 		return size;
+	}
+
+	public int getMaxWumpus() {
+		return maxWumpus;
 	}
 }

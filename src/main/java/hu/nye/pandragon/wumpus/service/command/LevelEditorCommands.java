@@ -10,8 +10,8 @@ import java.util.regex.Pattern;
  * Ez az enum a pályaszerkesztőben elérhető parancsokat tartalmazza
  */
 public enum LevelEditorCommands {
-	Place ("legyen {ENTITIES} sor_száma osztlop_betűje", "^legyen\\s+({ENTITIES})\\s+\\d+\\s+[a-z]$"),
-	Remove ("törlés sor_száma osztlop_betűje", "^törlés\\s+\\d+\\s+\\d+\\s+[a-z]$"),
+	Place ("legyen {ENTITIES} osztlop_betűje sor_száma", "^legyen\\s+({ENTITIES})\\s+[a-z]\\s+\\d+$"),
+	Remove ("törlés osztlop_betűje sor_száma", "^törlés\\s+[a-z]\\s+\\d+$"),
 	RotateHero ("hős fordul {DIRECTIONS}", "^hős\\s+fordul\\s+({DIRECTIONS})$");
 
 	private final String usage;

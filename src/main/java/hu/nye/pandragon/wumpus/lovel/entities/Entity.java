@@ -61,5 +61,9 @@ public abstract class Entity {
 		return unique;
 	}
 
+	public int getMaxNumber () {
+		return Integer.MAX_VALUE;
+	}
+
 	public abstract Entity clone ();
 }

@@ -1,8 +1,8 @@
 package hu.nye.pandragon.wumpus.service.command;
 
 import hu.nye.pandragon.wumpus.lovel.Level;
-import hu.nye.pandragon.wumpus.service.command.impl.HeroMoveCommand;
-import hu.nye.pandragon.wumpus.service.command.impl.HeroTurnCommand;
+import hu.nye.pandragon.wumpus.service.command.impl.gameplay.HeroMoveCommand;
+import hu.nye.pandragon.wumpus.service.command.impl.gameplay.HeroTurnCommand;
 import hu.nye.pandragon.wumpus.ui.LevelPrinter;
 
 import java.util.EnumMap;
@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 /**
  * Ez az enum a hős számára a játékban elérhető parancsokat tartalmazza
  */
-public enum HeroCommands {
+public enum GameplayCommands {
 	Turn ("fordul jobbra|balra", "^fordul\\s+(jobbra|balra)$"),
 	PickUpGold ("aranyat felszed", "^aranyat felszed$"),
 	Shoot ("lő", "^lő$"),
@@ -49,7 +49,7 @@ public enum HeroCommands {
 		return null;
 	}
 
-	HeroCommands(String usage, String regex) {
+	GameplayCommands(String usage, String regex) {
 		this.usage = usage;
 		this.regex = regex;
 		if (!usage.contains(" ")) {
@@ -60,9 +60,9 @@ public enum HeroCommands {
 		}
 	}
 
-	public static EnumMap<HeroCommands, Command> toCommandMap (Level level, LevelPrinter levelPrinter) {
-		var commands = new EnumMap<HeroCommands, Command>(HeroCommands.class);
-		for (HeroCommands command : HeroCommands.values()) {
+	public static EnumMap<GameplayCommands, Command> toCommandMap (Level level, LevelPrinter levelPrinter) {
+		var commands = new EnumMap<GameplayCommands, Command>(GameplayCommands.class);
+		for (GameplayCommands command : GameplayCommands.values()) {
 			commands.put(command, command.getCommand(level, levelPrinter));
 		}
 		return commands;

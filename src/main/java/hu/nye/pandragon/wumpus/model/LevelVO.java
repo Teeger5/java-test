@@ -27,7 +27,7 @@ public class LevelVO {
 	 * Ez a map tartalmazza a pályán lévő lényeket és a pozíciójukat
 	 * pozíció -> lény
 	 */
-	private final Map<Point, LivingEntity> livingEnties;
+	private final Map<Point, LivingEntity> livingEntities;
 	/**
 	 * A pálya egy oldalának mérete
 	 */
@@ -35,10 +35,10 @@ public class LevelVO {
 
 	public LevelVO(
 			Map<Point, Entity> staticEntities,
-			Map<Point, LivingEntity> livingEnties,
+			Map<Point, LivingEntity> livingEntities,
 			int size) {
 		this.staticEntities = staticEntities;
-		this.livingEnties = livingEnties;
+		this.livingEntities = livingEntities;
 		this.size = size;
 	}
 
@@ -46,8 +46,8 @@ public class LevelVO {
 		return deepCopy(staticEntities);
 	}
 
-	public Map<Point, LivingEntity> getLivingEnties() {
-		return deepCopyLiving(livingEnties);
+	public Map<Point, LivingEntity> getLivingEntities() {
+		return deepCopyLiving(livingEntities);
 	}
 
 	public int getSize() {

@@ -6,7 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Component that performs a game step.
+ * Ez az osztály a vezérlésben a következő helyet foglalhatja el:
+ * GameMain -> Játék (konstruktorban a használható parancsok listájával egy inputHandler létrehozva és átadva ide) -> ez az osztály
+ * Ez egy működőképes elképzelésnek tűnik
+ * Kiderül, tényleg megvalósítható-e így egyszerűen
+ * Egy hasonló osztály tartozhatna a pályaszerkesztőhöz is a parancsok feldolgozásához
  */
 public class GameStepPerformer {
 

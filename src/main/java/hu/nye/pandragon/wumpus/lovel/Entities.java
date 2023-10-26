@@ -17,6 +17,10 @@ public enum Entities {
 		return entity;
 	}
 
+	public String getName () {
+		return entity.getName();
+	}
+
 	public Entity createNewInstance () {
 		return switch (this) {
 			case Wall -> new Wall();
@@ -39,19 +43,24 @@ public enum Entities {
 	 * nem lesz belőlük új létrehozva az enum használatakor
  	 */
 	private Entity entity;
-	Entities(Entity entity2) {
-		entity = entity2;
+	Entities(Entity entity) {
+		this.entity = entity;
 	}
 
+	/**
+	 * Visszaadja az elérhető pályaelemek listáját a következő formában:
+	 * A|B|C|...
+	 * @return
+	 */
 	public static String getAsString () {
 //		return Entities.values().toString().toLowerCase()
 //				.replace(",", " |");
 		var b = new StringBuilder();
 		for (Entities e : Entities.values()) {
-			b.append(e.getEntity().getName().toLowerCase()).append(" | ");
+			b.append(e.getEntity().getName()).append("|");
 		}
-		b.setLength(b.length() - 3);
-		return b.toString();
+		b.setLength(b.length() - 1);
+		return b.toString().toLowerCase();
 	}
 
 	public static Entities parse (String name) {

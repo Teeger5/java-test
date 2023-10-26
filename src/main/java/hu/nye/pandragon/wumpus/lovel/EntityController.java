@@ -44,7 +44,7 @@ public class EntityController {
 		else if (direction == Directions.West) {
 			entityPosition.x--;
 		}
-		level.placeLivingEntity(entityPosition.x, entityPosition.y, entity);
+		level.placeEntity(entityPosition.x, entityPosition.y, entity);
 		return true;
 	}
 
