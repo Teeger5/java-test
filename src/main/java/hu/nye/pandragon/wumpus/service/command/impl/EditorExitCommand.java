@@ -1,4 +1,4 @@
-package hu.nye.pandragon.wumpus.service.command.impl.editor;
+package hu.nye.pandragon.wumpus.service.command.impl;
 
 import hu.nye.pandragon.wumpus.service.command.CanProcessResult;
 import hu.nye.pandragon.wumpus.service.command.Command;
@@ -10,13 +10,12 @@ import org.slf4j.LoggerFactory;
 import java.util.Optional;
 
 /**
- * Command used to exit from the game.
+ * Ez a parancs egy képernyőből való kilépésre szolgál
+ * Megszakítja az aktuálisat, és visszalép az előzőbe
  */
 public class EditorExitCommand implements Command {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EditorExitCommand.class);
-
-    private static final String EXIT_COMMAND = "exit";
 
     private final Screen screen;
 

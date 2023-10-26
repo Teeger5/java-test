@@ -9,6 +9,7 @@ import hu.nye.pandragon.wumpus.service.command.InputHandler;
 import hu.nye.pandragon.wumpus.service.command.impl.editor.EditorRemoveEntityCommand;
 import hu.nye.pandragon.wumpus.service.command.impl.editor.EditorRotateCommand;
 import hu.nye.pandragon.wumpus.service.command.impl.editor.EditorPlaceEntityCommand;
+import hu.nye.pandragon.wumpus.service.command.impl.editor.EditorTestCommand;
 import hu.nye.pandragon.wumpus.service.command.impl.gameplay.GameplayExitCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,7 +68,8 @@ public class LevelEditorScreen extends Screen {
 				new EditorPlaceEntityCommand(level),
 				new GameplayExitCommand(this),
 				new EditorRotateCommand(level.getHero()),
-				new EditorRemoveEntityCommand(level)
+				new EditorRemoveEntityCommand(level),
+				new EditorTestCommand(level.toLevelVO())
 		));
 		System.out.printf(
 				"A következő parancsokat tudom végrehajtani:\n" +
@@ -83,7 +85,7 @@ public class LevelEditorScreen extends Screen {
 			System.out.println(messageFromProcessing);
 			System.out.print("> ");
 			var command = Utils.readFromConsole();
-			if (command.equals("mentés")) {
+/*			if (command.equals("mentés")) {
 				System.out.println("Pálya mentése...");
 				save();
 			}
@@ -96,7 +98,7 @@ public class LevelEditorScreen extends Screen {
 				var gameplay = new GameplayScreen(level.toLevelVO(), "játékos");
 				gameplay.start();
 			}
-			else {
+			else {*/
 //				messageFromProcessing = processBuildCommand(command);
 				try {
 					inputHandler.handleInput(command);
@@ -105,7 +107,7 @@ public class LevelEditorScreen extends Screen {
 				catch (RuntimeException e) {
 					messageFromProcessing = e.getMessage();
 				}
-			}
+//			}
 		}
 	}
 

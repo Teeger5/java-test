@@ -1,4 +1,4 @@
-package hu.nye.pandragon.wumpus.service.command.impl.gameplay;
+package hu.nye.pandragon.wumpus.service.command.impl;
 
 import hu.nye.pandragon.wumpus.service.command.CanProcessResult;
 import hu.nye.pandragon.wumpus.service.command.Command;

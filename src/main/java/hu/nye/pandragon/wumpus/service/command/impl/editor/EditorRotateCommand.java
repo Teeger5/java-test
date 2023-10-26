@@ -40,6 +40,5 @@ public class EditorRotateCommand implements Command {
 		var controller = new EntityController(null, hero);
 		controller.turn(direction);
 		LOGGER.info("Hős elforgatva " + direction.name());
-//		LevelPrinter.printEditorLevel(level.toLevelVO());
 	}
 }

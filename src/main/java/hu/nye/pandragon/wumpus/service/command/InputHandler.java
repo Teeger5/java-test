@@ -1,10 +1,8 @@
 package hu.nye.pandragon.wumpus.service.command;
 
-import hu.nye.pandragon.wumpus.service.command.impl.gameplay.DefaultCommand;
+import hu.nye.pandragon.wumpus.service.command.impl.DefaultCommand;
 
-import java.util.EnumMap;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Component that handles a given input.

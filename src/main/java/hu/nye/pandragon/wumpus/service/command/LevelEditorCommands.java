@@ -57,6 +57,7 @@ public enum LevelEditorCommands {
 			base = usage.substring(0, usage.indexOf(' '));
 		}
 		System.out.println("regex: " + this.regex);
+		System.out.println("base: " + base);
 	}
 
 	public boolean equals (String s) {

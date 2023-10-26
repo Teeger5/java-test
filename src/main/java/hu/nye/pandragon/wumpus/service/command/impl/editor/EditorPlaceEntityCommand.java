@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Optional;
 
 /**
- * Command used to write a number to a given field of the map.
+ * Ez a parancs új pályaelem létrehozására szolgál
  */
 public class EditorPlaceEntityCommand implements Command {
 
@@ -32,40 +32,16 @@ public class EditorPlaceEntityCommand implements Command {
 
 	@Override
 	public void process(String input) {
-		LOGGER.info("A előre lép egyet");
 		var args = Command.getCommandArgs(input);
+		LOGGER.info("Új pályaelem létrehozása: " + args);
 		var entity = Entities.parse(args[0]).createNewInstance();
 		if (entity instanceof Wumpus && level.getEntityCount(entity) >= level.getMaxWumpus()) {
 			var error = String.format("Wumpusból max %d lehet", level.getMaxWumpus());
 			LOGGER.error(error);
 			throw new RuntimeException(error);
 		}
-/*
-		int x = args[1].toCharArray()[0] - 96;
-		if (x < 1 || x > level.getSize()) {
-			LOGGER.error("Nincs ilyen azonosítójú osztlop: {} ({})", x, args[1].toUpperCase());
-			throw new RuntimeException("Nincs ilyen azonosítójú oszlop: " + args[1].toUpperCase());
-		}
-
-		int y = Integer.parseInt(args[2]);
-		if (y < 1 || y > level.getSize()) {
-			var error = "Nincs ilyen azonosítójú sor: " + args[2];
-			LOGGER.error(error);
-			throw new RuntimeException(error);
-		}
-
-		if (x == 1 || x == level.getSize() || y == 1 || y == level.getSize()) {
-			LOGGER.error("placeEntity a pálya szélén");
-			throw new RuntimeException("Nem lehet pályaelemeket a pálya szélére tenni");
-		}*/
 		var position = CommandUtils.getCoordinates(args[1], args[2], level.getSize());
 		level.placeEntity(position.x, position.y, entity);
 		LOGGER.info("Új pályaelem: {} -> {}, {}", entity.getName(), position.x, position.y);
-		LevelPrinter.printEditorLevel(level.toLevelVO());
-
-	}
-
-	private boolean isOnSide (int n, int size) {
-		return n < 1 || n > size;
 	}
 }
