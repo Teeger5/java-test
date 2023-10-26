@@ -1,5 +1,7 @@
 package hu.nye.pandragon.wumpus.service.command;
 
+import hu.nye.pandragon.wumpus.service.command.impl.gameplay.DefaultCommand;
+
 import java.util.EnumMap;
 import java.util.List;
 
@@ -21,23 +23,23 @@ public class InputHandler {
     }
 
     /**
-     * Handles an input through a list of {@link Command}s.
-     *
-     * Only the first applicable command will be run.
-     *
-     * @param input the input as a string to be handled
+     * A megadott {@link Command} objektumok listájából az első,
+     * a bemenetre alkalmazható parancs lesz végrehajtva.
+     * A bemenetet a metódus kisbetűssé alakítja, erre külön nincs szükség
+     * @param input bemenet a felhasználótól.
      */
     public void handleInput(String input) {
-        for (GameplayCommands command : commandList.keySet()) {
-            var result = command.matches(input);
+        for (Command command : commandList) {
+            var result = command.canProcess(input);
             if (result.isPresent()) {
                 var content = result.get();
                 if (content.canProcess()) {
-                    commandList.get(command).process(input);
+                    command.process(input);
                     break;
                 }
             }
         }
+        new DefaultCommand().process(input);
     }
 
 }

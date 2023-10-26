@@ -309,6 +309,7 @@ public class Level {
 		}
 		else {
 			staticEntites.put(new Point(x, y), entity);
+			alignWalls();
 		}
 //		return true;
 	}

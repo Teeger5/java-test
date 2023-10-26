@@ -1,9 +1,11 @@
 package hu.nye.pandragon.wumpus.service.command.impl.gameplay;
 
+import hu.nye.pandragon.wumpus.service.command.CanProcessResult;
 import hu.nye.pandragon.wumpus.service.command.Command;
-import hu.nye.pandragon.wumpus.ui.PrintWrapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Optional;
 
 /**
  * A default command, which should be run when no other {@link Command}
@@ -15,21 +17,15 @@ public class DefaultCommand implements Command {
 
     private static final String UNKNOWN_COMMAND_MESSAGE = "Unknown command";
 
-    private final PrintWrapper printWrapper;
-
-    public DefaultCommand(PrintWrapper printWrapper) {
-        this.printWrapper = printWrapper;
-    }
-
     @Override
-    public boolean canProcess(String input) {
-        return true;
+    public Optional<CanProcessResult> canProcess(String input) {
+        return Optional.of(new CanProcessResult());
     }
 
     @Override
     public void process(String input) {
         LOGGER.info("Performing default command");
-        printWrapper.printLine(UNKNOWN_COMMAND_MESSAGE);
+        System.out.println(UNKNOWN_COMMAND_MESSAGE);
     }
 
 }

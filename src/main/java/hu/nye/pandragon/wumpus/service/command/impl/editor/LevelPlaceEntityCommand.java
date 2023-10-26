@@ -9,6 +9,7 @@ import hu.nye.pandragon.wumpus.lovel.entities.Wumpus;
 import hu.nye.pandragon.wumpus.service.command.CanProcessResult;
 import hu.nye.pandragon.wumpus.service.command.Command;
 import hu.nye.pandragon.wumpus.service.command.GameplayCommands;
+import hu.nye.pandragon.wumpus.service.command.LevelEditorCommands;
 import hu.nye.pandragon.wumpus.ui.LevelPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,7 +30,7 @@ public class LevelPlaceEntityCommand implements Command {
 
 	@Override
 	public Optional<CanProcessResult> canProcess(String input) {
-		return GameplayCommands.Turn.matches(input);
+		return LevelEditorCommands.Place.matches(input);
 	}
 
 	@Override
@@ -43,7 +44,7 @@ public class LevelPlaceEntityCommand implements Command {
 			throw new RuntimeException(error);
 		}
 
-		int x = args[1].toCharArray()[0] - 97;
+		int x = args[1].toCharArray()[0] - 96;
 		if (x < 1 || x > level.getSize()) {
 			LOGGER.error("Nincs ilyen azonosítójú osztlop: {} ({})", x, args[1]);
 			throw new RuntimeException("Nincs ilyen azonosítójú oszlop: " + args[1]);

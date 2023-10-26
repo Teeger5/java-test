@@ -7,6 +7,7 @@ import hu.nye.pandragon.wumpus.lovel.Level;
 import hu.nye.pandragon.wumpus.lovel.entities.Empty;
 import hu.nye.pandragon.wumpus.service.command.InputHandler;
 import hu.nye.pandragon.wumpus.service.command.impl.editor.LevelPlaceEntityCommand;
+import hu.nye.pandragon.wumpus.service.command.impl.gameplay.ExitCommand;
 import hu.nye.pandragon.wumpus.service.input.UserInputReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +18,7 @@ import java.util.Arrays;
 /**
  * Ez az osztály a pályaszerkesztőt írja le, és működteti
  */
-public class LevelEditorScreen {
+public class LevelEditorScreen extends Screen {
 
 	private static final Logger logger = LoggerFactory.getLogger(LevelEditorScreen.class);
 
@@ -59,9 +60,11 @@ public class LevelEditorScreen {
 	 * Ez a metódus fogadja a parancsokat a felhasználótól
 	 * Egy végtelen while ciklus fut benne, amit a kilépés parancsa szakít meg
 	 */
-	public void readCommands () {
+	protected void readCommands () {
+		String entitiesAvailable = Entities.getAsString();
 		var inputHandler = new InputHandler(Arrays.asList(
-				new LevelPlaceEntityCommand(level)
+				new LevelPlaceEntityCommand(level),
+				new ExitCommand(this)
 		));
 		System.out.printf(
 				"A következő parancsokat tudom végrehajtani:\n" +
@@ -73,8 +76,8 @@ public class LevelEditorScreen {
 		);
 		var messageFromProcessing = "Próbáld ki az egyik parancsot";
 		while (true) {
-			System.out.println(level.drawLevel());
-			System.out.println(messageFromProcessing);
+			LevelPrinter.printEditorLevel(level.toLevelVO());
+//			System.out.println(messageFromProcessing);
 			System.out.print("> ");
 			var command = Utils.readFromConsole();
 			if (command.equals("mentés")) {
@@ -91,7 +94,13 @@ public class LevelEditorScreen {
 				gameplay.start();
 			}
 			else {
-				messageFromProcessing = processBuildCommand(command);
+//				messageFromProcessing = processBuildCommand(command);
+				try {
+					inputHandler.handleInput(command);
+				}
+				catch (RuntimeException e) {
+					System.out.println(e.getMessage());
+				}
 			}
 		}
 	}

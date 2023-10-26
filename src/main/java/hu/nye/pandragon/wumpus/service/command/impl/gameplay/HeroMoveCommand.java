@@ -27,7 +27,7 @@ public class HeroMoveCommand implements Command {
 
 	@Override
 	public Optional<CanProcessResult> canProcess(String input) {
-		return GameplayCommands.Turn.matches(input);
+		return GameplayCommands.MoveForward.matches(input);
 	}
 
 	@Override
@@ -37,6 +37,6 @@ public class HeroMoveCommand implements Command {
 		var controller = new EntityController(level, hero);
 		controller.moveForward();
 		LOGGER.info("A hős új pozíciója: " + hero.getPosition());
-		LevelPrinter.printLevel(level.toLevelVO(), false);
+		LevelPrinter.printGameLevel(level.toLevelVO(), hero);
 	}
 }

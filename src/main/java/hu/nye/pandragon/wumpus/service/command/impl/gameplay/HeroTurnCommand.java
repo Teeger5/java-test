@@ -39,6 +39,6 @@ public class HeroTurnCommand implements Command {
 		var hero = level.getHero();
 		var controller = new EntityController(level, hero);
 		controller.turn(direction);
-		LevelPrinter.printLevel(level.toLevelVO(), false);
+		LevelPrinter.printGameLevel(level.toLevelVO(), hero);
 	}
 }

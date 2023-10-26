@@ -1,8 +1,7 @@
-package hu.nye.pandragon.wumpus.service.command.impl.gameplay;
+package hu.nye.pandragon.wumpus.service.command.impl.editor;
 
 import hu.nye.pandragon.wumpus.service.command.CanProcessResult;
 import hu.nye.pandragon.wumpus.service.command.Command;
-import hu.nye.pandragon.wumpus.service.command.GameplayCommands;
 import hu.nye.pandragon.wumpus.service.command.LevelEditorCommands;
 import hu.nye.pandragon.wumpus.ui.Screen;
 import org.slf4j.Logger;
@@ -13,20 +12,21 @@ import java.util.Optional;
 /**
  * Command used to exit from the game.
  */
-public class ExitCommand implements Command {
+public class EditorExitCommand implements Command {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExitCommand.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(EditorExitCommand.class);
 
+    private static final String EXIT_COMMAND = "exit";
 
     private final Screen screen;
 
-    public ExitCommand(Screen screen) {
+    public EditorExitCommand(Screen screen) {
         this.screen = screen;
     }
 
     @Override
     public Optional<CanProcessResult> canProcess(String input) {
-        return GameplayCommands.GiveUp.matches(input);
+        return LevelEditorCommands.Exit.matches(input);
     }
 
     @Override

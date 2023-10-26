@@ -16,7 +16,8 @@ public enum GameplayCommands {
 	Turn ("fordul jobbra|balra", "^fordul\\s+(jobbra|balra)$"),
 	PickUpGold ("aranyat felszed", "^aranyat felszed$"),
 	Shoot ("lő", "^lő$"),
-	MoveForward ("lép", "^lép$");
+	MoveForward ("lép", "^lép$"),
+	GiveUp ("felad", "^felad$");
 
 	private final String usage;
 	private final String regex;

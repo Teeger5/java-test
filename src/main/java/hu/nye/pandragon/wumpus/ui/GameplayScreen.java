@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Ez az osztály a játékot, mint a játékmenetet írja le és irányítja
  */
-public class GameplayScreen {
+public class GameplayScreen extends Screen {
 
 	private static final Logger LOGGER  = LoggerFactory.getLogger(GameplayScreen.class);
 
@@ -56,7 +56,7 @@ public class GameplayScreen {
 		readCommands();
 	}
 
-	private void readCommands () {
+	protected void readCommands () {
 		System.out.println("A játék elkezdődött\nJátékos: " + playerName);
 		System.out.println("""
   Elérhető parancsok:
@@ -77,7 +77,7 @@ public class GameplayScreen {
 				System.out.printf("Győztél, sikeresen visszahoztad az aranyat a kiindulási helyre\n Megtettél %d lépést.\n", numberOfMoves);
 				break;
 			}
-			System.out.println(level.drawLevel());
+			LevelPrinter.printGameLevel(level.toLevelVO(), hero);
 			System.out.println(messageFromCommandProcessing);
 			System.out.printf(
 					"Hős: %c | %d %s | %d nyíl\n",
