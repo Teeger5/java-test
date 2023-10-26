@@ -12,9 +12,9 @@ import java.util.regex.Pattern;
  * Ez az enum a pályaszerkesztőben elérhető parancsokat tartalmazza
  */
 public enum LevelEditorCommands {
-	Place ("legyen {ENTITIES} osztlop_betűje sor_száma", "^legyen\\s+({ENTITIES})\\s+[a-z]\\s+\\d+$"),
-	Remove ("törlés osztlop_betűje sor_száma", "^törlés\\s+[a-z]\\s+\\d+$"),
-	RotateHero ("hős fordul {DIRECTIONS}", "^hős\\s+fordul\\s+({DIRECTIONS})$"),
+	Place ("legyen {ENTITIES} osztlop_betűje sor_száma", "^legyen ({ENTITIES}) [a-z] \\d+$"),
+	Remove ("törlés osztlop_betűje sor_száma", "^törlés [a-z] \\d+$"),
+	RotateHero ("hős fordul {DIRECTIONS}", "^hős fordul ({DIRECTIONS})$"),
 	Test ("teszt", "^teszt$"),
 	Exit ("kész | kilépés", "^(kész|kilépés)$");
 
@@ -46,7 +46,7 @@ public enum LevelEditorCommands {
 				.replace("{ENTITIES}", Entities.getAsString().toLowerCase())
 				.replace("{DIRECTIONS}", "N|E|S|W");
 		this.regex = regex
-//				.replace('$', '-')
+				.replaceAll("[ ]+", "\\\\s+")
 				.replace("{ENTITIES}", Entities.getAsString().toLowerCase())
 				.replace("{DIRECTIONS}", "n|e|s|w");
 //		this.regex = v;

@@ -1,15 +1,12 @@
 package hu.nye.pandragon.wumpus.service.command.impl.editor;
 
 import hu.nye.pandragon.wumpus.lovel.Entities;
-import hu.nye.pandragon.wumpus.lovel.EntityController;
 import hu.nye.pandragon.wumpus.lovel.Level;
-import hu.nye.pandragon.wumpus.lovel.entities.Hero;
-import hu.nye.pandragon.wumpus.lovel.entities.LivingEntity;
 import hu.nye.pandragon.wumpus.lovel.entities.Wumpus;
 import hu.nye.pandragon.wumpus.service.command.CanProcessResult;
 import hu.nye.pandragon.wumpus.service.command.Command;
-import hu.nye.pandragon.wumpus.service.command.GameplayCommands;
 import hu.nye.pandragon.wumpus.service.command.LevelEditorCommands;
+import hu.nye.pandragon.wumpus.service.util.CommandUtils;
 import hu.nye.pandragon.wumpus.ui.LevelPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,12 +16,12 @@ import java.util.Optional;
 /**
  * Command used to write a number to a given field of the map.
  */
-public class LevelPlaceEntityCommand implements Command {
+public class EditorPlaceTestCommand implements Command {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(LevelPlaceEntityCommand.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(EditorPlaceTestCommand.class);
 	private final Level level;
 
-	public LevelPlaceEntityCommand(Level level) {
+	public EditorPlaceTestCommand(Level level) {
 		this.level = level;
 	}
 
@@ -43,11 +40,11 @@ public class LevelPlaceEntityCommand implements Command {
 			LOGGER.error(error);
 			throw new RuntimeException(error);
 		}
-
+/*
 		int x = args[1].toCharArray()[0] - 96;
 		if (x < 1 || x > level.getSize()) {
-			LOGGER.error("Nincs ilyen azonosítójú osztlop: {} ({})", x, args[1]);
-			throw new RuntimeException("Nincs ilyen azonosítójú oszlop: " + args[1]);
+			LOGGER.error("Nincs ilyen azonosítójú osztlop: {} ({})", x, args[1].toUpperCase());
+			throw new RuntimeException("Nincs ilyen azonosítójú oszlop: " + args[1].toUpperCase());
 		}
 
 		int y = Integer.parseInt(args[2]);
@@ -57,12 +54,13 @@ public class LevelPlaceEntityCommand implements Command {
 			throw new RuntimeException(error);
 		}
 
-		if (isOnSide(x, level.getSize()) || isOnSide(y, level.getSize())) {
+		if (x == 1 || x == level.getSize() || y == 1 || y == level.getSize()) {
 			LOGGER.error("placeEntity a pálya szélén");
 			throw new RuntimeException("Nem lehet pályaelemeket a pálya szélére tenni");
-		}
-		level.placeEntity(x, y, entity);
-		LOGGER.info("Új pályaelem: {} -> {}, {}", entity.getName(), x, y);
+		}*/
+		var position = CommandUtils.getCoordinates(args[1], args[2], level.getSize());
+		level.placeEntity(position.x, position.y, entity);
+		LOGGER.info("Új pályaelem: {} -> {}, {}", entity.getName(), position.x, position.y);
 		LevelPrinter.printEditorLevel(level.toLevelVO());
 
 	}

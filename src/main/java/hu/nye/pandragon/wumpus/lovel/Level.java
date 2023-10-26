@@ -318,12 +318,12 @@ public class Level {
 		placeEntity(x, y, entity.createNewInstance());
 	}*/
 
-	public boolean removeEntity (int x, int y) {
+	public Entity removeEntity (int x, int y) {
 		Entity entity = livingEntities.remove(new Point(x, y));
 		if (entity == null) {
 			entity = staticEntites.remove(new Point(x, y));
 		}
-		return entity != null;
+		return entity;
 	}
 
 	public void placeEntities (Point from, Point to, Entity type) {

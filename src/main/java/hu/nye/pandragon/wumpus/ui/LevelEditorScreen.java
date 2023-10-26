@@ -6,9 +6,10 @@ import hu.nye.pandragon.wumpus.lovel.Entities;
 import hu.nye.pandragon.wumpus.lovel.Level;
 import hu.nye.pandragon.wumpus.lovel.entities.Empty;
 import hu.nye.pandragon.wumpus.service.command.InputHandler;
-import hu.nye.pandragon.wumpus.service.command.impl.editor.LevelPlaceEntityCommand;
-import hu.nye.pandragon.wumpus.service.command.impl.gameplay.ExitCommand;
-import hu.nye.pandragon.wumpus.service.input.UserInputReader;
+import hu.nye.pandragon.wumpus.service.command.impl.editor.EditorRemoveEntityCommand;
+import hu.nye.pandragon.wumpus.service.command.impl.editor.EditorRotateCommand;
+import hu.nye.pandragon.wumpus.service.command.impl.editor.EditorPlaceEntityCommand;
+import hu.nye.pandragon.wumpus.service.command.impl.gameplay.GameplayExitCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,8 +64,10 @@ public class LevelEditorScreen extends Screen {
 	protected void readCommands () {
 		String entitiesAvailable = Entities.getAsString();
 		var inputHandler = new InputHandler(Arrays.asList(
-				new LevelPlaceEntityCommand(level),
-				new ExitCommand(this)
+				new EditorPlaceEntityCommand(level),
+				new GameplayExitCommand(this),
+				new EditorRotateCommand(level.getHero()),
+				new EditorRemoveEntityCommand(level)
 		));
 		System.out.printf(
 				"A következő parancsokat tudom végrehajtani:\n" +
@@ -77,7 +80,7 @@ public class LevelEditorScreen extends Screen {
 		var messageFromProcessing = "Próbáld ki az egyik parancsot";
 		while (true) {
 			LevelPrinter.printEditorLevel(level.toLevelVO());
-//			System.out.println(messageFromProcessing);
+			System.out.println(messageFromProcessing);
 			System.out.print("> ");
 			var command = Utils.readFromConsole();
 			if (command.equals("mentés")) {
@@ -97,9 +100,10 @@ public class LevelEditorScreen extends Screen {
 //				messageFromProcessing = processBuildCommand(command);
 				try {
 					inputHandler.handleInput(command);
+					messageFromProcessing = "";
 				}
 				catch (RuntimeException e) {
-					System.out.println(e.getMessage());
+					messageFromProcessing = e.getMessage();
 				}
 			}
 		}

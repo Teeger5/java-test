@@ -4,6 +4,7 @@ import hu.nye.pandragon.wumpus.service.command.impl.gameplay.DefaultCommand;
 
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Component that handles a given input.
@@ -29,13 +30,14 @@ public class InputHandler {
      * @param input bemenet a felhasználótól.
      */
     public void handleInput(String input) {
+        input = input.trim().toLowerCase();
         for (Command command : commandList) {
             var result = command.canProcess(input);
             if (result.isPresent()) {
                 var content = result.get();
                 if (content.canProcess()) {
                     command.process(input);
-                    break;
+                    return;
                 }
             }
         }

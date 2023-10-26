@@ -3,7 +3,6 @@ package hu.nye.pandragon.wumpus.service.command.impl.gameplay;
 import hu.nye.pandragon.wumpus.service.command.CanProcessResult;
 import hu.nye.pandragon.wumpus.service.command.Command;
 import hu.nye.pandragon.wumpus.service.command.GameplayCommands;
-import hu.nye.pandragon.wumpus.service.command.LevelEditorCommands;
 import hu.nye.pandragon.wumpus.ui.Screen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,14 +12,14 @@ import java.util.Optional;
 /**
  * Command used to exit from the game.
  */
-public class ExitCommand implements Command {
+public class GameplayExitCommand implements Command {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ExitCommand.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GameplayExitCommand.class);
 
 
     private final Screen screen;
 
-    public ExitCommand(Screen screen) {
+    public GameplayExitCommand(Screen screen) {
         this.screen = screen;
     }
 
