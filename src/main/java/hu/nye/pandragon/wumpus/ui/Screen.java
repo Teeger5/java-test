@@ -13,6 +13,8 @@ public abstract class Screen {
 		this.shouldExit = shouldExit;
 	}
 
+	public abstract void start ();
+
 	/**
 	 * Ebben kell olvasni a parancsokat:
 	 *  - egy while (true) {} ciklusnak kell futnia benne

@@ -77,6 +77,7 @@ public class GameplayScreen extends Screen {
     lő: a hős nyilat lő egyenesen, a nézési irányában
     aranyat felszed: a hős felveszi az aranyat, ha egy pozíción áll vele
     felad: kilépés ebből a játékból""");
+		numberOfMoves = 0;
 		var messageFromCommandProcessing = "A cél eljutni az aranyhoz, felvenni, és visszahozni ugyanide";
 		while (true) {
 			if (!hero.isAlive()) {
@@ -93,6 +94,7 @@ public class GameplayScreen extends Screen {
 				System.out.println("Kilépés a játékból...");
 				break;
 			}
+			numberOfMoves++;
 			LevelPrinter.printLevel(level.toLevelVO());
 			if (messageFromCommandProcessing != null) {
 				System.out.println(messageFromCommandProcessing);

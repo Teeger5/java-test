@@ -1,5 +1,6 @@
 package hu.nye.pandragon.wumpus.lovel.entities;
 
+import hu.nye.pandragon.wumpus.lovel.entities.traits.HasInventory;
 import hu.nye.pandragon.wumpus.model.Directions;
 import hu.nye.pandragon.wumpus.lovel.Items;
 import hu.nye.pandragon.wumpus.lovel.entities.traits.CanShoot;
@@ -11,7 +12,7 @@ import java.util.Objects;
 /**
  * Ez az osztály a játékost, mint a főhőst írja le
  */
-public class Hero extends LivingEntity implements CanShoot {
+public class Hero extends LivingEntity implements CanShoot, HasInventory {
 
 	/**
 	 * A játékos nyilainak száma
@@ -21,7 +22,7 @@ public class Hero extends LivingEntity implements CanShoot {
 
 	public Hero() {
 		super("Hős", 'H', true);
-		arrows = 3;
+		arrows = 0;
 		direction = Directions.North;
 		inventory = new ArrayList<>();
 	}
@@ -30,12 +31,9 @@ public class Hero extends LivingEntity implements CanShoot {
 		arrows = Math.max(0, arrows - 1);
 	}
 
-	public boolean hasItem (Items item) {
-		return inventory.contains(item);
-	}
-
-	public void addItem (Items item) {
-		inventory.add(item);
+	@Override
+	public List<Items> getInventory() {
+		return inventory;
 	}
 
 	@Override

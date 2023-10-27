@@ -32,10 +32,6 @@ public class Level {
 	 */
 	private final Map<Point, Entity> staticEntites;
 	/**
-	 * A pálya szerkesztés alatt áll-e
-	 */
-	private boolean isEditing;
-	/**
 	 * A játékos kiindulóhelye
 	 */
 	private final Point startpoint;
@@ -193,10 +189,6 @@ public class Level {
 		return possibleDirections;
 	}
 
-	public void setEditing(boolean editing) {
-		isEditing = editing;
-	}
-
 	/**
 	 * Új pályaelem hozzáadása
 	 * Lehet statikus (pl. fal) és lény is
@@ -243,40 +235,6 @@ public class Level {
 			entity = staticEntites.remove(new Point(x, y));
 		}
 		return entity;
-	}
-
-	public void placeEntities (Point from, Point to, Entity type) {
-		if (from.x < to.x) {
-			if (from.y < to.y) {
-				for (int i = from.x; i <= to.x; i++) {
-					placeEntity(i, from.y, type);
-				}
-			}
-		}
-/*		if (type.getEntity().isUnique()) {
-//			return type + "-típusú elemből csak egy lehet a pályán";
-		}
-		if (from.x > to.x) {
-			var temp = from;
-			from = to;
-			to = temp;
-		}
-		float distanceX = to.x - from.x;
-		float distanceY = to.y - from.y;
-
-		if (distanceX > distanceY) {
-			float qX = 1;
-			float qY = distanceY / distanceX;
-
-			float j = from.y;
-			for (int i = from.x; i < to.x; i++) {
-				int row = i * size;
-				int column = (int) j;
-				placeEntity(row, column, type.createNewInstance());
-				j = j + qY;
-			}
-		}*/
-		// Ez még nincs befejezve
 	}
 
 	public Entity getFirstEntityInDirection (Point from, Directions direction) {

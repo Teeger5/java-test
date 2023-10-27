@@ -1,6 +1,7 @@
 package hu.nye.pandragon.wumpus.ui;
 
 import hu.nye.pandragon.wumpus.Utils;
+import hu.nye.pandragon.wumpus.model.LevelVO;
 import hu.nye.pandragon.wumpus.model.PlayernameVO;
 
 import static hu.nye.pandragon.wumpus.Utils.readFromConsole;
@@ -10,6 +11,7 @@ import static hu.nye.pandragon.wumpus.Utils.readFromConsole;
  */
 public class GameMainScreen {
 	private PlayernameVO playerName;
+	private LevelVO levelVO;
 
 	public GameMainScreen() {
 		onStart();
@@ -52,6 +54,9 @@ public class GameMainScreen {
 				enterEditor();
 				showMenuOptions();
 			}
+			else if (command.equals("2")) {
+				enterGame();
+			}
 			else if (command.equals("3")) {
 				exit();
 			}
@@ -77,13 +82,22 @@ public class GameMainScreen {
 	 * Belépés a pályaszerkesztőbe
 	 */
 	public void enterEditor () {
-		new LevelEditorScreen();
+		var editor = new LevelEditorScreen();
+		editor.start();
+		levelVO = editor.getLevelVO();
 	}
 
 	/**
 	 * Belépés a játékba
 	 */
 	public void enterGame () {
+		if (levelVO != null) {
+			var game = new GameplayScreen(levelVO, playerName);
+			game.start();
+		}
+		else {
+			System.out.println("Nincs pálya. Először használd a pályaszerkesztőt, hogy készíts egyet.");
+		}
 
 	}
 

@@ -1,11 +1,21 @@
 package hu.nye.pandragon.wumpus.model;
 
 public enum TurnDirections {
-	Left, Right;
+	Left ("balra"), Right ("jobbra");
+	private final String name;
+
+	public String getName() {
+		return name;
+	}
+
+	TurnDirections(String name) {
+		this.name = name;
+	}
+
 	public static TurnDirections parse (String s) {
 		s = s.toLowerCase();
 		for (TurnDirections d : TurnDirections.values()) {
-			if (s.equals(d.name().toLowerCase())) {
+			if (s.equals(d.getName())) {
 				return d;
 			}
 		}

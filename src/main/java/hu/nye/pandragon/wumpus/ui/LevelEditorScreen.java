@@ -3,6 +3,7 @@ package hu.nye.pandragon.wumpus.ui;
 import hu.nye.pandragon.wumpus.Utils;
 import hu.nye.pandragon.wumpus.lovel.Entities;
 import hu.nye.pandragon.wumpus.lovel.Level;
+import hu.nye.pandragon.wumpus.model.LevelVO;
 import hu.nye.pandragon.wumpus.service.command.InputHandler;
 import hu.nye.pandragon.wumpus.service.command.impl.EditorExitCommand;
 import hu.nye.pandragon.wumpus.service.command.impl.editor.EditorPlaceEntityCommand;
@@ -27,9 +28,7 @@ public class LevelEditorScreen extends Screen {
 	public LevelEditorScreen() {
 		System.out.println("Pályaszerkesztő");
 		var site = requestMapSize();
-		System.out.printf("A pálya %d x %d méretű lesz\n", site, site);
 		level = new Level(site);
-		level.setEditing(true);
 		inputHandler = new InputHandler(Arrays.asList(
 				new EditorPlaceEntityCommand(level),
 				new EditorExitCommand(this),
@@ -37,10 +36,14 @@ public class LevelEditorScreen extends Screen {
 				new EditorRemoveEntityCommand(level),
 				new EditorTestCommand(level.toLevelVO())
 		));
-		onStart();
+		if (site == -1) {
+			System.out.println("Kilépés a pályaszerkesztőből...");
+			return;
+		}
+		System.out.printf("A pálya %d x %d méretű lesz\n", site, site);
 	}
 
-	public void onStart () {
+	public void start () {
 		readCommands();
 	}
 
@@ -51,11 +54,16 @@ public class LevelEditorScreen extends Screen {
 	 */
 	private int requestMapSize () {
 		while (true) {
-			System.out.print("Add meg a pálya oldalhosszát: ");
+			System.out.print("Add meg a pálya oldalhosszát (-1 = kilépés a pályaszerkesztőből): ");
 			var value = Utils.readFromConsole();
 			try {
 				var i = Integer.parseInt(value);
-				return i;
+				if ((i < 6 || i > 20) && i != -1) {
+					System.out.println("A pálya mérete min 6, max 20 egység lehet");
+				}
+				else {
+					return i;
+				}
 			}
 			catch (NumberFormatException e) {
 				System.out.println("A pálya hosszát számjegy karakterekkel kell megadni!");
@@ -97,5 +105,9 @@ public class LevelEditorScreen extends Screen {
 				messageFromProcessing = e.getMessage();
 			}
 		}
+	}
+
+	public LevelVO getLevelVO () {
+		return level.toLevelVO();
 	}
 }
