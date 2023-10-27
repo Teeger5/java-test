@@ -21,16 +21,16 @@ public class Level {
 	/**
 	 * A pálya egy oldalának mérete
 	 */
-	private int size;
+	private final int size;
 	/**
 	 * A pályán lévő Wumpus lények max száma
 	 */
-	int maxWumpus;
+	private int maxWumpus;
 	/**
 	 * Ez a map tartalmazza a pályaelemeket és az elhelyezkedésüket
 	 * koordináta -> pályaelem
 	 */
-	private Map<Point, Entity> staticEntites;
+	private final Map<Point, Entity> staticEntites;
 	/**
 	 * A pálya szerkesztés alatt áll-e
 	 */
@@ -38,7 +38,7 @@ public class Level {
 	/**
 	 * A játékos kiindulóhelye
 	 */
-	private Point startpoint;
+	private final Point startpoint;
 	private final Map<Point, LivingEntity> livingEntities;
 
 	public Level(int size) {
@@ -60,6 +60,7 @@ public class Level {
 		size = levelVO.getSize();
 		staticEntites = levelVO.getStaticEntities();
 		livingEntities = levelVO.getLivingEntities();
+		startpoint = new Point(2, 2);
 		determineStartPoint();
 		determineMaxWumpus();
 	}
@@ -86,13 +87,12 @@ public class Level {
 	 * @param x sor száma
 	 * @param y oszlop száma
 	 * @param entity lény
-	 * @return true, ha sikerült hozzáadni
 	 */
 	public void placeLivingEntity (int x, int y, LivingEntity entity) {
 /*		if (entity.isUnique() && !replace && livingEntities.containsValue(entity)) {
 			return false;
 		}*/
-		LOGGER.debug(String.format("LivingEntity hozzáadása: %s -> %d %d", entity, x, y));;
+		LOGGER.debug(String.format("LivingEntity hozzáadása: %s -> %d %d", entity, x, y));
 		if (entity.isUnique()) {
 			var e = (LivingEntity) removeEntityIfExists(entity);
 			if (e != null) {
@@ -168,10 +168,7 @@ public class Level {
 	}
 
 	public Point getStartPoint () {
-		if (startpoint == null) {
-			determineStartPoint();
-		}
-		return new Point(startpoint.x, startpoint.y);
+		return new Point(startpoint);
 	}
 
 	/**
@@ -183,12 +180,7 @@ public class Level {
 		var hero = getHero();
 		if (hero != null) {
 			var position = hero.getPosition();
-			if (startpoint == null) {
-				startpoint = new Point(position.x, position.y);
-			}
-			else {
-				startpoint.setLocation(position.x, position.y);
-			}
+			startpoint.setLocation(position.x, position.y);
 		}
 	}
 
@@ -285,7 +277,6 @@ public class Level {
 	 * @param entity pályaelem
 	 * @param x sor száma
 	 * @param y oszlop száma
-	 * @return
 	 */
 	public void placeEntity (int x, int y, Entity entity) {
 /*		if (entity instanceof LivingEntity livingEntity) {
@@ -322,9 +313,9 @@ public class Level {
 	 * Eltávolít egy pályaelemet a pozíciója alapján
 	 * Először a lényeket nézi, majd ha azt nem talál,
 	 * akkor a statikusakat
-	 * @param x
-	 * @param y
-	 * @return
+	 * @param x x koordináta (oszlop)
+	 * @param y y koordináta (sor)
+	 * @return az eltávolított pályaelem, vagy null, ha üres
 	 */
 	public Entity removeEntity (int x, int y) {
 		Entity entity = livingEntities.remove(new Point(x, y));

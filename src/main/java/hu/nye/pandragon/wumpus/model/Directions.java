@@ -31,8 +31,8 @@ public enum Directions {
 		};
 	}
 
-	private char compatibilitySymbol;
-	private char displaySymbol;
+	private final char compatibilitySymbol;
+	private final char displaySymbol;
 	Directions(char compatibilitySymbol, char displaySymbol) {
 		this.compatibilitySymbol = compatibilitySymbol;
 		this.displaySymbol = displaySymbol;

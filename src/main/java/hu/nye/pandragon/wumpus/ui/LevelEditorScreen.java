@@ -21,7 +21,7 @@ public class LevelEditorScreen extends Screen {
 
 	private static final Logger logger = LoggerFactory.getLogger(LevelEditorScreen.class);
 
-	private Level level;
+	private final Level level;
 	private final InputHandler inputHandler;
 
 	public LevelEditorScreen() {

@@ -18,13 +18,6 @@ public class Main {
 	// Nagyon jó lenne valahol a Játék lehetőséget választva a pályaszerkesztőben készült pályát betölteni
 
 	public static void main(String[] args) {
-/*		System.out.println("Hello world!");
-		for (int i = 0; i < 9; i++) {
-			for (int j = 0; j < 30; j++) {
-				System.out.print("o");
-			}
-			System.out.println();
-		}*/
 		new GameMainScreen();
 	}
 }

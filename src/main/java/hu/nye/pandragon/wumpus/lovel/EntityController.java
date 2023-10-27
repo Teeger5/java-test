@@ -65,14 +65,6 @@ public class EntityController {
 		return true;
 	}
 
-	public boolean canMoveForward () {
-		return level.getPossibleMoves(entityPosition).containsKey(entity.getDirection());
-	}
-/*
-	public Point getNextPosition () {
-
-	}
-*/
 	public void turn (TurnDirections direction) {
 		if (direction == TurnDirections.Left) {
 			turnLeft();

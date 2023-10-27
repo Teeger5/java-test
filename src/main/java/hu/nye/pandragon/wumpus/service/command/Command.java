@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 /**
- * Ez az interface egy felhasznűló számára használható
+ * Ez az interface egy felhasználó számára használható
  * parancs metódusait írja le
  */
 public interface Command {

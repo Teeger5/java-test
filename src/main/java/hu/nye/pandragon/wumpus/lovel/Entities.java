@@ -8,8 +8,7 @@ public enum Entities {
 	Gold(new Gold()),
 	Pit(new Pit()),
 	Wumpus(new Wumpus()),
-	Hero(new Hero()),
-	Empty(new Empty());
+	Hero(new Hero());
 
 	// Konstruktorok
 
@@ -28,7 +27,6 @@ public enum Entities {
 			case Pit -> new Pit();
 			case Wumpus -> new Wumpus();
 			case Hero -> new Hero();
-			case Empty -> new Empty();
 		};
 	}
 
@@ -42,7 +40,7 @@ public enum Entities {
 	 * Ezek a dolgok statikusak alapból,
 	 * nem lesz belőlük új létrehozva az enum használatakor
  	 */
-	private Entity entity;
+	private final Entity entity;
 	Entities(Entity entity) {
 		this.entity = entity;
 	}
@@ -50,11 +48,9 @@ public enum Entities {
 	/**
 	 * Visszaadja az elérhető pályaelemek listáját a következő formában:
 	 * A|B|C|...
-	 * @return
+	 * @return az elérhető pályaelemek nevei | jelekkel elválasztva
 	 */
 	public static String getAsString () {
-//		return Entities.values().toString().toLowerCase()
-//				.replace(",", " |");
 		var b = new StringBuilder();
 		for (Entities e : Entities.values()) {
 			b.append(e.getEntity().getName()).append("|");

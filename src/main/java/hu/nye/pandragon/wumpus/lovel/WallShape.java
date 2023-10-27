@@ -22,7 +22,7 @@ public enum WallShape {
 		return symbol;
 	}
 
-	private char symbol;
+	private final char symbol;
 	WallShape(char c) {
 		symbol = c;
 	}

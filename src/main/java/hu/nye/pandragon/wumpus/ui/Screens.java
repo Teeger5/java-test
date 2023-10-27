@@ -6,8 +6,8 @@ public enum Screens {
 	LevelEditor (3, "Pályaszerkesztő indítása"),
 	Unknown (-1, "");
 
-	private int id;
-	private String name;
+	private final int id;
+	private final String name;
 	public int getId() {
 		return id;
 	}

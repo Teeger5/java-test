@@ -40,6 +40,6 @@ public class EditorTestCommand implements Command {
 		var gameplay = new GameplayScreen(levelVO, new PlayernameVO("Teszt"));
 		gameplay.start();
 
-		LOGGER.info("Új pályaelem: {} -> {}, {}");
+		LOGGER.info("A játékos kilépett a pálya teszteléséből");
 	}
 }

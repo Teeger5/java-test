@@ -47,7 +47,6 @@ public class GameplayScreen extends Screen {
 	 * Csak a Wumpus-ok vannak bennük
 	 */
 	private final List<EntityController> entityControllers;
-	private final EntityController heroController;
 	private final InputHandler inputHandler;
 
 	public GameplayScreen(LevelVO levelVO, PlayernameVO playerName) {
@@ -57,7 +56,6 @@ public class GameplayScreen extends Screen {
 		this.hero = level.getHero();
 		LOGGER.debug("Hős: " + hero);
 		this.entityControllers = level.getEntityControllers();
-		heroController = new EntityController(level, hero);
 		inputHandler = new InputHandler(Arrays.asList(
 				new HeroMoveCommand(level),
 				new HeroTurnCommand(level),
@@ -99,21 +97,9 @@ public class GameplayScreen extends Screen {
 			if (messageFromCommandProcessing != null) {
 				System.out.println(messageFromCommandProcessing);
 			}
-/*			System.out.printf(
-					"Hős: %c | %d %s | %d nyíl\n",
-					hero.getDisplaySymbol(),
-					hero.getPosition().y,
-					(char) (hero.getPosition().x + 64),
-					hero.getAmmoAmount());*/
 			LevelPrinter.printHeroBar(hero);
 			System.out.print("> ");
 			var command = Utils.readFromConsole().trim().toLowerCase();
-/*			if (command.equals("felad")) {
-				System.out.println("Kilépés a játékból...");
-				break;
-			}
-			else {*/
-//				messageFromCommandProcessing = processCommands(command);
 			try {
 				inputHandler.handleInput(command);
 				messageFromCommandProcessing = null;
@@ -121,36 +107,6 @@ public class GameplayScreen extends Screen {
 			catch (RuntimeException e) {
 				messageFromCommandProcessing = e.getMessage();
 			}
-//			}
 		}
-	}
-
-	private String processCommands (String command) {
-		var words = command.split("\\s+");
-		command = words[0];
-		if (command.equals("lép")) {
-			if (heroController.moveForward()) {
-				return "A hős előőre lépett egyet";
-			}
-			return "Nem tud előre lépni a hős";
-		}
-		else if (command.equals("fordul")) {
-			if (words.length < 2) {
-				return "Meg kell adni egy irányt is: fordul jobbra | balra";
-			}
-			if (words[1].equals("jobbra")) {
-				heroController.turnRight();
-			}else if (words[1].equals("balra")) {
-				heroController.turnLeft();
-			}
-			return "A hős elfordult " + words[1];
-		}
-		else if (command.equals("lő")) {
-
-		}else if (command.equals("aranyat") && words[1].equals("felszed")) {
-
-		}
-		return "Ismeretlen parancs: " + command;
-
 	}
 }
