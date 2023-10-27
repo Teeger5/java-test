@@ -69,46 +69,6 @@ public class Level {
 		return new LevelVO(staticEntites, livingEntities, size);
 	}
 
-	/**
-	 * Új lény hozzáadása a pályához
-	 * Nem sikerül, ha a lény egyedi és már létezik a pályán
-	 * @param x sor száma
-	 * @param y oszlop száma
-	 * @param entity lény
-	 * @return true, ha sikerült hozzáadni
-	 */
-/*	public boolean placeLivingEntity (int x, int y, LivingEntity entity) {
-		return placeLivingEntity(x, y, entity);
-	}
-*/
-	/**
-	 * Új lény hozzáadása a pályához
-	 *
-	 * @param x sor száma
-	 * @param y oszlop száma
-	 * @param entity lény
-	 */
-	public void placeLivingEntity (int x, int y, LivingEntity entity) {
-/*		if (entity.isUnique() && !replace && livingEntities.containsValue(entity)) {
-			return false;
-		}*/
-		LOGGER.debug(String.format("LivingEntity hozzáadása: %s -> %d %d", entity, x, y));
-		if (entity.isUnique()) {
-			var e = (LivingEntity) removeEntityIfExists(entity);
-			if (e != null) {
-				entity = e;
-			}
-			LOGGER.debug(String.format("Unique entity megvan, pozíció -> %d %d", x, y));
-			LOGGER.debug(String.format("Key: " + livingEntities.get(e.getPosition())));
-			if (entity instanceof Hero) {
-				determineStartPoint();
-			}
-		}
-		LOGGER.debug(String.format("Új lény hozzáadása: %s -> %d %d", entity.getName(), x, y));
-		entity.setPosition(x, y);
-		livingEntities.put(entity.getPosition(), entity);
-	}
-
 	private <V extends Entity> Entity removeEntityIfExists (Entity entity, Map<Point, V> map) {
 //		var map = living ? livingEntities : staticEntites;
 		var it = map.values().iterator();
@@ -233,39 +193,10 @@ public class Level {
 		return possibleDirections;
 	}
 
-	/**
-	 * 1. A mozgás történhet az EntityController-ben, érdemes lehet átnevezni EntityMovementController-ré
-	 * A mozgáshoz nincs szükség a térkép ismeretére mostmár, mivel a pozíció a lények belső tulajdonsága
-	 * A Level-től le lehet kérdezni az egy pozíció körüli szabad / járható pozíciókat,
-	 * ami azt jelenti, hogy ezek alapján meg tudjuk mondani, érvényes-e egy lépés vagy sem
-	 * Így végül a Level-nek nem kell felelnie a lények mozgatásáért
-	 * A lények részei a Level-nek a livingEntities listában, ami alapján ezeket is ki lehet rajzolni a pálya rajzolásakor
-	 * Végül el lehetne jutni arra, hogy a mozgás is tulajdonsága legyen a lényeknek, viszont ez túl bonyolulttá tehetné az osztályaikat
-	 * A mozgás lehet annyira összetett folyamat, hogy az egész logika egy külön osztályba kerüljön,
-	 * amelyhez lényt és pályát lehet rendelni, és felel a lény mozgásáért
-	 * Akár a MovementController is lehetne a Level-ben tárolva a lények helyett, bár talán ez nem indokolt, elvégre csak a lényre van szükség ott
-	 * A játékmenetért felelős osztályban lenne a legcélszerőbb tárolni a MovementController-eket, elévégre a Level is ott van
-	 * Talán ezt az egészet össze lehetne foglalni egy LevelController osztályban
-	 * Ezzel az eredeti elképzeléshez közeli működés valósítható meg, azaz a pálya és minden rajta lévő lény vezérlése közel lenne egymáshoz
-	 * A kérdés viszont az lehet, hogy érdemes-e így tenni
-	 * Rendezetté teheti a kódot a LevelController, viszont nem feltétlenül könnyítene bármin is
-	 * Egy LevelEntityManager osztály viszont hasznos lehet, ha kialakul a lények teljes vezérlésének folyamata a Gameplay osztályban
-	 * Hosszú folyamat lesz kitapasztalni a legoptimálisabb megoldást
-	 * @param entity
-	 * @param position
-	 */
-	public void moveEntity (LivingEntity entity, Point position) {
-
-	}
-
 	public void setEditing(boolean editing) {
 		isEditing = editing;
 	}
-/*
-	public boolean placeEntity (int x, int y, Entity entity) {
-		return placeEntity(x, y, entity, false);
-	}
-*/
+
 	/**
 	 * Új pályaelem hozzáadása
 	 * Lehet statikus (pl. fal) és lény is
@@ -279,17 +210,11 @@ public class Level {
 	 * @param y oszlop száma
 	 */
 	public void placeEntity (int x, int y, Entity entity) {
-/*		if (entity instanceof LivingEntity livingEntity) {
-			placeLivingEntity(x, y, livingEntity);
-		}*/
-//		Map<Point, ? extends Entity> entites = entity instanceof LivingEntity ? livingEntities : staticEntites;
 		if (entity.isUnique()) {
 			var e = removeEntityIfExists(entity);
 			if (e != null) {
 				entity = e;
 			}
-//			staticEntites.entrySet().removeIf(e -> e.getValue().getClass() == entity.getClass());
-//			return false;
 		}
 		if (entity instanceof LivingEntity e) {
 			e.setPosition(x, y);
@@ -302,12 +227,7 @@ public class Level {
 			staticEntites.put(new Point(x, y), entity);
 			alignWalls();
 		}
-//		return true;
 	}
-
-/*	public void placeEntity (int x, int y, Entities entity) {
-		placeEntity(x, y, entity.createNewInstance());
-	}*/
 
 	/**
 	 * Eltávolít egy pályaelemet a pozíciója alapján
@@ -359,10 +279,6 @@ public class Level {
 		// Ez még nincs befejezve
 	}
 
-	public boolean hasHeroRetrievedGold () {
-		return false;
-	}
-
 	public Entity getFirstEntityInDirection (Point from, Directions direction) {
 		Entity entity = null;
 		var point = new Point(from.x, from.y);
@@ -392,59 +308,6 @@ public class Level {
 				w.fitShape(staticEntites, e.getKey());
 			}
 		}
-	}
-
-	private String drawLevel () {
-		var drawing = new StringBuilder();
-		alignWalls();
-		drawing.append("    ");
-		for (int i = 0; i < size; i++) {
-			drawing.append(' ').append((char) (65 + i)).append(' ');
-		}
-		drawing.append('\n');
-		var gettingpoint = new Point(0, 0);
-		for (int y = 1; y <= size; y++) {
-			drawing.append(String.format(" %2d ", y));
-			for (int x = 1; x <= size; x++) {
-				gettingpoint.setLocation(x, y);
-				Entity entity = livingEntities.get(gettingpoint);
-//				LOGGER.debug(String.format("  -> %2d %2d %s", j, i, (entity == null ? "null" : entity.getName())));
-				if (entity == null) {
-					gettingpoint.setLocation(x, y);
-					entity = staticEntites.get(gettingpoint);
-				}
-//				LOGGER.debug(String.format(" ==> %2d %2d %s", j, i, (entity == null ? "null" : entity.getName())));
-				if (entity == null) {
-					var c = isEditing ? '•' : ' ';
-					drawing.append(' ').append(c).append(' ');
-					continue;
-				}
-				if (entity.shouldExtendInCell()) {
-					if (entity instanceof Wall w) {
-						var c = switch (w.getShape()) {
-							case Middle, Horizontal, TopRight, BottomRight, HorizontalBottom, HorizontalTop, VerticalLeft, Single -> WallShape.Horizontal.getSymbol();
-							default -> ' ';
-						};
-						drawing.append(c).append(w.getDisplaySymbol());
-
-						c = switch (w.getShape()) {
-							case Middle, Horizontal, HorizontalBottom, HorizontalTop, BottomLeft, VerticalRight, TopLeft, Single -> WallShape.Horizontal.getSymbol();
-							default -> ' ';
-						};
-						drawing.append(c);
-					}
-					else {
-						char c = entity.getDisplaySymbol();
-						drawing.append(c).append(c).append(c);
-					}
-				}
-				else {
-					drawing.append(' ').append(entity.getDisplaySymbol()).append(' ');
-				}
-			}
-			drawing.append('\n');
-		}
-		return drawing.toString();
 	}
 
 	public int getSize() {

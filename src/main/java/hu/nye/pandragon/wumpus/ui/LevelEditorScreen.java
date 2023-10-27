@@ -79,6 +79,10 @@ public class LevelEditorScreen extends Screen {
 		);
 		var messageFromProcessing = "Próbáld ki az egyik parancsot";
 		while (true) {
+			if (shouldExit) {
+				System.out.println("Rendben, majd próbáld ki a pályát!");
+				break;
+			}
 			LevelPrinter.printEditorLevel(level.toLevelVO());
 			if (messageFromProcessing != null) {
 				System.out.println(messageFromProcessing);
