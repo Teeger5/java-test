@@ -103,11 +103,16 @@ public class LevelPrinter {
 	}
 
 	private static String drawHeroBar (Hero hero) {
-		return String.format(
-				"Hős: %c | %d %s | %d nyíl\n",
+		var barText = String.format(
+				"Hős: %c | %d %s | %d nyíl",
 				hero.getDisplaySymbol(),
 				hero.getPosition().y,
 				(char) (hero.getPosition().x + 64),
 				hero.getAmmoAmount());
+		if (!hero.getInventory().isEmpty()) {
+			var invText = hero.getInventory().toString();
+			barText = String.format("%s | Tárgyak: %s", barText, invText.substring(1, barText.length() - 1));
+		}
+		return barText;
 	}
 }

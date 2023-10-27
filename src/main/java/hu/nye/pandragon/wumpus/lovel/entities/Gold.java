@@ -1,6 +1,6 @@
 package hu.nye.pandragon.wumpus.lovel.entities;
 
-import hu.nye.pandragon.wumpus.lovel.Items;
+import hu.nye.pandragon.wumpus.model.Items;
 import hu.nye.pandragon.wumpus.lovel.Level;
 import hu.nye.pandragon.wumpus.lovel.entities.traits.CanBePIckedUp;
 import hu.nye.pandragon.wumpus.lovel.entities.traits.HasInventory;

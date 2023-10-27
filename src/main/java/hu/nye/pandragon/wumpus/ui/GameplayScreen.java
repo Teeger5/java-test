@@ -2,16 +2,13 @@ package hu.nye.pandragon.wumpus.ui;
 
 import hu.nye.pandragon.wumpus.Utils;
 import hu.nye.pandragon.wumpus.lovel.EntityController;
-import hu.nye.pandragon.wumpus.lovel.Items;
+import hu.nye.pandragon.wumpus.model.Items;
 import hu.nye.pandragon.wumpus.lovel.Level;
 import hu.nye.pandragon.wumpus.model.LevelVO;
 import hu.nye.pandragon.wumpus.lovel.entities.Hero;
 import hu.nye.pandragon.wumpus.model.PlayernameVO;
 import hu.nye.pandragon.wumpus.service.command.InputHandler;
-import hu.nye.pandragon.wumpus.service.command.impl.gameplay.GameplayExitCommand;
-import hu.nye.pandragon.wumpus.service.command.impl.gameplay.HeroMoveCommand;
-import hu.nye.pandragon.wumpus.service.command.impl.gameplay.HeroShootCommand;
-import hu.nye.pandragon.wumpus.service.command.impl.gameplay.HeroTurnCommand;
+import hu.nye.pandragon.wumpus.service.command.impl.gameplay.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,7 +57,8 @@ public class GameplayScreen extends Screen {
 				new HeroMoveCommand(level),
 				new HeroTurnCommand(level),
 				new HeroShootCommand(level),
-				new GameplayExitCommand(this)
+				new GameplayExitCommand(this),
+				new HeroPickUpCommand(level)
 		));
 	}
 
@@ -87,6 +85,7 @@ public class GameplayScreen extends Screen {
 				break;
 			}
 			if (hero.getPosition().equals(level.getStartPoint()) && hero.hasItem(Items.Gold)) {
+				LOGGER.debug("A hős nyert, pozíciója: {}, pálya start hely pozíciója: {}", hero.getPosition(), level.getStartPoint());
 				System.out.printf("Győztél, sikeresen visszahoztad az aranyat a kiindulási helyre\n Megtettél %d lépést.\n", numberOfMoves);
 				break;
 			}

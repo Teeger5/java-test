@@ -2,7 +2,7 @@ package hu.nye.pandragon.wumpus.lovel.entities;
 
 import hu.nye.pandragon.wumpus.lovel.entities.traits.HasInventory;
 import hu.nye.pandragon.wumpus.model.Directions;
-import hu.nye.pandragon.wumpus.lovel.Items;
+import hu.nye.pandragon.wumpus.model.Items;
 import hu.nye.pandragon.wumpus.lovel.entities.traits.CanShoot;
 
 import java.util.ArrayList;

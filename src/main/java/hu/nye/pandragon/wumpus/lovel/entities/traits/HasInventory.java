@@ -1,6 +1,6 @@
 package hu.nye.pandragon.wumpus.lovel.entities.traits;
 
-import hu.nye.pandragon.wumpus.lovel.Items;
+import hu.nye.pandragon.wumpus.model.Items;
 
 import java.util.List;
 
