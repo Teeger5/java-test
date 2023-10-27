@@ -30,13 +30,16 @@ public class InputHandler {
     public void handleInput(String input) {
         input = input.trim().toLowerCase();
         for (Command command : commandList) {
-            var result = command.canProcess(input);
-            if (result.isPresent()) {
-                var content = result.get();
-                if (content.canProcess()) {
+            var result = command.match(input);
+            if (result.isCommandMatches()) {
+                var message = result.getMessage();
+                if (message == null) {
                     command.process(input);
-                    return;
                 }
+                else {
+                    System.out.println(message);
+                }
+                return;
             }
         }
         new DefaultCommand().process(input);

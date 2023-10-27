@@ -1,6 +1,6 @@
 package hu.nye.pandragon.wumpus.service.command.impl;
 
-import hu.nye.pandragon.wumpus.service.command.CanProcessResult;
+import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
 import hu.nye.pandragon.wumpus.service.command.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +18,8 @@ public class DefaultCommand implements Command {
     private static final String UNKNOWN_COMMAND_MESSAGE = "Unknown command";
 
     @Override
-    public Optional<CanProcessResult> canProcess(String input) {
-        return Optional.of(new CanProcessResult());
+    public CommandMatcherResult match(String input) {
+        return CommandMatcherResult.ofCorrectMatchingCommand();
     }
 
     @Override

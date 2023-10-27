@@ -3,7 +3,6 @@ package hu.nye.pandragon.wumpus.service.command;
 import hu.nye.pandragon.wumpus.lovel.Level;
 import hu.nye.pandragon.wumpus.service.command.impl.gameplay.HeroMoveCommand;
 import hu.nye.pandragon.wumpus.service.command.impl.gameplay.HeroTurnCommand;
-import hu.nye.pandragon.wumpus.ui.LevelPrinter;
 
 import java.util.EnumMap;
 import java.util.Optional;
@@ -26,20 +25,20 @@ public enum GameplayCommands {
 	/**
 	 * Ez a metódus eldönti egy bemenetről, hogy erre a parancsra vonatkozik-e, vagy sem
 	 * Ha üres Optional-t ad vissza, akkor ez nem az a parancs,
-	 * ha nem üres, akkor a benne lévő CanprocessResult dönti el, hogy végre lehet-e hajtani.
+	 * ha nem üres, akkor a benne lévő matchResult dönti el, hogy végre lehet-e hajtani.
 	 * Ha abban van üzenet, akkor valamilyen hiba van a parancsban (pl. hiányzó argumentum),
 	 * ha nincs, akkor formailag nincs probléma a paranccsal
 	 * @param input a parancs
 	 * @return ez-e az a parancs, illetve helyesen használják-e
 	 */
-	public Optional<CanProcessResult> matches (String input) {
+	public CommandMatcherResult matches (String input) {
 		if (!input.startsWith(base)) {
-			return Optional.empty();
+			return CommandMatcherResult.ofNotMatchingCommand();
 		}
 		if (!Pattern.matches(regex, input)) {
-			return Optional.of(new CanProcessResult("A parancs használata: " + usage));
+			return CommandMatcherResult.ofInproperSyntax("A parancs használata: " + usage);
 		}
-		return Optional.of(new CanProcessResult());
+		return CommandMatcherResult.ofCorrectMatchingCommand();
 	}
 
 	public Command getCommand (Level level) {

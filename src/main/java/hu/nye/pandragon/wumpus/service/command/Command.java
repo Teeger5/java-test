@@ -2,7 +2,6 @@ package hu.nye.pandragon.wumpus.service.command;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Optional;
 
 /**
  * Ez az interface egy felhasználó számára használható
@@ -13,13 +12,13 @@ public interface Command {
 	/**
 	 * Ez a metódus eldönti egy bemenetről, hogy erre a parancsra vonatkozik-e, vagy sem
 	 * Ha üres Optional-t ad vissza, akkor ez nem az a parancs,
-	 * ha nem üres, akkor a benne lévő CanprocessResult dönti el, hogy végre lehet-e hajtani.
+	 * ha nem üres, akkor a benne lévő matchResult dönti el, hogy végre lehet-e hajtani.
 	 * Ha abban van üzenet, akkor valamilyen hiba van a parancsban (pl. hiányzó argumentum),
 	 * ha nincs, akkor formailag nincs probléma a paranccsal
 	 * @param input a parancs
 	 * @return ez-e az a parancs, illetve helyesen használják-e
 	 */
-	Optional<CanProcessResult> canProcess (String input);
+	CommandMatcherResult match (String input);
 
 	/**
 	 * A parancs végrehajtása
@@ -49,8 +48,8 @@ public interface Command {
 	 */
 	static String[] getCommandArgs (int from, String input) {
 		var list = new ArrayList<>(Arrays.asList(input.split("\\s+")));
-		for (int i = 0; i < from; i++) {
-			list.remove(0);
+		if (from > 0) {
+			list.subList(0, from).clear();
 		}
 		return list.toArray(new String[0]);
 	}

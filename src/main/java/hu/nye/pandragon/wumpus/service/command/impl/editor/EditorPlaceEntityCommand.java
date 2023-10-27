@@ -4,11 +4,10 @@ import hu.nye.pandragon.wumpus.lovel.Entities;
 import hu.nye.pandragon.wumpus.lovel.Level;
 import hu.nye.pandragon.wumpus.lovel.entities.Hero;
 import hu.nye.pandragon.wumpus.lovel.entities.Wumpus;
-import hu.nye.pandragon.wumpus.service.command.CanProcessResult;
+import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
 import hu.nye.pandragon.wumpus.service.command.Command;
 import hu.nye.pandragon.wumpus.service.command.LevelEditorCommands;
 import hu.nye.pandragon.wumpus.service.util.CommandUtils;
-import hu.nye.pandragon.wumpus.ui.LevelPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +26,7 @@ public class EditorPlaceEntityCommand implements Command {
 	}
 
 	@Override
-	public Optional<CanProcessResult> canProcess(String input) {
+	public CommandMatcherResult match(String input) {
 		return LevelEditorCommands.Place.matches(input);
 	}
 

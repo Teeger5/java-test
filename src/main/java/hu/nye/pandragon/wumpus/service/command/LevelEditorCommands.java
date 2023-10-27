@@ -1,11 +1,7 @@
 package hu.nye.pandragon.wumpus.service.command;
 
 import hu.nye.pandragon.wumpus.lovel.Entities;
-import hu.nye.pandragon.wumpus.model.Directions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.Optional;
 import java.util.regex.Pattern;
 
 /**
@@ -26,18 +22,18 @@ public enum LevelEditorCommands {
 		return Pattern.matches(regex, s);
 	}
 
-	public Optional<CanProcessResult> matches (String input) {
+	public CommandMatcherResult matches (String input) {
 		System.out.println("input: " + input);
 		System.out.println("base: " + base);
 		if (!input.startsWith(base)) {
 			System.out.println("!input starts with base");
-			return Optional.empty();
+			return CommandMatcherResult.ofNotMatchingCommand();
 		}
 		if (!checkSyntax(input)) {
 			System.out.println("!regex syntax check: " + regex);
-			return Optional.of(new CanProcessResult("A parancs használata: " + usage));
+			return CommandMatcherResult.ofInproperSyntax("A parancs használata: " + usage);
 		}
-		return Optional.of(new CanProcessResult());
+		return CommandMatcherResult.ofCorrectMatchingCommand();
 	}
 
 	LevelEditorCommands(String usage, String regex) {

@@ -2,17 +2,16 @@ package hu.nye.pandragon.wumpus.service.command.impl.gameplay;
 
 import hu.nye.pandragon.wumpus.lovel.EntityController;
 import hu.nye.pandragon.wumpus.lovel.Level;
-import hu.nye.pandragon.wumpus.service.command.CanProcessResult;
+import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
 import hu.nye.pandragon.wumpus.service.command.Command;
 import hu.nye.pandragon.wumpus.service.command.GameplayCommands;
-import hu.nye.pandragon.wumpus.ui.LevelPrinter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 
 /**
- * Command used to write a number to a given field of the map.
+ * Ez a parancs a játékos előre lépésére szolgál
  */
 public class HeroMoveCommand implements Command {
 
@@ -24,7 +23,7 @@ public class HeroMoveCommand implements Command {
 	}
 
 	@Override
-	public Optional<CanProcessResult> canProcess(String input) {
+	public CommandMatcherResult match(String input) {
 		return GameplayCommands.MoveForward.matches(input);
 	}
 

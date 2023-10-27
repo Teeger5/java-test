@@ -1,10 +1,7 @@
 package hu.nye.pandragon.wumpus.service.command.impl.editor;
 
-import hu.nye.pandragon.wumpus.lovel.EntityController;
 import hu.nye.pandragon.wumpus.lovel.Level;
-import hu.nye.pandragon.wumpus.lovel.entities.Hero;
-import hu.nye.pandragon.wumpus.model.TurnDirections;
-import hu.nye.pandragon.wumpus.service.command.CanProcessResult;
+import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
 import hu.nye.pandragon.wumpus.service.command.Command;
 import hu.nye.pandragon.wumpus.service.command.LevelEditorCommands;
 import hu.nye.pandragon.wumpus.service.util.CommandUtils;
@@ -26,7 +23,7 @@ public class EditorRemoveEntityCommand implements Command {
 	}
 
 	@Override
-	public Optional<CanProcessResult> canProcess(String input) {
+	public CommandMatcherResult match(String input) {
 		return LevelEditorCommands.Remove.matches(input);
 	}
 

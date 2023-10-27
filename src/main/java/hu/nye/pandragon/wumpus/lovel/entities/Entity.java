@@ -24,7 +24,7 @@ public abstract class Entity {
 	protected final boolean unique;
 	/**
 	 * Kirajzoláskor az egész cellát ki kell-e törltenie,
-	 * vagy egyszer jelenjen meg középen a szimbóluma?
+	 * vagy egyszer jelenjen meg középen a szimbóluma?legy
 	 */
 	protected final boolean extendsInCell;
 

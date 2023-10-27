@@ -1,6 +1,6 @@
 package hu.nye.pandragon.wumpus.service.command.impl;
 
-import hu.nye.pandragon.wumpus.service.command.CanProcessResult;
+import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
 import hu.nye.pandragon.wumpus.service.command.Command;
 import hu.nye.pandragon.wumpus.service.command.LevelEditorCommands;
 import hu.nye.pandragon.wumpus.ui.Screen;
@@ -24,7 +24,7 @@ public class EditorExitCommand implements Command {
     }
 
     @Override
-    public Optional<CanProcessResult> canProcess(String input) {
+    public CommandMatcherResult match(String input) {
         return LevelEditorCommands.Exit.matches(input);
     }
 
