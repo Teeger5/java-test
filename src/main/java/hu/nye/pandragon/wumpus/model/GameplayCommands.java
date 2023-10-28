@@ -1,12 +1,7 @@
 package hu.nye.pandragon.wumpus.model;
 
-import hu.nye.pandragon.wumpus.service.game.Level;
-import hu.nye.pandragon.wumpus.service.command.Command;
 import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
-import hu.nye.pandragon.wumpus.service.command.impl.gameplay.HeroMoveCommand;
-import hu.nye.pandragon.wumpus.service.command.impl.gameplay.HeroTurnCommand;
 
-import java.util.EnumMap;
 import java.util.regex.Pattern;
 
 /**
@@ -42,14 +37,6 @@ public enum GameplayCommands {
 		return CommandMatcherResult.ofCorrectMatchingCommand();
 	}
 
-	public Command getCommand (Level level) {
-		switch (this) {
-			case Turn -> new HeroTurnCommand(level);
-			case MoveForward -> new HeroMoveCommand(level);
-		}
-		return null;
-	}
-
 	GameplayCommands(String usage, String regex) {
 		this.usage = usage;
 		this.regex = regex
@@ -62,11 +49,12 @@ public enum GameplayCommands {
 		}
 	}
 
-	public static EnumMap<GameplayCommands, Command> toCommandMap (Level level) {
-		var commands = new EnumMap<GameplayCommands, Command>(GameplayCommands.class);
-		for (GameplayCommands command : GameplayCommands.values()) {
-			commands.put(command, command.getCommand(level));
+	public static String getMenuText () {
+		var stringBuilder = new StringBuilder("Elérhető parancsok\n");
+		for (GameplayCommands command : values()) {
+			stringBuilder.append(String.format(" - %s\n", command.usage));
+
 		}
-		return commands;
+		return stringBuilder.toString();
 	}
 }

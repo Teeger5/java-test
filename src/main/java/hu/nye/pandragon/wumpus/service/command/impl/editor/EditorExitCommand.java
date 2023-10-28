@@ -1,9 +1,9 @@
 package hu.nye.pandragon.wumpus.service.command.impl.editor;
 
-import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
-import hu.nye.pandragon.wumpus.service.command.Command;
 import hu.nye.pandragon.wumpus.model.LevelEditorCommands;
-import hu.nye.pandragon.wumpus.ui.Screen;
+import hu.nye.pandragon.wumpus.model.Screen;
+import hu.nye.pandragon.wumpus.service.command.Command;
+import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

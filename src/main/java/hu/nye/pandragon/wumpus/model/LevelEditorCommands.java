@@ -1,6 +1,5 @@
 package hu.nye.pandragon.wumpus.model;
 
-import hu.nye.pandragon.wumpus.model.Entities;
 import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
 
 import java.util.regex.Pattern;
@@ -24,14 +23,10 @@ public enum LevelEditorCommands {
 	}
 
 	public CommandMatcherResult matches (String input) {
-		System.out.println("input: " + input);
-		System.out.println("base: " + base);
 		if (!input.startsWith(base)) {
-			System.out.println("!input starts with base");
 			return CommandMatcherResult.ofNotMatchingCommand();
 		}
 		if (!checkSyntax(input)) {
-			System.out.println("!regex syntax check: " + regex);
 			return CommandMatcherResult.ofInproperSyntax("A parancs használata: " + usage);
 		}
 		return CommandMatcherResult.ofCorrectMatchingCommand();
@@ -52,7 +47,14 @@ public enum LevelEditorCommands {
 		else {
 			base = usage.substring(0, usage.indexOf(' '));
 		}
-		System.out.println("regex: " + this.regex);
-		System.out.println("base: " + base);
+	}
+
+	public static String getMenuText () {
+		var stringBuilder = new StringBuilder("Elérhető parancsok\n");
+		for (LevelEditorCommands command : values()) {
+			stringBuilder.append(String.format(" - %s\n", command.usage));
+
+		}
+		return stringBuilder.toString();
 	}
 }

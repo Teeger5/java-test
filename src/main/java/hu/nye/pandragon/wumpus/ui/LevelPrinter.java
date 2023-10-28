@@ -1,42 +1,54 @@
 package hu.nye.pandragon.wumpus.ui;
 
+import hu.nye.pandragon.wumpus.model.LevelVO;
 import hu.nye.pandragon.wumpus.model.WallShape;
 import hu.nye.pandragon.wumpus.model.entities.Entity;
 import hu.nye.pandragon.wumpus.model.entities.Hero;
 import hu.nye.pandragon.wumpus.model.entities.Wall;
-import hu.nye.pandragon.wumpus.model.LevelVO;
 
 import java.awt.*;
 
 public class LevelPrinter {
 
-	public static void printEditorLevel (LevelVO levelVO) {
+	public void printEditorLevel (LevelVO levelVO) {
 		System.out.println(drawLevel(levelVO, true));
 	}
 
-	public static void printGameLevel (LevelVO levelVO, Hero hero) {
+	private void printGameLevel (LevelVO levelVO, Hero hero) {
 		var drawing = drawLevel(levelVO, false);
 		drawing += drawHeroBar(hero);
 		System.out.println(drawing);
 	}
 
-	public static void printLevel (LevelVO levelVO) {
+	/**
+	 * Pálya kirajzolása és kiírása
+	 * @param levelVO a pálya
+	 */
+	public void printLevel (LevelVO levelVO) {
 		printLevel(levelVO, false);
 	}
 
-	private static void printLevel (LevelVO levelVO, boolean isEditing) {
+	private void printLevel (LevelVO levelVO, boolean isEditing) {
 		System.out.println(drawLevel(levelVO, isEditing));
 	}
 
-	public static void printHeroBar (Hero hero) {
+	/**
+	 * Kiírja a hős adatait a következő formában:
+	 * Hős: ikon | oszlop_betűje sor_száma |x nyíl | Tárgyak: ...
+	 * A tárgyakat csak akkor írja, ha vannak a hősnek
+	 * @param hero a hős
+	 */
+	public void printHeroBar (Hero hero) {
 		System.out.println(drawHeroBar(hero));
 	}
 
-	private static String drawLevel (LevelVO levelVO) {
-		return drawLevel(levelVO, false);
-	}
-
-	private static String drawLevel (LevelVO levelVO, boolean isEditing) {
+	/**
+	 * Kirajzolja a pályát, és visszaadja a rajzot
+	 * @param levelVO a pálya
+	 * @param isEditing szerkesztés közben van-e
+	 * @return a pályáról készült rajz
+	 */
+	private String drawLevel (LevelVO levelVO, boolean isEditing) {
 		var drawing = new StringBuilder();
 		var size = levelVO.getSize();
 		var staticEntities = levelVO.getStaticEntities();
@@ -88,21 +100,21 @@ public class LevelPrinter {
 		return drawing.toString();
 	}
 
-	private static char getWallRightExtensionSymbol (Wall wall) {
+	private char getWallRightExtensionSymbol (Wall wall) {
 		return switch (wall.getShape()) {
 			case Middle, Horizontal, HorizontalBottom, HorizontalTop, BottomLeft, VerticalRight, TopLeft, Single -> WallShape.Horizontal.getSymbol();
 			default -> ' ';
 		};
 	}
 
-	private static char getWallLeftExtensionSymbol (Wall wall) {
+	private char getWallLeftExtensionSymbol (Wall wall) {
 		return switch (wall.getShape()) {
 			case Middle, Horizontal, HorizontalBottom, HorizontalTop, BottomRight, VerticalRight, TopRight, Single -> WallShape.Horizontal.getSymbol();
 			default -> ' ';
 		};
 	}
 
-	private static String drawHeroBar (Hero hero) {
+	private String drawHeroBar (Hero hero) {
 		var barText = String.format(
 				"Hős: %c | %d %s | %d nyíl",
 				hero.getDisplaySymbol(),

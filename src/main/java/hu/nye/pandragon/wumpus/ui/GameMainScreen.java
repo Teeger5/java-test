@@ -22,7 +22,7 @@ public class GameMainScreen {
 	private void onStart () {
 		System.out.println("Üdvözöllek Wumpus világában");
 		requestPlayerName();
-		System.out.printf("GG, %s! Kezdjünk hozzű!\n", playerName);
+		System.out.printf("Köszöntelek, %s! Kezdjünk hozzű!\n", playerName);
 	}
 
 	/**
@@ -37,9 +37,6 @@ public class GameMainScreen {
 	/**
 	 * Belépés a főmenübe
 	 * Minden meüopciót egy szám jelöl, aminek megfeleőképernyőre visz a program
-	 * Jelenleg a következő lehetőségek érhetőek el:
-	 *  - 1 -> Pályaszerkesztő
-	 *   - 2 -> Kilépés
 	 *   Amikor innen átlépünk valamelyik képernyőre, akkor a vezérlés átkerül oda
 	 *   A vezérlés akkor tér vissza ebbe a metődusba,
 	 *   amikor a belőle elindított bármelyik folyamat véget ér (pl. kilépünk a pályaszerkesztésből)

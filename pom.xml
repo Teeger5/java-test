@@ -38,7 +38,6 @@
 			<artifactId>jacoco-maven-plugin</artifactId>
 			<version>0.8.11</version>
 		</dependency>
-
 	</dependencies>
 
 	<build>
@@ -93,7 +92,7 @@
 				<version>0.8.11</version>
 				<configuration>
 					<excludes>
-						<exclude>hu/nye/pandragon/wumpus/level/entities</exclude>
+						<exclude>hu/nye/pandragon/wumpus/model/*</exclude>
 						<exclude>hu/nye/pandragon/wumpus/Main.*</exclude>
 					</excludes>
 				</configuration>

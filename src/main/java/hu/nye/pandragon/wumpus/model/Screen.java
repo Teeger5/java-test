@@ -1,4 +1,7 @@
-package hu.nye.pandragon.wumpus.ui;
+package hu.nye.pandragon.wumpus.model;
+
+import hu.nye.pandragon.wumpus.ui.LevelPrinter;
+import hu.nye.pandragon.wumpus.ui.PrintWrapper;
 
 public abstract class Screen {
 	/**
@@ -8,9 +11,26 @@ public abstract class Screen {
 	 * meg kell azt szakítani break; használatával
 	 */
 	protected boolean shouldExit;
+	protected PrintWrapper printWrapper;
+
+	protected LevelPrinter levelPrinter;
+
+	public Screen () {
+		shouldExit = false;
+		printWrapper = new PrintWrapper();
+		levelPrinter = new LevelPrinter();
+	}
 
 	public void setShouldExit(boolean shouldExit) {
 		this.shouldExit = shouldExit;
+	}
+
+	public void setPrintWrapper(PrintWrapper printWrapper) {
+		this.printWrapper = printWrapper;
+	}
+
+	public void setLevelPrinter(LevelPrinter levelPrinter) {
+		this.levelPrinter = levelPrinter;
 	}
 
 	public abstract void start ();

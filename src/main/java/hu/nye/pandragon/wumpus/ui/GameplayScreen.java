@@ -1,14 +1,12 @@
 package hu.nye.pandragon.wumpus.ui;
 
 import hu.nye.pandragon.wumpus.Utils;
-import hu.nye.pandragon.wumpus.service.game.EntityController;
-import hu.nye.pandragon.wumpus.model.Items;
-import hu.nye.pandragon.wumpus.service.game.Level;
-import hu.nye.pandragon.wumpus.model.LevelVO;
+import hu.nye.pandragon.wumpus.model.*;
 import hu.nye.pandragon.wumpus.model.entities.Hero;
-import hu.nye.pandragon.wumpus.model.PlayernameVO;
 import hu.nye.pandragon.wumpus.service.command.InputHandler;
 import hu.nye.pandragon.wumpus.service.command.impl.gameplay.*;
+import hu.nye.pandragon.wumpus.service.game.EntityController;
+import hu.nye.pandragon.wumpus.service.game.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,39 +65,40 @@ public class GameplayScreen extends Screen {
 	}
 
 	protected void readCommands () {
-		System.out.println("A játék elkezdődött\nJátékos: " + playerName);
-		System.out.println("""
+		printWrapper.println("A játék elkezdődött\nJátékos: " + playerName);
+/*		printWrapper.println("""
   Elérhető parancsok:
     lép: a hős előre lép egyet
     fordul balra | jobbra: a hős elfordul balra vagy jobbra
     lő: a hős nyilat lő egyenesen, a nézési irányában
     aranyat felszed: a hős felveszi az aranyat, ha egy pozíción áll vele
-    felad: kilépés ebből a játékból""");
+    felad: kilépés ebből a játékból""");*/
+		printWrapper.println(GameplayCommands.getMenuText());
 		numberOfMoves = 0;
 		var messageFromCommandProcessing = "A cél eljutni az aranyhoz, felvenni, és visszahozni ugyanide";
 		while (true) {
 			if (!hero.isAlive()) {
-				System.out.printf("Sajnos meghalt a karaktered.\n%d lépést tettél meg.\n", numberOfMoves);
-				System.out.println("Nyomj meg egy billentyűt a folytatáshoz...");
+				printWrapper.printf("Sajnos meghalt a karaktered.\n%d lépést tettél meg.\n", numberOfMoves);
+				printWrapper.println("Nyomj meg egy billentyűt a folytatáshoz...");
 				Utils.readFromConsole();
 				break;
 			}
 			if (hero.getPosition().equals(level.getStartPoint()) && hero.hasItem(Items.Gold)) {
 				LOGGER.debug("A hős nyert, pozíciója: {}, pálya start hely pozíciója: {}", hero.getPosition(), level.getStartPoint());
-				System.out.printf("Győztél, sikeresen visszahoztad az aranyat a kiindulási helyre\n Megtettél %d lépést.\n", numberOfMoves);
+				printWrapper.printf("Győztél, sikeresen visszahoztad az aranyat a kiindulási helyre\n Megtettél %d lépést.\n", numberOfMoves);
 				break;
 			}
 			if (shouldExit) {
-				System.out.println("Kilépés a játékból...");
+				printWrapper.println("Kilépés a játékból...");
 				break;
 			}
 			numberOfMoves++;
-			LevelPrinter.printLevel(level.toLevelVO());
+			levelPrinter.printLevel(level.toLevelVO());
 			if (messageFromCommandProcessing != null) {
-				System.out.println(messageFromCommandProcessing);
+				printWrapper.println(messageFromCommandProcessing);
 			}
-			LevelPrinter.printHeroBar(hero);
-			System.out.print("> ");
+			levelPrinter.printHeroBar(hero);
+			printWrapper.print("> ");
 			var command = Utils.readFromConsole().trim().toLowerCase();
 			try {
 				inputHandler.handleInput(command);
