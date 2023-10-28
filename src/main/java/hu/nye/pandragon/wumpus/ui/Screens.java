@@ -1,9 +1,10 @@
 package hu.nye.pandragon.wumpus.ui;
 
 public enum Screens {
-	Gameplay (1, "Játék indítása"),
+	LevelEditor (1, "Pályaszerkesztő indítása"),
 	LoadFromDB (2, "Betöltés az adatbázisból"),
-	LevelEditor (3, "Pályaszerkesztő indítása"),
+	Gameplay (3, "Játék indítása"),
+	Exit (4, "Kilépés"),
 	Unknown (-1, "");
 
 	private final int id;
@@ -21,9 +22,16 @@ public enum Screens {
 		this.name = name;
 	}
 
-	public static Screens parseID (int id) {
+	public static Screens parseID (String id) {
+		int parsedId;
+		try {
+			parsedId = Integer.parseInt(id);
+		}
+		catch (NumberFormatException e) {
+			return Unknown;
+		}
 		for (Screens s : Screens.values()) {
-			if (s.getId() == id) {
+			if (s.getId() == parsedId) {
 				return s;
 			}
 		}

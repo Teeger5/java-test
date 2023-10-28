@@ -61,6 +61,10 @@ public class Level {
 		determineMaxWumpus();
 	}
 
+	/**
+	 * LevelVO objektum létrehozása a pálya adataival
+	 * @return a LevelVO objektum
+	 */
 	public LevelVO toLevelVO () {
 		return new LevelVO(staticEntites, livingEntities, size);
 	}
@@ -78,11 +82,21 @@ public class Level {
 		return null;
 	}
 
+	/**
+	 * Pályaelem eltávolítása referencia alapján
+	 * @param entity a pályaelem
+	 * @return maga a pályaelem, vagy null, ha nem található
+	 */
 	public Entity removeEntityIfExists (Entity entity) {
 		var map = entity instanceof LivingEntity ? livingEntities : staticEntites;
 		return removeEntityIfExists(entity, map);
 	}
 
+	/**
+	 * Visszaadja az az adott típusba (statikus vagy élő) pályaelemek számát
+	 * @param entity a pályaelemek fajtája függ ettől
+	 * @return az ilyen típusú pályaelemek száma
+	 */
 	public int getEntityCount (Entity entity) {
 		var map = entity instanceof LivingEntity ? livingEntities : staticEntites;
 		return getEntityCount(entity, map);
@@ -140,6 +154,9 @@ public class Level {
 		}
 	}
 
+	/**
+	 * Meghatározza és beállítja a Wumpus-ok max számát
+	 */
 	private void determineMaxWumpus () {
 		if (size < 9) {
 			maxWumpus = 1;
@@ -165,25 +182,25 @@ public class Level {
 		var checkingPoint = new Point(position.x, position.y);
 		checkingPoint.y--;
 		var entity = staticEntites.get(checkingPoint);
-		if (entity == null || entity != null && !entity.isBlocking()) {
+		if (entity == null || !entity.isBlocking()) {
 			possibleDirections.put(Directions.North, new Point(checkingPoint.x, checkingPoint.y));
 		}
 		checkingPoint.y++;
 		checkingPoint.x++;
 		entity = staticEntites.get(checkingPoint);
-		if (entity == null || entity != null && !entity.isBlocking()) {
+		if (entity == null || !entity.isBlocking()) {
 			possibleDirections.put(Directions.East, new Point(checkingPoint.x, checkingPoint.y));
 		}
 		checkingPoint.x--;
 		checkingPoint.y++;
 		entity = staticEntites.get(checkingPoint);
-		if (entity == null || entity != null && !entity.isBlocking()) {
+		if (entity == null || !entity.isBlocking()) {
 			possibleDirections.put(Directions.South, new Point(checkingPoint.x, checkingPoint.y));
 		}
 		checkingPoint.y--;
 		checkingPoint.x--;
 		entity = staticEntites.get(checkingPoint);
-		if (entity == null || entity != null && !entity.isBlocking()) {
+		if (entity == null || !entity.isBlocking()) {
 			possibleDirections.put(Directions.West, new Point(checkingPoint.x, checkingPoint.y));
 		}
 		return possibleDirections;
@@ -202,6 +219,7 @@ public class Level {
 	 * @param y oszlop száma
 	 */
 	public void placeEntity (int x, int y, Entity entity) {
+		LOGGER.info("Új pályaelem létrehozása: {} -> {} {}", entity.getName(), x, y);
 		if (entity.isUnique()) {
 			var e = removeEntityIfExists(entity);
 			if (e != null) {

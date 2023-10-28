@@ -3,7 +3,7 @@ package hu.nye.pandragon.wumpus.service.command;
 /**
  * Ez az osztály a parancs értelmezésének az eredményét írja le
  * 3 állapota lehet:
- *  -
+ *  - ez nem az a parancs -> a parancsot nem lehet végrehajtani
  *  - van benne hibaüzenet -> a parancsot nem lehet végrehajtani
  *  - nincs benne hibaüzenet -> a parancsot végre lehet hajtani
  */

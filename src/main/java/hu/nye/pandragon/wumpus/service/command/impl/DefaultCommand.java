@@ -1,11 +1,9 @@
 package hu.nye.pandragon.wumpus.service.command.impl;
 
-import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
 import hu.nye.pandragon.wumpus.service.command.Command;
+import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Optional;
 
 /**
  * A default command, which should be run when no other {@link Command}
@@ -15,7 +13,7 @@ public class DefaultCommand implements Command {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCommand.class);
 
-    private static final String UNKNOWN_COMMAND_MESSAGE = "Unknown command";
+    private static final String UNKNOWN_COMMAND_MESSAGE = "Ismeretlen parancs: ";
 
     @Override
     public CommandMatcherResult match(String input) {
@@ -24,8 +22,8 @@ public class DefaultCommand implements Command {
 
     @Override
     public void process(String input) {
-        LOGGER.info("Performing default command");
-        System.out.println(UNKNOWN_COMMAND_MESSAGE);
+        LOGGER.info("Ismeretlen parancs: " + input);
+        System.out.println(UNKNOWN_COMMAND_MESSAGE + input);
     }
 
 }

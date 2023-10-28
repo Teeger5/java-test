@@ -11,10 +11,7 @@ public interface Command {
 
 	/**
 	 * Ez a metódus eldönti egy bemenetről, hogy erre a parancsra vonatkozik-e, vagy sem
-	 * Ha üres Optional-t ad vissza, akkor ez nem az a parancs,
-	 * ha nem üres, akkor a benne lévő matchResult dönti el, hogy végre lehet-e hajtani.
-	 * Ha abban van üzenet, akkor valamilyen hiba van a parancsban (pl. hiányzó argumentum),
-	 * ha nincs, akkor formailag nincs probléma a paranccsal
+	 * 3 állapota lehet: nem az a parancs, szintaktikai probléma, helyes
 	 * @param input a parancs
 	 * @return ez-e az a parancs, illetve helyesen használják-e
 	 */
@@ -29,8 +26,6 @@ public interface Command {
 	/**
 	 * Visszaadja a parancs paramétereit, feltételezve, hogy
 	 * a parancs maga a bemenet első szava
-	 * Ennek a metódusnak van egy másik változata,
-	 * amelynél meg lehet adni, hány szóból áll maga a parancs
 	 * @param input a bemenet a felhasználótól
 	 * @return a parancs argumentumai
 	 */
@@ -40,7 +35,7 @@ public interface Command {
 
 	/**
 	 * Ez a metódus a parancs argumentumait adja vissza
-	 * Például ha a parancs 'fordul jobbra',
+	 * Például ha a parancs 'fordul jobbra', és from = 1,
 	 * akkor a visszaadott tömb ['jobbra'] lesz
 	 * @param from hány szó maga a parancs
 	 * @param input felhasználói bemenet, azaz a parancs
