@@ -1,17 +1,15 @@
 package hu.nye.pandragon.wumpus.service.command.impl.editor;
 
-import hu.nye.pandragon.wumpus.lovel.Entities;
-import hu.nye.pandragon.wumpus.lovel.Level;
-import hu.nye.pandragon.wumpus.lovel.entities.Hero;
-import hu.nye.pandragon.wumpus.lovel.entities.Wumpus;
+import hu.nye.pandragon.wumpus.model.Entities;
+import hu.nye.pandragon.wumpus.service.game.Level;
+import hu.nye.pandragon.wumpus.model.entities.Hero;
+import hu.nye.pandragon.wumpus.model.entities.Wumpus;
 import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
 import hu.nye.pandragon.wumpus.service.command.Command;
-import hu.nye.pandragon.wumpus.service.command.LevelEditorCommands;
+import hu.nye.pandragon.wumpus.model.LevelEditorCommands;
 import hu.nye.pandragon.wumpus.service.util.CommandUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Optional;
 
 /**
  * Ez a parancs új pályaelem létrehozására szolgál

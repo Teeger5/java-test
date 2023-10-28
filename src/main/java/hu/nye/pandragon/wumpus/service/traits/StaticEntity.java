@@ -1,4 +1,4 @@
-package hu.nye.pandragon.wumpus.lovel.entities.traits;
+package hu.nye.pandragon.wumpus.service.traits;
 
 /**
  * Ez az interface azokat a pályaelemeket jelöli, amelyek statikusak,

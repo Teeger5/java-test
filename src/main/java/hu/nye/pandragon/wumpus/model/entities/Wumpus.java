@@ -1,7 +1,7 @@
-package hu.nye.pandragon.wumpus.lovel.entities;
+package hu.nye.pandragon.wumpus.model.entities;
 
-import hu.nye.pandragon.wumpus.lovel.Level;
-import hu.nye.pandragon.wumpus.lovel.entities.traits.ActionOnHeroEnters;
+import hu.nye.pandragon.wumpus.service.game.Level;
+import hu.nye.pandragon.wumpus.service.traits.ActionOnHeroEnters;
 
 public class Wumpus extends LivingEntity implements ActionOnHeroEnters {
 

@@ -4,12 +4,10 @@ import hu.nye.pandragon.wumpus.model.LevelVO;
 import hu.nye.pandragon.wumpus.model.PlayernameVO;
 import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
 import hu.nye.pandragon.wumpus.service.command.Command;
-import hu.nye.pandragon.wumpus.service.command.LevelEditorCommands;
+import hu.nye.pandragon.wumpus.model.LevelEditorCommands;
 import hu.nye.pandragon.wumpus.ui.GameplayScreen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Optional;
 
 /**
  * Command used to write a number to a given field of the map.

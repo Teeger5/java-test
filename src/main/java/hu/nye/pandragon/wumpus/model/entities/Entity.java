@@ -1,4 +1,4 @@
-package hu.nye.pandragon.wumpus.lovel.entities;
+package hu.nye.pandragon.wumpus.model.entities;
 
 public abstract class Entity {
 	/**
@@ -49,20 +49,12 @@ public abstract class Entity {
 		return displaySymbol;
 	}
 
-	public char getCompatibilitySymbol() {
-		return compatibilitySymbol;
-	}
-
 	public boolean shouldExtendInCell() {
 		return extendsInCell;
 	}
 
 	public boolean isUnique() {
 		return unique;
-	}
-
-	public int getMaxNumber () {
-		return Integer.MAX_VALUE;
 	}
 
 	public abstract Entity clone ();

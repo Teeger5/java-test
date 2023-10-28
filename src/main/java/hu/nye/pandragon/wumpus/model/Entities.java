@@ -1,7 +1,7 @@
-package hu.nye.pandragon.wumpus.lovel;
+package hu.nye.pandragon.wumpus.model;
 
-import hu.nye.pandragon.wumpus.lovel.entities.*;
-import hu.nye.pandragon.wumpus.lovel.entities.Entity;
+import hu.nye.pandragon.wumpus.model.entities.*;
+import hu.nye.pandragon.wumpus.model.entities.*;
 
 public enum Entities {
 	Wall(new Wall()),

@@ -1,14 +1,12 @@
 package hu.nye.pandragon.wumpus.service.command.impl.gameplay;
 
-import hu.nye.pandragon.wumpus.lovel.EntityController;
-import hu.nye.pandragon.wumpus.lovel.Level;
+import hu.nye.pandragon.wumpus.service.game.EntityController;
+import hu.nye.pandragon.wumpus.service.game.Level;
 import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
 import hu.nye.pandragon.wumpus.service.command.Command;
-import hu.nye.pandragon.wumpus.service.command.GameplayCommands;
+import hu.nye.pandragon.wumpus.model.GameplayCommands;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Optional;
 
 /**
  * Ez a parancs a játékos előre lépésére szolgál

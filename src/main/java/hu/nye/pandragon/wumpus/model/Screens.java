@@ -1,4 +1,4 @@
-package hu.nye.pandragon.wumpus.ui;
+package hu.nye.pandragon.wumpus.model;
 
 public enum Screens {
 	LevelEditor (1, "Pályaszerkesztő indítása"),
@@ -41,7 +41,9 @@ public enum Screens {
 	public static String getMenuText () {
 		var stringBuilder = new StringBuilder("Menü\n");
 		for (Screens screen : values()) {
-			stringBuilder.append(String.format("%2d - %s\n", screen.getId(), screen.getName()));
+			if (screen != Unknown) {
+				stringBuilder.append(String.format("%2d - %s\n", screen.getId(), screen.getName()));
+			}
 		}
 		return stringBuilder.toString();
 	}

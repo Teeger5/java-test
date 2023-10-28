@@ -1,10 +1,10 @@
-package hu.nye.pandragon.wumpus.lovel;
+package hu.nye.pandragon.wumpus.service.game;
 
-import hu.nye.pandragon.wumpus.lovel.entities.Entity;
-import hu.nye.pandragon.wumpus.lovel.entities.Hero;
-import hu.nye.pandragon.wumpus.lovel.entities.LivingEntity;
-import hu.nye.pandragon.wumpus.lovel.entities.traits.ActionOnHeroEnters;
-import hu.nye.pandragon.wumpus.lovel.entities.traits.CanShoot;
+import hu.nye.pandragon.wumpus.model.entities.Entity;
+import hu.nye.pandragon.wumpus.model.entities.Hero;
+import hu.nye.pandragon.wumpus.model.entities.LivingEntity;
+import hu.nye.pandragon.wumpus.service.traits.ActionOnHeroEnters;
+import hu.nye.pandragon.wumpus.service.traits.CanShoot;
 import hu.nye.pandragon.wumpus.model.Directions;
 import hu.nye.pandragon.wumpus.model.TurnDirections;
 import org.slf4j.Logger;

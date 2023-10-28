@@ -1,11 +1,11 @@
 package hu.nye.pandragon.wumpus.ui;
 
 import hu.nye.pandragon.wumpus.Utils;
-import hu.nye.pandragon.wumpus.lovel.Entities;
-import hu.nye.pandragon.wumpus.lovel.Level;
+import hu.nye.pandragon.wumpus.model.Entities;
+import hu.nye.pandragon.wumpus.service.game.Level;
 import hu.nye.pandragon.wumpus.model.LevelVO;
 import hu.nye.pandragon.wumpus.service.command.InputHandler;
-import hu.nye.pandragon.wumpus.service.command.impl.EditorExitCommand;
+import hu.nye.pandragon.wumpus.service.command.impl.editor.EditorExitCommand;
 import hu.nye.pandragon.wumpus.service.command.impl.editor.EditorPlaceEntityCommand;
 import hu.nye.pandragon.wumpus.service.command.impl.editor.EditorRemoveEntityCommand;
 import hu.nye.pandragon.wumpus.service.command.impl.editor.EditorRotateCommand;
@@ -38,13 +38,14 @@ public class LevelEditorScreen extends Screen {
 		));
 		if (site == -1) {
 			System.out.println("Kilépés a pályaszerkesztőből...");
-			return;
+			shouldExit = true;
 		}
-		System.out.printf("A pálya %d x %d méretű lesz\n", site, site);
 	}
 
 	public void start () {
-		readCommands();
+		if (!shouldExit) {
+			readCommands();
+		}
 	}
 
 	/**

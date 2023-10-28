@@ -1,4 +1,4 @@
-package hu.nye.pandragon.wumpus.lovel.entities.traits;
+package hu.nye.pandragon.wumpus.service.traits;
 
 /**
  * Az ezt imlementáló pályaelemekhez igazodni fognak a falak

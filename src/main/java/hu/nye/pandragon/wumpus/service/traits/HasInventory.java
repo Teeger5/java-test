@@ -1,4 +1,4 @@
-package hu.nye.pandragon.wumpus.lovel.entities.traits;
+package hu.nye.pandragon.wumpus.service.traits;
 
 import hu.nye.pandragon.wumpus.model.Items;
 

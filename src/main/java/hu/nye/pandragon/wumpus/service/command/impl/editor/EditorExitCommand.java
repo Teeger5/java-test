@@ -1,13 +1,11 @@
-package hu.nye.pandragon.wumpus.service.command.impl;
+package hu.nye.pandragon.wumpus.service.command.impl.editor;
 
 import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
 import hu.nye.pandragon.wumpus.service.command.Command;
-import hu.nye.pandragon.wumpus.service.command.LevelEditorCommands;
+import hu.nye.pandragon.wumpus.model.LevelEditorCommands;
 import hu.nye.pandragon.wumpus.ui.Screen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Optional;
 
 /**
  * Ez a parancs egy képernyőből való kilépésre szolgál

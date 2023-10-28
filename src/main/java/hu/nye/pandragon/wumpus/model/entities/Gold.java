@@ -1,9 +1,9 @@
-package hu.nye.pandragon.wumpus.lovel.entities;
+package hu.nye.pandragon.wumpus.model.entities;
 
 import hu.nye.pandragon.wumpus.model.Items;
-import hu.nye.pandragon.wumpus.lovel.Level;
-import hu.nye.pandragon.wumpus.lovel.entities.traits.CanBePIckedUp;
-import hu.nye.pandragon.wumpus.lovel.entities.traits.HasInventory;
+import hu.nye.pandragon.wumpus.service.traits.CanBePIckedUp;
+import hu.nye.pandragon.wumpus.service.traits.HasInventory;
+import hu.nye.pandragon.wumpus.service.game.Level;
 
 /**
  * Ez az osztály az aranyat, mint pályaelemet írja le

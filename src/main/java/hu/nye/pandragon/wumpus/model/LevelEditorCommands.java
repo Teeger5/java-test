@@ -1,6 +1,7 @@
-package hu.nye.pandragon.wumpus.service.command;
+package hu.nye.pandragon.wumpus.model;
 
-import hu.nye.pandragon.wumpus.lovel.Entities;
+import hu.nye.pandragon.wumpus.model.Entities;
+import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
 
 import java.util.regex.Pattern;
 

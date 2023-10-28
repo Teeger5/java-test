@@ -1,11 +1,11 @@
 package hu.nye.pandragon.wumpus.ui;
 
 import hu.nye.pandragon.wumpus.Utils;
-import hu.nye.pandragon.wumpus.lovel.EntityController;
+import hu.nye.pandragon.wumpus.service.game.EntityController;
 import hu.nye.pandragon.wumpus.model.Items;
-import hu.nye.pandragon.wumpus.lovel.Level;
+import hu.nye.pandragon.wumpus.service.game.Level;
 import hu.nye.pandragon.wumpus.model.LevelVO;
-import hu.nye.pandragon.wumpus.lovel.entities.Hero;
+import hu.nye.pandragon.wumpus.model.entities.Hero;
 import hu.nye.pandragon.wumpus.model.PlayernameVO;
 import hu.nye.pandragon.wumpus.service.command.InputHandler;
 import hu.nye.pandragon.wumpus.service.command.impl.gameplay.*;

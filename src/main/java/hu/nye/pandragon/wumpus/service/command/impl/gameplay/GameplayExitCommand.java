@@ -2,12 +2,10 @@ package hu.nye.pandragon.wumpus.service.command.impl.gameplay;
 
 import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
 import hu.nye.pandragon.wumpus.service.command.Command;
-import hu.nye.pandragon.wumpus.service.command.GameplayCommands;
+import hu.nye.pandragon.wumpus.model.GameplayCommands;
 import hu.nye.pandragon.wumpus.ui.Screen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Optional;
 
 /**
  * Command used to exit from the game.

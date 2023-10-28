@@ -7,8 +7,18 @@ import java.awt.*;
 
 public class CommandUtils {
 
+	/**
+	 * Metódusok, amelyek a parancsok kezelésében segítenek
+	 */
 	private static final Logger LOGGER = LoggerFactory.getLogger(CommandUtils.class);
 
+	/**
+	 * Koordinátákká alakítja a bemenetet, ha lehet
+	 * @param pointX oszlop betűjel
+	 * @param pointY sor száma
+	 * @param levelSize a pálya oldalhossza
+	 * @return a koordináták egy Point objektumban
+	 */
 	public static Point getCoordinates (String pointX, String pointY, int levelSize) {
 		int x = pointX.toCharArray()[0] - 96;
 		if (x < 1 || x > levelSize) {

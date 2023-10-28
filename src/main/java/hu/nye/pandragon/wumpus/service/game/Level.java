@@ -1,14 +1,17 @@
-package hu.nye.pandragon.wumpus.lovel;
+package hu.nye.pandragon.wumpus.service.game;
 
-import hu.nye.pandragon.wumpus.lovel.entities.*;
 import hu.nye.pandragon.wumpus.model.Directions;
 import hu.nye.pandragon.wumpus.model.LevelVO;
+import hu.nye.pandragon.wumpus.model.entities.Entity;
+import hu.nye.pandragon.wumpus.model.entities.Hero;
+import hu.nye.pandragon.wumpus.model.entities.LivingEntity;
+import hu.nye.pandragon.wumpus.model.entities.Wall;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 /**
  * Ez az osztály egy játékpályát ír le, és ad lehetőséget a szerkesztésére

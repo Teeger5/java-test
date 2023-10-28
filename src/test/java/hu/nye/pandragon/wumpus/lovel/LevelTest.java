@@ -1,11 +1,12 @@
 package hu.nye.pandragon.wumpus.lovel;
 
-import hu.nye.pandragon.wumpus.lovel.entities.Entity;
+import hu.nye.pandragon.wumpus.model.entities.Entity;
+import hu.nye.pandragon.wumpus.service.game.Level;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import hu.nye.pandragon.wumpus.lovel.entities.Hero;
-import hu.nye.pandragon.wumpus.lovel.entities.Wumpus;
+import hu.nye.pandragon.wumpus.model.entities.Hero;
+import hu.nye.pandragon.wumpus.model.entities.Wumpus;
 import org.mockito.Mockito;
 
 import java.awt.*;

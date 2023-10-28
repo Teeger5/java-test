@@ -1,7 +1,7 @@
-package hu.nye.pandragon.wumpus.lovel.entities;
+package hu.nye.pandragon.wumpus.model.entities;
 
-import hu.nye.pandragon.wumpus.lovel.entities.traits.ActionOnHeroEnters;
-import hu.nye.pandragon.wumpus.lovel.entities.traits.StaticEntity;
+import hu.nye.pandragon.wumpus.service.traits.ActionOnHeroEnters;
+import hu.nye.pandragon.wumpus.service.traits.StaticEntity;
 
 /**
  * Ez az osztály a vermet, mint pályaelemet írja le

@@ -1,14 +1,12 @@
 package hu.nye.pandragon.wumpus.service.command.impl.editor;
 
-import hu.nye.pandragon.wumpus.lovel.Level;
+import hu.nye.pandragon.wumpus.service.game.Level;
 import hu.nye.pandragon.wumpus.model.Directions;
 import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
 import hu.nye.pandragon.wumpus.service.command.Command;
-import hu.nye.pandragon.wumpus.service.command.LevelEditorCommands;
+import hu.nye.pandragon.wumpus.model.LevelEditorCommands;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Optional;
 
 /**
  * Ez a parancs a hős elforgatására szolgál

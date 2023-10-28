@@ -1,6 +1,6 @@
-package hu.nye.pandragon.wumpus.lovel.entities;
+package hu.nye.pandragon.wumpus.model.entities;
 
-import hu.nye.pandragon.wumpus.lovel.Level;
+import hu.nye.pandragon.wumpus.service.game.Level;
 import hu.nye.pandragon.wumpus.model.Directions;
 
 import java.awt.*;

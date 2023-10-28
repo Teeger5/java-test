@@ -1,8 +1,8 @@
-package hu.nye.pandragon.wumpus.lovel.entities;
+package hu.nye.pandragon.wumpus.model.entities;
 
-import hu.nye.pandragon.wumpus.lovel.WallShape;
-import hu.nye.pandragon.wumpus.lovel.entities.traits.StaticEntity;
-import hu.nye.pandragon.wumpus.lovel.entities.traits.WallsFitTo;
+import hu.nye.pandragon.wumpus.model.WallShape;
+import hu.nye.pandragon.wumpus.service.traits.StaticEntity;
+import hu.nye.pandragon.wumpus.service.traits.WallsFitTo;
 
 import java.awt.*;
 import java.util.Map;

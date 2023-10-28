@@ -1,9 +1,9 @@
-package hu.nye.pandragon.wumpus.lovel.entities;
+package hu.nye.pandragon.wumpus.model.entities;
 
-import hu.nye.pandragon.wumpus.lovel.entities.traits.HasInventory;
+import hu.nye.pandragon.wumpus.service.traits.HasInventory;
 import hu.nye.pandragon.wumpus.model.Directions;
 import hu.nye.pandragon.wumpus.model.Items;
-import hu.nye.pandragon.wumpus.lovel.entities.traits.CanShoot;
+import hu.nye.pandragon.wumpus.service.traits.CanShoot;
 
 import java.util.ArrayList;
 import java.util.List;

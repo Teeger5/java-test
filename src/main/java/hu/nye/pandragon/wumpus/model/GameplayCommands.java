@@ -1,11 +1,12 @@
-package hu.nye.pandragon.wumpus.service.command;
+package hu.nye.pandragon.wumpus.model;
 
-import hu.nye.pandragon.wumpus.lovel.Level;
+import hu.nye.pandragon.wumpus.service.game.Level;
+import hu.nye.pandragon.wumpus.service.command.Command;
+import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
 import hu.nye.pandragon.wumpus.service.command.impl.gameplay.HeroMoveCommand;
 import hu.nye.pandragon.wumpus.service.command.impl.gameplay.HeroTurnCommand;
 
 import java.util.EnumMap;
-import java.util.Optional;
 import java.util.regex.Pattern;
 
 /**

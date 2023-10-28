@@ -3,6 +3,7 @@ package hu.nye.pandragon.wumpus.ui;
 import hu.nye.pandragon.wumpus.Utils;
 import hu.nye.pandragon.wumpus.model.LevelVO;
 import hu.nye.pandragon.wumpus.model.PlayernameVO;
+import hu.nye.pandragon.wumpus.model.Screens;
 
 import static hu.nye.pandragon.wumpus.Utils.readFromConsole;
 

@@ -1,8 +1,8 @@
 package hu.nye.pandragon.wumpus.service.command.impl.gameplay;
 
-import hu.nye.pandragon.wumpus.lovel.EntityController;
-import hu.nye.pandragon.wumpus.lovel.Level;
-import hu.nye.pandragon.wumpus.lovel.entities.Hero;
+import hu.nye.pandragon.wumpus.service.game.EntityController;
+import hu.nye.pandragon.wumpus.service.game.Level;
+import hu.nye.pandragon.wumpus.model.entities.Hero;
 import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

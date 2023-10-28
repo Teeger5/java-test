@@ -1,9 +1,9 @@
 package hu.nye.pandragon.wumpus.ui;
 
-import hu.nye.pandragon.wumpus.lovel.WallShape;
-import hu.nye.pandragon.wumpus.lovel.entities.Entity;
-import hu.nye.pandragon.wumpus.lovel.entities.Hero;
-import hu.nye.pandragon.wumpus.lovel.entities.Wall;
+import hu.nye.pandragon.wumpus.model.WallShape;
+import hu.nye.pandragon.wumpus.model.entities.Entity;
+import hu.nye.pandragon.wumpus.model.entities.Hero;
+import hu.nye.pandragon.wumpus.model.entities.Wall;
 import hu.nye.pandragon.wumpus.model.LevelVO;
 
 import java.awt.*;
