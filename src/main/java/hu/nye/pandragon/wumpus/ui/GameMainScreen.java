@@ -45,12 +45,22 @@ public class GameMainScreen {
 	 *   Kilépéskor viszont a programból lépünk ki
 	 */
 	public void enterMenu () {
-		System.out.printf("%20s\n", "Menü");
 		showMenuOptions();
 		while (true) {
 			System.out.print("> ");
 			var command = Utils.readFromConsole();
-			if (command.equals("1")) {
+			var screen = Screens.parseID(command.trim());
+			switch (screen) {
+				case LevelEditor -> enterEditor();
+				case LoadFromDB -> System.out.println("Még nem elérhető");
+				case Gameplay -> enterGame();
+				case Exit -> exit();
+				case Unknown -> System.out.println("Ismeretlen parancs: " + command.trim());
+			}
+			if (screen != Screens.Unknown) {
+				showMenuOptions();
+			}
+/*			if (command.equals("1")) {
 				enterEditor();
 				showMenuOptions();
 			}
@@ -62,7 +72,7 @@ public class GameMainScreen {
 			}
 			else {
 				System.out.println("Ismeretlen opció: " + command);
-			}
+			}*/
 		}
 	}
 
@@ -75,7 +85,7 @@ public class GameMainScreen {
 	 * Ez a metódus visszaad egy szöveges listát a főmenüben elérhető menüpontokkal
 	 */
 	private void showMenuOptions () {
-		System.out.println("1. Pályaszerkesztő\n2. Kilépés\n");
+		System.out.println(Screens.getMenuText());
 	}
 
 	/**
