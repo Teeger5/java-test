@@ -56,8 +56,6 @@ public class Wall extends Entity implements StaticEntity, WallsFitTo {
 		var right = entities.get(new Point(x + 1, y)) instanceof WallsFitTo;
 		var bottom = entities.get(new Point(x, y + 1)) instanceof WallsFitTo;
 		var left = entities.get(new Point(x - 1, y)) instanceof WallsFitTo;
-//		System.out.printf("wall: %2d, %2d -> %s %s %s %s\n", x, x, top, right, bottom, left);
 		shape = WallShape.getShape(top, right, bottom, left);
-//		System.out.println(" - shape -> " + shape.getSymbol());
 	}
 }

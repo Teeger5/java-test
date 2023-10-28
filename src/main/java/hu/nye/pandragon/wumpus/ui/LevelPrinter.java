@@ -109,7 +109,7 @@ public class LevelPrinter {
 
 	private char getWallLeftExtensionSymbol (Wall wall) {
 		return switch (wall.getShape()) {
-			case Middle, Horizontal, HorizontalBottom, HorizontalTop, BottomRight, VerticalRight, TopRight, Single -> WallShape.Horizontal.getSymbol();
+			case Middle, Horizontal, HorizontalBottom, HorizontalTop, BottomRight, VerticalLeft, TopRight, Single -> WallShape.Horizontal.getSymbol();
 			default -> ' ';
 		};
 	}

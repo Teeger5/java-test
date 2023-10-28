@@ -33,7 +33,6 @@ public enum WallShape {
 		if (bottom) { x |= 1 << 1; }
 		if (left) { x |= 1 << 2; }
 		if (top) { x |= 1 << 3; }
-//		System.out.println(" - shape int: " + x);
 		return switch (x) {
 			case 1, 4, 5 -> WallShape.Horizontal;
 			case 2, 8, 10 -> WallShape.Verticcal;
