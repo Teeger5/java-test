@@ -20,22 +20,12 @@ public class LevelPrinter {
 		printWrapper.println(drawLevel(levelVO, true));
 	}
 
-	private void printGameLevel (LevelVO levelVO, Hero hero) {
-		var drawing = drawLevel(levelVO, false);
-		drawing += drawHeroBar(hero);
-		printWrapper.println(drawing);
-	}
-
 	/**
 	 * Pálya kirajzolása és kiírása
 	 * @param levelVO a pálya
 	 */
 	public void printLevel (LevelVO levelVO) {
-		printLevel(levelVO, false);
-	}
-
-	private void printLevel (LevelVO levelVO, boolean isEditing) {
-		printWrapper.println(drawLevel(levelVO, isEditing));
+		printWrapper.println(drawLevel(levelVO, false));
 	}
 
 	/**
@@ -54,7 +44,7 @@ public class LevelPrinter {
 	 * @param isEditing szerkesztés közben van-e
 	 * @return a pályáról készült rajz
 	 */
-	private String drawLevel (LevelVO levelVO, boolean isEditing) {
+	public String drawLevel (LevelVO levelVO, boolean isEditing) {
 		var drawing = new StringBuilder();
 		var size = levelVO.getSize();
 		var staticEntities = levelVO.getStaticEntities();
@@ -120,12 +110,12 @@ public class LevelPrinter {
 		};
 	}
 
-	private String drawHeroBar (Hero hero) {
+	public String drawHeroBar (Hero hero) {
 		var barText = String.format(
-				"Hős: %c | %d %s | %d nyíl",
+				"Hős: %c | %s %d | %d nyíl",
 				hero.getDisplaySymbol(),
-				hero.getPosition().y,
 				(char) (hero.getPosition().x + 64),
+				hero.getPosition().y,
 				hero.getAmmoAmount());
 		if (!hero.getInventory().isEmpty()) {
 			var invText = hero.getInventory().toString();
