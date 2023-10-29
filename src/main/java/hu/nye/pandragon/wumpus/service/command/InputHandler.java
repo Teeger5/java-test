@@ -1,6 +1,7 @@
 package hu.nye.pandragon.wumpus.service.command;
 
 import hu.nye.pandragon.wumpus.service.command.impl.DefaultCommand;
+import hu.nye.pandragon.wumpus.ui.PrintWrapper;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class InputHandler {
      * A bemenetet a metódus kisbetűssé alakítja, erre külön nincs szükség
      * @param input bemenet a felhasználótól.
      */
-    public void handleInput(String input) {
+    public void handleInput(String input, PrintWrapper printWrapper) {
         input = input.trim().toLowerCase();
         for (Command command : commandList) {
             var result = command.match(input);
@@ -37,12 +38,12 @@ public class InputHandler {
                     command.process(input);
                 }
                 else {
-                    System.out.println(message);
+                    printWrapper.println(message);
                 }
                 return;
             }
         }
         new DefaultCommand().process(input);
-    }
 
+    }
 }

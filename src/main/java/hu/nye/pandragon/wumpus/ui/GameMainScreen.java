@@ -1,11 +1,9 @@
 package hu.nye.pandragon.wumpus.ui;
 
-import hu.nye.pandragon.wumpus.Utils;
+import hu.nye.pandragon.wumpus.ConsoleInputWrapper;
 import hu.nye.pandragon.wumpus.model.LevelVO;
 import hu.nye.pandragon.wumpus.model.PlayernameVO;
 import hu.nye.pandragon.wumpus.model.Screens;
-
-import static hu.nye.pandragon.wumpus.Utils.readFromConsole;
 
 /**
  * Ez az osztály felel a játék irányításáért. Először a főmenü elemeinek kezelését kell megoldani
@@ -13,24 +11,28 @@ import static hu.nye.pandragon.wumpus.Utils.readFromConsole;
 public class GameMainScreen {
 	private PlayernameVO playerName;
 	private LevelVO levelVO;
+	private PrintWrapper printWrapper;
+	private ConsoleInputWrapper consoleInputWrapper;
 
-	public GameMainScreen() {
+	public GameMainScreen(PrintWrapper printWrapper, ConsoleInputWrapper consoleInputWrapper) {
+		this.printWrapper = printWrapper;
+		this.consoleInputWrapper = consoleInputWrapper;
 		onStart();
 		enterMenu();
 	}
 
 	private void onStart () {
-		System.out.println("Üdvözöllek Wumpus világában");
+		printWrapper.println("Üdvözöllek Wumpus világában");
 		requestPlayerName();
-		System.out.printf("Köszöntelek, %s! Kezdjünk hozzű!\n", playerName);
+		printWrapper.printf("Köszöntelek, %s! Kezdjünk hozzű!\n", playerName);
 	}
 
 	/**
 	 * A játékos nevének bekérése és tárolása
 	 */
 	private void requestPlayerName () {
-		System.out.print("Add meg a játékosneved: ");
-		var input = readFromConsole();
+		printWrapper.print("Add meg a játékosneved: ");
+		var input = consoleInputWrapper.readFromConsole();
 		playerName = new PlayernameVO(input);
 	}
 
@@ -45,15 +47,15 @@ public class GameMainScreen {
 	public void enterMenu () {
 		showMenuOptions();
 		while (true) {
-			System.out.print("> ");
-			var command = Utils.readFromConsole();
+			printWrapper.print("> ");
+			var command = consoleInputWrapper.readFromConsole();
 			var screen = Screens.parseID(command.trim());
 			switch (screen) {
 				case LevelEditor -> enterEditor();
-				case LoadFromDB -> System.out.println("Még nem elérhető");
+				case LoadFromDB -> printWrapper.println("Még nem elérhető");
 				case Gameplay -> enterGame();
 				case Exit -> exit();
-				case Unknown -> System.out.println("Ismeretlen parancs: " + command.trim());
+				case Unknown -> printWrapper.println("Ismeretlen parancs: " + command.trim());
 			}
 			if (screen != Screens.Unknown) {
 				showMenuOptions();
@@ -69,7 +71,7 @@ public class GameMainScreen {
 				exit();
 			}
 			else {
-				System.out.println("Ismeretlen opció: " + command);
+				printWrapper.println("Ismeretlen opció: " + command);
 			}*/
 		}
 	}
@@ -83,7 +85,7 @@ public class GameMainScreen {
 	 * Ez a metódus visszaad egy szöveges listát a főmenüben elérhető menüpontokkal
 	 */
 	private void showMenuOptions () {
-		System.out.println(Screens.getMenuText());
+		printWrapper.println(Screens.getMenuText());
 	}
 
 	/**
@@ -104,7 +106,7 @@ public class GameMainScreen {
 			game.start();
 		}
 		else {
-			System.out.println("Nincs pálya. Először használd a pályaszerkesztőt, hogy készíts egyet.");
+			printWrapper.println("Nincs pálya. Először használd a pályaszerkesztőt, hogy készíts egyet.");
 		}
 
 	}
@@ -113,7 +115,7 @@ public class GameMainScreen {
 	 * Kilépés a programból
 	 */
 	public void exit () {
-		System.out.printf("Viszontlátásra, %s!\n", playerName);
+		printWrapper.printf("Viszontlátásra, %s!\n", playerName);
 		System.exit(0);
 	}
 

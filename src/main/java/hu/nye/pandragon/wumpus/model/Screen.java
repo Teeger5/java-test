@@ -1,5 +1,6 @@
 package hu.nye.pandragon.wumpus.model;
 
+import hu.nye.pandragon.wumpus.ConsoleInputWrapper;
 import hu.nye.pandragon.wumpus.ui.LevelPrinter;
 import hu.nye.pandragon.wumpus.ui.PrintWrapper;
 
@@ -12,13 +13,15 @@ public abstract class Screen {
 	 */
 	protected boolean shouldExit;
 	protected PrintWrapper printWrapper;
+	protected ConsoleInputWrapper consoleInputWrapper;
 
 	protected LevelPrinter levelPrinter;
 
 	public Screen () {
 		shouldExit = false;
 		printWrapper = new PrintWrapper();
-		levelPrinter = new LevelPrinter();
+		levelPrinter = new LevelPrinter(printWrapper);
+		consoleInputWrapper = new ConsoleInputWrapper();
 	}
 
 	public void setShouldExit(boolean shouldExit) {
@@ -31,6 +34,10 @@ public abstract class Screen {
 
 	public void setLevelPrinter(LevelPrinter levelPrinter) {
 		this.levelPrinter = levelPrinter;
+	}
+
+	public void setConsoleInputWrapper(ConsoleInputWrapper consoleInputWrapper) {
+		this.consoleInputWrapper = consoleInputWrapper;
 	}
 
 	public abstract void start ();

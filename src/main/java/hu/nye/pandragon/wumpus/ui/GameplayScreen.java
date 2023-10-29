@@ -1,6 +1,5 @@
 package hu.nye.pandragon.wumpus.ui;
 
-import hu.nye.pandragon.wumpus.Utils;
 import hu.nye.pandragon.wumpus.model.*;
 import hu.nye.pandragon.wumpus.model.entities.Hero;
 import hu.nye.pandragon.wumpus.service.command.InputHandler;
@@ -80,7 +79,7 @@ public class GameplayScreen extends Screen {
 			if (!hero.isAlive()) {
 				printWrapper.printf("Sajnos meghalt a karaktered.\n%d lépést tettél meg.\n", numberOfMoves);
 				printWrapper.println("Nyomj meg egy billentyűt a folytatáshoz...");
-				Utils.readFromConsole();
+				consoleInputWrapper.readFromConsole();
 				break;
 			}
 			if (hero.getPosition().equals(level.getStartPoint()) && hero.hasItem(Items.Gold)) {
@@ -99,9 +98,9 @@ public class GameplayScreen extends Screen {
 			}
 			levelPrinter.printHeroBar(hero);
 			printWrapper.print("> ");
-			var command = Utils.readFromConsole().trim().toLowerCase();
+			var command = consoleInputWrapper.readFromConsole().trim().toLowerCase();
 			try {
-				inputHandler.handleInput(command);
+				inputHandler.handleInput(command, printWrapper);
 				messageFromCommandProcessing = null;
 			}
 			catch (RuntimeException e) {

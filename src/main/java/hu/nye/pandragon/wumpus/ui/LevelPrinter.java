@@ -10,14 +10,20 @@ import java.awt.*;
 
 public class LevelPrinter {
 
+	private PrintWrapper printWrapper;
+
+	public LevelPrinter(PrintWrapper printWrapper) {
+		this.printWrapper = printWrapper;
+	}
+
 	public void printEditorLevel (LevelVO levelVO) {
-		System.out.println(drawLevel(levelVO, true));
+		printWrapper.println(drawLevel(levelVO, true));
 	}
 
 	private void printGameLevel (LevelVO levelVO, Hero hero) {
 		var drawing = drawLevel(levelVO, false);
 		drawing += drawHeroBar(hero);
-		System.out.println(drawing);
+		printWrapper.println(drawing);
 	}
 
 	/**
@@ -29,7 +35,7 @@ public class LevelPrinter {
 	}
 
 	private void printLevel (LevelVO levelVO, boolean isEditing) {
-		System.out.println(drawLevel(levelVO, isEditing));
+		printWrapper.println(drawLevel(levelVO, isEditing));
 	}
 
 	/**
@@ -39,7 +45,7 @@ public class LevelPrinter {
 	 * @param hero a hős
 	 */
 	public void printHeroBar (Hero hero) {
-		System.out.println(drawHeroBar(hero));
+		printWrapper.println(drawHeroBar(hero));
 	}
 
 	/**

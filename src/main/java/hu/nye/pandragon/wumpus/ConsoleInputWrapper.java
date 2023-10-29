@@ -2,13 +2,13 @@ package hu.nye.pandragon.wumpus;
 
 import java.util.Scanner;
 
-public class Utils {
+public class ConsoleInputWrapper {
 
 	/**
 	 * Bemenet olvasása a felhasználótól
 	 * @return a beírt szöveg
 	 */
-	public static String readFromConsole () {
+	public String readFromConsole () {
 		var scanner = new Scanner(System.in);
 		var line = scanner.nextLine();
 		return line;
@@ -19,7 +19,7 @@ public class Utils {
 	 * Kiír a sor elejére egy > jelet is
 	 * @return a beolvasott szöveg
 	 */
-	public static String requestUserInput () {
+	public String requestUserInput () {
 		System.out.print("> ");
 		return readFromConsole().trim();
 	}

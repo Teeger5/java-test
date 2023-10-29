@@ -1,6 +1,5 @@
 package hu.nye.pandragon.wumpus.ui;
 
-import hu.nye.pandragon.wumpus.Utils;
 import hu.nye.pandragon.wumpus.model.Entities;
 import hu.nye.pandragon.wumpus.model.LevelEditorCommands;
 import hu.nye.pandragon.wumpus.model.LevelVO;
@@ -54,7 +53,7 @@ public class LevelEditorScreen extends Screen {
 	private int requestMapSize () {
 		while (true) {
 			printWrapper.print("Add meg a pálya oldalhosszát (-1 = kilépés a pályaszerkesztőből): ");
-			var value = Utils.readFromConsole();
+			var value = consoleInputWrapper.readFromConsole();
 			try {
 				var i = Integer.parseInt(value);
 				if ((i < 6 || i > 20) && i != -1) {
@@ -96,9 +95,9 @@ public class LevelEditorScreen extends Screen {
 				printWrapper.println(messageFromProcessing);
 			}
 			printWrapper.print("> ");
-			var command = Utils.readFromConsole();
+			var command = consoleInputWrapper.readFromConsole();
 			try {
-				inputHandler.handleInput(command);
+				inputHandler.handleInput(command, printWrapper);
 				messageFromProcessing = null;
 			}
 			catch (RuntimeException e) {
