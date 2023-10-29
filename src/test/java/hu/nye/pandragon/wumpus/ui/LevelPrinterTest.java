@@ -1,5 +1,6 @@
 package hu.nye.pandragon.wumpus.ui;
 
+import hu.nye.pandragon.wumpus.model.Directions;
 import hu.nye.pandragon.wumpus.model.entities.Hero;
 import hu.nye.pandragon.wumpus.service.game.Level;
 import org.junit.jupiter.api.Assertions;
@@ -49,6 +50,33 @@ class LevelPrinterTest {
 		var expected = "Hős: ▲ | D 3 | 0 nyíl";
 
 		hero.setPosition(4, 3);
+		var levelPrinter = new LevelPrinter(new PrintWrapper());
+		var drawing = levelPrinter.drawHeroBar(hero);
+
+		Assertions.assertEquals(drawing, expected);
+	}
+
+	@Test
+	public void shouldPrintHeroBarCorrectly3Arrows () {
+		var hero = new Hero();
+		var expected = "Hős: ▲ | D 3 | 3 nyíl";
+
+		hero.setPosition(4, 3);
+		hero.setAmmoAmount(3);
+		var levelPrinter = new LevelPrinter(new PrintWrapper());
+		var drawing = levelPrinter.drawHeroBar(hero);
+
+		Assertions.assertEquals(drawing, expected);
+	}
+
+	@Test
+	public void shouldPrintHeroBarCorrectly3ArrowsRightDirection () {
+		var hero = new Hero();
+		var expected = "Hős: ▶ | D 3 | 3 nyíl";
+
+		hero.setPosition(4, 3);
+		hero.setAmmoAmount(3);
+		hero.setDirection(Directions.East);
 		var levelPrinter = new LevelPrinter(new PrintWrapper());
 		var drawing = levelPrinter.drawHeroBar(hero);
 
