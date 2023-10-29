@@ -23,7 +23,7 @@ public class CommandUtils {
 		int x = pointX.toCharArray()[0] - 96;
 		if (x < 1 || x > levelSize) {
 			LOGGER.error("Nincs ilyen azonosítójú osztlop: {} ({})", x, pointX.toUpperCase());
-			throw new RuntimeException("Nincs ilyen azonosítójú oszlop: " + pointX.toUpperCase());
+			throw new RuntimeException("Nincs ilyen azonosítójú tslp: " + pointX.toUpperCase());
 		}
 
 		int y = Integer.parseInt(pointY);
