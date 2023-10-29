@@ -73,6 +73,9 @@ public class Level {
 	}
 
 	private <V extends Entity> Entity removeEntityIfExists (Entity entity, Map<Point, V> map) {
+		if (entity == null) {
+			return null;
+		}
 //		var map = living ? livingEntities : staticEntites;
 		var it = map.values().iterator();
 		while (it.hasNext()) {

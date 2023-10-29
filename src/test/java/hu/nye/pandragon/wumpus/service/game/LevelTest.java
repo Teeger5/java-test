@@ -2,13 +2,13 @@ package hu.nye.pandragon.wumpus.service.game;
 
 import hu.nye.pandragon.wumpus.model.Directions;
 import hu.nye.pandragon.wumpus.model.entities.Hero;
+import hu.nye.pandragon.wumpus.model.entities.Pit;
 import hu.nye.pandragon.wumpus.model.entities.Wall;
 import hu.nye.pandragon.wumpus.model.entities.Wumpus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 
 class LevelTest {
 	Level level;
@@ -59,6 +59,33 @@ class LevelTest {
 	}
 
 	@Test
+	public void shouldRemoveIfExistsHero () {
+		var hero = new Hero();
+		level.placeEntity(2, 2, hero);
+		assertEquals(level.getEntityCount(hero), 1);
+		var result = level.removeEntityIfExists(hero);
+		assertSame(result, hero);
+	}
+
+	@Test
+	public void shouldRemoveIfExistsPit () {
+		var pit = new Pit();
+		level.placeEntity(2, 2, pit);
+		assertEquals(level.getEntityCount(pit), 1);
+		var result = level.removeEntityIfExists(pit);
+		assertSame(result, pit);
+	}
+
+	@Test
+	public void shouldRemoveIfExistsNull () {
+		var pit = new Pit();
+		level.placeEntity(2, 2, pit);
+		assertEquals(level.getEntityCount(pit), 1);
+		var result = level.removeEntityIfExists(null);
+		assertNull(result);
+	}
+
+	@Test
 	public void shouldGetStartPoint () {
 		var hero = new Hero();
 		level.placeEntity(2, 2, hero);
@@ -84,6 +111,32 @@ class LevelTest {
 	@Test
 	public void shouldGetCorrectMaxWumpus () {
 		assertEquals(level.getMaxWumpus(), 2);
+	}
+
+	public int getPossibleMovesCount (int x, int y) {
+		var hero = new Hero();
+		level.placeEntity(x, y, hero);
+		return level.getPossibleMoves(hero.getPosition()).size();
+	}
+
+	@Test
+	public void shouldGetPossibleMoves1 () {
+		assertEquals(getPossibleMovesCount(2, 2), 2);
+	}
+
+	@Test
+	public void shouldGetPossibleMoves2 () {
+		assertEquals(getPossibleMovesCount(8, 2), 2);
+	}
+
+	@Test
+	public void shouldGetPossibleMoves3 () {
+		assertEquals(getPossibleMovesCount(8, 8), 2);
+	}
+
+	@Test
+	public void shouldGetPossibleMoves4 () {
+		assertEquals(getPossibleMovesCount(2, 8), 2);
 	}
 
 	public Class getFirstEntityClassInDirection (Directions direction) {
