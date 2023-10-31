@@ -10,11 +10,21 @@ public abstract class Screen {
 	 * de ha jut eszembe jobb, akkor azt fogom használni
 	 * Amikor ez == true, akkor a readCommands()-ban a ciklus elején ezt olvasva
 	 * meg kell azt szakítani break; használatával
+	 * 2023. 10. 31. Mivel még mindig nem találtam saját, praktikusabb megoldást,
+	 * ez jó lesz a továbbiakban is
 	 */
 	protected boolean shouldExit;
+	/**
+	 * A PrintWrapper felel a kiíratás működtetéséért.
+	 * Alapértelmezett a System.out-os megoldást használja,
+	 * de be lehet állítani mást is
+	 */
 	protected PrintWrapper printWrapper;
 	protected ConsoleInputWrapper consoleInputWrapper;
 
+	/**
+	 * Teszteléskor lehet ennek a hsználatára szükség
+	 */
 	protected LevelPrinter levelPrinter;
 
 	public Screen () {
@@ -40,6 +50,10 @@ public abstract class Screen {
 		this.consoleInputWrapper = consoleInputWrapper;
 	}
 
+	/**
+	 * Ennek a meghívásakor kell átkerülnie a vezérlésnek erre a képernyőre
+	 * Azaz meg meg kell benne hívni a readCommands() metódust
+	 */
 	public abstract void start ();
 
 	/**

@@ -1,7 +1,7 @@
 package hu.nye.pandragon.wumpus.model;
 
 /**
- * Ez az osztály hogy tárolja a játékos nevét.
+ * Ez az osztály tárolja a játékos nevét.
  * Komolyan
  * Olyan szempontból jó ötlet, hogy nem lehet összekeverni más adattal,
  * ha valahol a játékos nevére van szükség, akkor ez biztosan azt fogja tartalmazni

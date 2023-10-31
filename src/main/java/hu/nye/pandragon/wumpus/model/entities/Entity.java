@@ -24,7 +24,7 @@ public abstract class Entity {
 	protected final boolean unique;
 	/**
 	 * Kirajzoláskor az egész cellát ki kell-e törltenie,
-	 * vagy egyszer jelenjen meg középen a szimbóluma?legy
+	 * vagy egyszer jelenjen meg középen a szimbóluma?
 	 */
 	protected final boolean extendsInCell;
 
@@ -57,5 +57,10 @@ public abstract class Entity {
 		return unique;
 	}
 
+	/**
+	 * Létrehoz egy új objektumot ebből a pályaelemből,
+	 * és beállítja neki a jelenlegi példány tulajdonságait, hogy ugyanolyan legyen
+	 * @return az új példány, ami a jelenlegi hasonmása
+	 */
 	public abstract Entity clone ();
 }
