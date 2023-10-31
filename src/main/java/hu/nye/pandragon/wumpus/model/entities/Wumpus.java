@@ -1,17 +1,19 @@
 package hu.nye.pandragon.wumpus.model.entities;
 
 import hu.nye.pandragon.wumpus.service.game.Level;
-import hu.nye.pandragon.wumpus.service.traits.ActionOnHeroEnters;
+import hu.nye.pandragon.wumpus.service.traits.ActionOnLivingEntityEnters;
 
-public class Wumpus extends LivingEntity implements ActionOnHeroEnters {
+public class Wumpus extends LivingEntity implements ActionOnLivingEntityEnters {
 
 	public Wumpus() {
 		super("Wumpus", 'U', false);
 	}
 
 	@Override
-	public void onHeroEnters(Hero hero) {
-		hero.kill(null);
+	public void onLivingEntityEnters(LivingEntity livingEntity) {
+		if (livingEntity instanceof Hero hero) {
+			hero.kill(null);
+		}
 	}
 
 	@Override

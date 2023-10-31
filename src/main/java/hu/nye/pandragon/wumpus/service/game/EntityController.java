@@ -1,12 +1,12 @@
 package hu.nye.pandragon.wumpus.service.game;
 
+import hu.nye.pandragon.wumpus.model.Directions;
+import hu.nye.pandragon.wumpus.model.TurnDirections;
 import hu.nye.pandragon.wumpus.model.entities.Entity;
 import hu.nye.pandragon.wumpus.model.entities.Hero;
 import hu.nye.pandragon.wumpus.model.entities.LivingEntity;
-import hu.nye.pandragon.wumpus.service.traits.ActionOnHeroEnters;
+import hu.nye.pandragon.wumpus.service.traits.ActionOnLivingEntityEnters;
 import hu.nye.pandragon.wumpus.service.traits.CanShoot;
-import hu.nye.pandragon.wumpus.model.Directions;
-import hu.nye.pandragon.wumpus.model.TurnDirections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,8 +57,8 @@ public class EntityController {
 				nextEntity = levelVO.getStaticEntities().get(point);
 			}
 			LOGGER.debug("hero move next entity: " + nextEntity);
-			if (nextEntity instanceof ActionOnHeroEnters actionOnHeroEnters) {
-				actionOnHeroEnters.onHeroEnters(hero);
+			if (nextEntity instanceof ActionOnLivingEntityEnters location) {
+				location.onLivingEntityEnters(hero);
 			}
 		}
 		level.placeEntity(x, y, entity);
@@ -84,7 +84,7 @@ public class EntityController {
 
 	public void shoot () {
 		if (entity instanceof CanShoot shooter) {
-			var target = level.getFirstEntityInDirection(entityPosition, entity.getDirection());
+			var target = level.getFirstEntityInDirection(entityPosition, entity.getDirection(), true);
 			System.out.println("target: " + target.getClass());
 			if (target instanceof LivingEntity livingEntity) {
 				livingEntity.kill(level);

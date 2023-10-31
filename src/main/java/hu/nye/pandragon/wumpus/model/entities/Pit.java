@@ -1,12 +1,12 @@
 package hu.nye.pandragon.wumpus.model.entities;
 
-import hu.nye.pandragon.wumpus.service.traits.ActionOnHeroEnters;
+import hu.nye.pandragon.wumpus.service.traits.ActionOnLivingEntityEnters;
 import hu.nye.pandragon.wumpus.service.traits.StaticEntity;
 
 /**
  * Ez az osztály a vermet, mint pályaelemet írja le
  */
-public class Pit extends Entity implements ActionOnHeroEnters, StaticEntity {
+public class Pit extends Entity implements StaticEntity, ActionOnLivingEntityEnters {
 
 	public Pit() {
 		super(false, "Verem", 'P', false, true);
@@ -14,8 +14,10 @@ public class Pit extends Entity implements ActionOnHeroEnters, StaticEntity {
 	}
 
 	@Override
-	public void onHeroEnters(Hero hero) {
-		hero.decreaseArrows();
+	public void onLivingEntityEnters(LivingEntity livingEntity) {
+		if (livingEntity instanceof Hero hero) {
+			hero.decreaseArrows();
+		}
 	}
 
 	@Override

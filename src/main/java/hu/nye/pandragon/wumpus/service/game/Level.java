@@ -6,6 +6,7 @@ import hu.nye.pandragon.wumpus.model.entities.Entity;
 import hu.nye.pandragon.wumpus.model.entities.Hero;
 import hu.nye.pandragon.wumpus.model.entities.LivingEntity;
 import hu.nye.pandragon.wumpus.model.entities.Wall;
+import hu.nye.pandragon.wumpus.service.traits.StaticEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -262,6 +263,17 @@ public class Level {
 	}
 
 	public Entity getFirstEntityInDirection (Point from, Directions direction) {
+		return getFirstEntityInDirection(from, direction, false);
+	}
+
+	/**
+	 * Megkeresi az első pályaelemet az adott pontból kiindulva az adott irányban haladva
+	 * @param from a kiindulási pont
+	 * @param direction az irány
+	 * @param goesThroughNonBlocking ha true, akkor az első blokkoló pályaelemig megy, pl. egy falig
+	 * @return az első pályaelem a fenti paraméterek alapján
+	 */
+	public Entity getFirstEntityInDirection (Point from, Directions direction, boolean goesThroughNonBlocking) {
 		Entity entity = null;
 		var point = new Point(from.x, from.y);
 		int dx = 0, dy = 0;
@@ -273,9 +285,9 @@ public class Level {
 		}
 		point.x += dx;
 		point.y += dy;
-		while (entity == null) {
+		while (entity == null || entity instanceof StaticEntity && goesThroughNonBlocking&&!entity.isBlocking()) {
 			entity = livingEntities.get(point);
-			if (entity == null) {
+			if (entity == null || entity instanceof StaticEntity && goesThroughNonBlocking && !entity.isBlocking()) {
 				entity = staticEntites.get(point);
 			}
 			point.x += dx;

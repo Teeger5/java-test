@@ -1,14 +1,15 @@
 package hu.nye.pandragon.wumpus.model.entities;
 
 import hu.nye.pandragon.wumpus.model.Items;
+import hu.nye.pandragon.wumpus.service.game.Level;
 import hu.nye.pandragon.wumpus.service.traits.CanBePIckedUp;
 import hu.nye.pandragon.wumpus.service.traits.HasInventory;
-import hu.nye.pandragon.wumpus.service.game.Level;
+import hu.nye.pandragon.wumpus.service.traits.StaticEntity;
 
 /**
  * Ez az osztály az aranyat, mint pályaelemet írja le
  */
-public class Gold extends Entity implements CanBePIckedUp {
+public class Gold extends Entity implements StaticEntity, CanBePIckedUp {
 
 	public Gold() {
 		super(false, "Arany", 'G', true, false);
