@@ -13,6 +13,7 @@ public class CommandMatcherResult {
 	 * A hibaüzenet, ha hiba történt
 	 */
 	private final String message;
+
 	private final boolean commandMatches;
 
 	/**

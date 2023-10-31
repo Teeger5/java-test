@@ -1,7 +1,6 @@
 package hu.nye.pandragon.wumpus.model;
 
 import hu.nye.pandragon.wumpus.model.entities.*;
-import hu.nye.pandragon.wumpus.model.entities.*;
 
 public enum Entities {
 	Wall(new Wall()),
@@ -48,6 +47,7 @@ public enum Entities {
 	/**
 	 * Visszaadja az elérhető pályaelemek listáját a következő formában:
 	 * A|B|C|...
+	 * Ez egy regex esetén hasznos lehet
 	 * @return az elérhető pályaelemek nevei | jelekkel elválasztva
 	 */
 	public static String getAsString () {
@@ -59,6 +59,12 @@ public enum Entities {
 		return b.toString().toLowerCase();
 	}
 
+	/**
+	 * Pályaelem megtalálása a neve alapján
+	 * Nem az enum érték neve, hanem a 'name' mezőjének értéke
+	 * @param name a pályaelem neve
+	 * @return a pályaelem enum értéke, vagy null, ha nem található
+	 */
 	public static Entities parse (String name) {
 		for (Entities e : Entities.values()) {
 			if (name.toLowerCase().equals(e.getEntity().getName().toLowerCase())) {
