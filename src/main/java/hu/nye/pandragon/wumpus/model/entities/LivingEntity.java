@@ -1,7 +1,7 @@
 package hu.nye.pandragon.wumpus.model.entities;
 
-import hu.nye.pandragon.wumpus.service.game.Level;
 import hu.nye.pandragon.wumpus.model.Directions;
+import hu.nye.pandragon.wumpus.service.game.Level;
 
 import java.awt.*;
 
@@ -10,7 +10,13 @@ import java.awt.*;
  * Ezekről tudni lehet, hogy élnek-e
  */
 public abstract class LivingEntity extends Entity {
+	/**
+	 * Él-e a lénynek ez a példánya
+	 */
 	protected boolean alive;
+	/**
+	 * A lény pozíciója a pályán
+	 */
 	protected final Point position;
 	/**
 	 * Merre néz a hős?

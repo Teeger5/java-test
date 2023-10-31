@@ -106,6 +106,7 @@ public class GameplayScreen extends Screen {
 			catch (RuntimeException e) {
 				messageFromCommandProcessing = e.getMessage();
 			}
+			EntityController.moveEntitesInRandomDirections(entityControllers);
 		}
 	}
 }

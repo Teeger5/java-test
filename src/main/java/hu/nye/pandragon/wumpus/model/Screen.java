@@ -4,6 +4,14 @@ import hu.nye.pandragon.wumpus.ConsoleInputWrapper;
 import hu.nye.pandragon.wumpus.ui.LevelPrinter;
 import hu.nye.pandragon.wumpus.ui.PrintWrapper;
 
+/**
+ * Ez az osztály egy képernyőt ír le
+ * Egy képernyő egy adott vezérlési egység, azaz egy olyan rész, ahová átkerülhet az irányítás
+ * Képernyő például egy menü, a játék, vagy a pályaszerkesztő, mert ezek mind a saját egyedi céljaikhoz
+ * várnak bemenetet a felhasználótól, egymással nem versengve / párhuzamosan.
+ * Ez a megoldás azért lehet hasznos, mert (eddig) könnyen kezelhető és átlátható
+ * ezzel a program futásának menete, melyik képernyőről melyikre lehet eljutni
+ */
 public abstract class Screen {
 	/**
 	 * Nem a legszebb megoldás,

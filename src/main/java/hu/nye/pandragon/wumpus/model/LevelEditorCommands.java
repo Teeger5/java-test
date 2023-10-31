@@ -22,6 +22,18 @@ public enum LevelEditorCommands {
 		return Pattern.matches(regex, s);
 	}
 
+	/**
+	 * Ellenőrzi, hogy a megadott bemenet erre a parancsra vonatkozik-e
+	 * először megnézni, hogy az első szó egyezik-e
+	 * Ha igen, akkor a parancs egész regex-ével ellenőrzi
+	 * Ha annak is megfelel, akkor ez az a parancs
+	 * Az eredményt egy CommandMatcherResult nevű objektumban adja vissza, amiben 3 fajta eredmény lehet:
+	 * - ez nem az a parancs
+	 * - ez az a parancs, de szintaktikai probléma van (ekkor benne van a parancs használati leírása)
+	 * - ez az a parancs, és helyesen van megadva
+	 * @param input a bemenet az ellenrzéshez
+	 * @return az eredmény egy CommandMatcherResult objektumban
+	 */
 	public CommandMatcherResult matches (String input) {
 		if (!input.startsWith(base)) {
 			return CommandMatcherResult.ofNotMatchingCommand();

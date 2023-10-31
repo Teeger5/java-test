@@ -49,6 +49,11 @@ public enum GameplayCommands {
 		}
 	}
 
+	/**
+	 * Ez a mtódus az elérhető parancsok alapján létrehozza
+	 * az elérhető parancsok listájának szövegét
+	 * @return a parancslista szövege
+	 */
 	public static String getMenuText () {
 		var stringBuilder = new StringBuilder("Elérhető parancsok\n");
 		for (GameplayCommands command : values()) {
