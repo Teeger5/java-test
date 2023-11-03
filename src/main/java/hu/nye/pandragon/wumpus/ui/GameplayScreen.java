@@ -49,6 +49,7 @@ public class GameplayScreen extends Screen {
 		numberOfMoves = 0;
 		this.hero = level.getHero();
 		LOGGER.debug("Hős: " + hero);
+
 		this.entityControllers = level.getEntityControllers();
 		inputHandler = new InputHandler(Arrays.asList(
 				new HeroMoveCommand(level),
@@ -64,19 +65,15 @@ public class GameplayScreen extends Screen {
 	}
 
 	protected void readCommands () {
+		LOGGER.info("Játék parancsok olvasásának kezdése");
+		LOGGER.debug("Pálya start hely: " + level.getStartPoint());
 		printWrapper.println("A játék elkezdődött\nJátékos: " + playerName);
-/*		printWrapper.println("""
-  Elérhető parancsok:
-    lép: a hős előre lép egyet
-    fordul balra | jobbra: a hős elfordul balra vagy jobbra
-    lő: a hős nyilat lő egyenesen, a nézési irányában
-    aranyat felszed: a hős felveszi az aranyat, ha egy pozíción áll vele
-    felad: kilépés ebből a játékból""");*/
 		printWrapper.println(GameplayCommands.getMenuText());
 		numberOfMoves = 0;
 		var messageFromCommandProcessing = "A cél eljutni az aranyhoz, felvenni, és visszahozni ugyanide";
 		while (true) {
 			if (!hero.isAlive()) {
+				LOGGER.debug("A hős meghalt, megtett lépések száma: " + numberOfMoves);
 				printWrapper.printf("Sajnos meghalt a karaktered.\n%d lépést tettél meg.\n", numberOfMoves);
 				printWrapper.println("Nyomj meg egy billentyűt a folytatáshoz...");
 				consoleInputWrapper.readFromConsole();

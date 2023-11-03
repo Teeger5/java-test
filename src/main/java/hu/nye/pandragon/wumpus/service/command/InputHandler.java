@@ -14,9 +14,9 @@ public class InputHandler {
     private final List<Command> commandList;
 
     /**
-     * Itt a parancsokat előre listába kell szedni egyolyan helyen, ahol elérhető a Level objektum,
+     * Itt a parancsokat előre listába kell szedni egy olyan helyen, ahol elérhető a Level objektum,
      * mivel az kell hozzájuk, és itt nem lesz elérhető
-     * @param commandList
+     * @param commandList a parancsok listája, amit ez az InputHandler kezel
      */
     public InputHandler(List<Command> commandList) {
         this.commandList = commandList;
@@ -27,6 +27,7 @@ public class InputHandler {
      * a bemenetre alkalmazható parancs lesz végrehajtva.
      * A bemenetet a metódus kisbetűssé alakítja, erre külön nincs szükség
      * @param input bemenet a felhasználótól.
+     * @param printWrapper kiíratáshoz használt PrintWrapper
      */
     public void handleInput(String input, PrintWrapper printWrapper) {
         input = input.trim().toLowerCase();
@@ -44,6 +45,5 @@ public class InputHandler {
             }
         }
         new DefaultCommand().process(input);
-
     }
 }

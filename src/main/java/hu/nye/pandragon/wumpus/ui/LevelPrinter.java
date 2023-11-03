@@ -16,6 +16,12 @@ public class LevelPrinter {
 		this.printWrapper = printWrapper;
 	}
 
+	/**
+	 * Pálya kirajzolása és kiírása szerkesztést segítő módon,
+	 * azaz az üres helyeken egy pont lesz,
+	 * hogy könnyebben azonosítható legyen egy pont a pályán
+	 * @param levelVO a pálya
+	 */
 	public void printEditorLevel (LevelVO levelVO) {
 		printWrapper.println(drawLevel(levelVO, true));
 	}

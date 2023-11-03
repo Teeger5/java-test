@@ -67,5 +67,15 @@ public abstract class LivingEntity extends Entity {
 		this.alive = alive;
 	}
 
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder("LivingEntity {\n");
+		sb.append("\talive = ").append(alive + ",\n");
+		sb.append("\tposition = ").append(position + ",\n");
+		sb.append("\tdirection = ").append(direction + ",\n");
+		sb.append("}");
+		return sb.toString();
+	}
+
 	public abstract Entity clone();
 }

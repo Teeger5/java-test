@@ -64,8 +64,11 @@ public class EntityController {
 				location.onLivingEntityEnters(hero);
 			}
 		}
+		LOGGER.debug("moveForward: ", entity);
 		level.removeEntityIfExists(entity);
-		level.placeEntity(x, y, entity);
+		if (entity.isAlive()) {
+			level.placeEntity(x, y, entity);
+		}
 		return true;
 	}
 

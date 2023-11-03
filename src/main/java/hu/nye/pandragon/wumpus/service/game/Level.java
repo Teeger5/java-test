@@ -52,7 +52,6 @@ public class Level {
 			placeEntity(i, size, new Wall());
 		}
 		startpoint = new Point(1, 1);
-		determineStartPoint();
 		determineMaxWumpus();
 	}
 
@@ -237,7 +236,7 @@ public class Level {
 			e.setPosition(x, y);
 			livingEntities.put(e.getPosition(), e);
 			if (entity instanceof Hero) {
-				determineStartPoint();
+//				determineStartPoint();
 			}
 		}
 		else {

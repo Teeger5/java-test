@@ -1,5 +1,6 @@
 package hu.nye.pandragon.wumpus;
 
+import hu.nye.pandragon.wumpus.service.util.ConsoleInputWrapper;
 import hu.nye.pandragon.wumpus.ui.GameMainScreen;
 import hu.nye.pandragon.wumpus.ui.PrintWrapper;
 

@@ -1,4 +1,4 @@
-package hu.nye.pandragon.wumpus;
+package hu.nye.pandragon.wumpus.service.util;
 
 import java.util.Scanner;
 

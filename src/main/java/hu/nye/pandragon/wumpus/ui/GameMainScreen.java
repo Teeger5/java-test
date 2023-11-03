@@ -1,9 +1,9 @@
 package hu.nye.pandragon.wumpus.ui;
 
-import hu.nye.pandragon.wumpus.ConsoleInputWrapper;
 import hu.nye.pandragon.wumpus.model.LevelVO;
 import hu.nye.pandragon.wumpus.model.PlayernameVO;
 import hu.nye.pandragon.wumpus.model.Screens;
+import hu.nye.pandragon.wumpus.service.util.ConsoleInputWrapper;
 
 /**
  * Ez az osztály felel a játék irányításáért. Először a főmenü elemeinek kezelését kell megoldani

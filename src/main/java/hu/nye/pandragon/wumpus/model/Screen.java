@@ -1,6 +1,6 @@
 package hu.nye.pandragon.wumpus.model;
 
-import hu.nye.pandragon.wumpus.ConsoleInputWrapper;
+import hu.nye.pandragon.wumpus.service.util.ConsoleInputWrapper;
 import hu.nye.pandragon.wumpus.ui.LevelPrinter;
 import hu.nye.pandragon.wumpus.ui.PrintWrapper;
 
@@ -28,6 +28,11 @@ public abstract class Screen {
 	 * de be lehet állítani mást is
 	 */
 	protected PrintWrapper printWrapper;
+	/**
+	 * A felhasználótól érkező bemenetet olvassa
+	 * Alapértelmezetten a System.in-t használja,
+	 * de be lehet állítani mást is
+	 */
 	protected ConsoleInputWrapper consoleInputWrapper;
 
 	/**
@@ -48,6 +53,7 @@ public abstract class Screen {
 
 	public void setPrintWrapper(PrintWrapper printWrapper) {
 		this.printWrapper = printWrapper;
+		levelPrinter = new LevelPrinter(printWrapper);
 	}
 
 	public void setLevelPrinter(LevelPrinter levelPrinter) {
