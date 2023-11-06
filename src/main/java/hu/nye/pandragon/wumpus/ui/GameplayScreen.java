@@ -58,6 +58,7 @@ public class GameplayScreen extends Screen {
 				new GameplayExitCommand(this),
 				new HeroPickUpCommand(level)
 		));
+		inputHandler.setPrintWrapper(printWrapper);
 	}
 
 	public void start () {
@@ -79,12 +80,13 @@ public class GameplayScreen extends Screen {
 				consoleInputWrapper.readFromConsole();
 				break;
 			}
-			if (hero.getPosition().equals(level.getStartPoint()) && hero.hasItem(Items.Gold)) {
+			if (hero.hasItem(Items.Gold) && hero.getPosition().x == level.getStartPoint().x) {
 				LOGGER.debug("A hős nyert, pozíciója: {}, pálya start hely pozíciója: {}", hero.getPosition(), level.getStartPoint());
 				printWrapper.printf("Győztél, sikeresen visszahoztad az aranyat a kiindulási helyre\n Megtettél %d lépést.\n", numberOfMoves);
 				break;
 			}
 			if (shouldExit) {
+				LOGGER.debug("shouldExit = " + shouldExit);
 				printWrapper.println("Kilépés a játékból...");
 				break;
 			}
@@ -97,7 +99,7 @@ public class GameplayScreen extends Screen {
 			printWrapper.print("> ");
 			var command = consoleInputWrapper.readFromConsole().trim().toLowerCase();
 			try {
-				inputHandler.handleInput(command, printWrapper);
+				inputHandler.handleInput(command);
 				messageFromCommandProcessing = null;
 			}
 			catch (RuntimeException e) {

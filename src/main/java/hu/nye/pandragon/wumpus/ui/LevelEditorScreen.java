@@ -33,6 +33,7 @@ public class LevelEditorScreen extends Screen {
 				new EditorRemoveEntityCommand(level),
 				new EditorTestCommand(level.toLevelVO())
 		));
+		inputHandler.setPrintWrapper(printWrapper);
 		if (site == -1) {
 			printWrapper.println("Kilépés a pályaszerkesztőből...");
 			shouldExit = true;
@@ -97,7 +98,7 @@ public class LevelEditorScreen extends Screen {
 			printWrapper.print("> ");
 			var command = consoleInputWrapper.readFromConsole();
 			try {
-				inputHandler.handleInput(command, printWrapper);
+				inputHandler.handleInput(command);
 				messageFromProcessing = null;
 			}
 			catch (RuntimeException e) {
