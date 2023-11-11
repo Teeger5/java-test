@@ -63,4 +63,8 @@ public abstract class Entity {
 	 * @return az új példány, ami a jelenlegi hasonmása
 	 */
 	public abstract Entity clone ();
+
+	public String toString () {
+		return name;
+	}
 }

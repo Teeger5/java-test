@@ -1,10 +1,10 @@
 package hu.nye.pandragon.wumpus.service.command.impl.gameplay;
 
+import hu.nye.pandragon.wumpus.model.GameplayCommands;
+import hu.nye.pandragon.wumpus.service.command.Command;
+import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
 import hu.nye.pandragon.wumpus.service.game.Level;
 import hu.nye.pandragon.wumpus.service.traits.CanBePIckedUp;
-import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
-import hu.nye.pandragon.wumpus.service.command.Command;
-import hu.nye.pandragon.wumpus.model.GameplayCommands;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +31,7 @@ public class HeroPickUpCommand implements Command {
 		var hero = level.getHero();
 		if (level.toLevelVO().getStaticEntities().get(hero.getPosition()) instanceof CanBePIckedUp item) {
 			item.onPickup(level, hero);
-			LOGGER.info("A hős felvett egy új tárgyat: {}, a tárgyai mosta: {}", item, hero.getInventory());
+			LOGGER.info("A hős felvett egy új tárgyat: {}, a tárgyai most: {}", item, hero.getInventory());
 		}
 		else {
 			LOGGER.warn("Nincs felvehető tárgy ezen a pozíción: " + hero.getPosition());

@@ -14,12 +14,8 @@ import hu.nye.pandragon.wumpus.ui.PrintWrapper;
  */
 public abstract class Screen {
 	/**
-	 * Nem a legszebb megoldás,
-	 * de ha jut eszembe jobb, akkor azt fogom használni
 	 * Amikor ez == true, akkor a readCommands()-ban a ciklus elején ezt olvasva
 	 * meg kell azt szakítani break; használatával
-	 * 2023. 10. 31. Mivel még mindig nem találtam saját, praktikusabb megoldást,
-	 * ez jó lesz a továbbiakban is
 	 */
 	protected boolean shouldExit;
 	/**

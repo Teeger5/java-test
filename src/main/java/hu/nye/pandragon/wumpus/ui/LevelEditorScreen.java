@@ -1,6 +1,5 @@
 package hu.nye.pandragon.wumpus.ui;
 
-import hu.nye.pandragon.wumpus.model.Entities;
 import hu.nye.pandragon.wumpus.model.LevelEditorCommands;
 import hu.nye.pandragon.wumpus.model.LevelVO;
 import hu.nye.pandragon.wumpus.model.Screen;
@@ -49,7 +48,8 @@ public class LevelEditorScreen extends Screen {
 	/**
 	 * Ez a metódus bekéri a pálya méretét a felhasználótól,
 	 * majd visszaadja egész száámmá alakítva
-	 * @return
+	 * Csak 6 - 20 közötti értéket fogad el
+	 * @return a pálya mérete
 	 */
 	private int requestMapSize () {
 		while (true) {
@@ -75,15 +75,6 @@ public class LevelEditorScreen extends Screen {
 	 * Egy végtelen while ciklus fut benne, amit a kilépés parancsa szakít meg
 	 */
 	protected void readCommands () {
-		String entitiesAvailable = Entities.getAsString();
-/*		printWrapper.printf(
-				"A következő parancsokat tudom végrehajtani:\n" +
-						" - uj pályaelem létrehozása: legyen %s sor_száma oszlop_betűjele\n" +
-						" - több pályaelem létrehozása kát pont között: legyenek %s kezdőpont_sor_száma kezdőpont_oszlop betűjele, végpont_sor_száma végpont_oszlop_betűjele\n" +
-						" - Mentés: mentés\n" +
-						" - Vissza a főmenübe: kész\n",
-				entitiesAvailable, entitiesAvailable
-		);*/
 		printWrapper.println(LevelEditorCommands.getMenuText());
 		var messageFromProcessing = "Próbáld ki az egyik parancsot";
 		while (true) {
@@ -95,8 +86,7 @@ public class LevelEditorScreen extends Screen {
 			if (messageFromProcessing != null) {
 				printWrapper.println(messageFromProcessing);
 			}
-			printWrapper.print("> ");
-			var command = consoleInputWrapper.readFromConsole();
+			var command = consoleInputWrapper.requestUserInput();
 			try {
 				inputHandler.handleInput(command);
 				messageFromProcessing = null;

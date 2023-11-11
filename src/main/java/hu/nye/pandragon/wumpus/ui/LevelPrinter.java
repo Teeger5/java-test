@@ -7,6 +7,7 @@ import hu.nye.pandragon.wumpus.model.entities.Hero;
 import hu.nye.pandragon.wumpus.model.entities.Wall;
 
 import java.awt.*;
+import java.util.stream.Collectors;
 
 public class LevelPrinter {
 
@@ -104,14 +105,16 @@ public class LevelPrinter {
 
 	private char getWallRightExtensionSymbol (Wall wall) {
 		return switch (wall.getShape()) {
-			case Middle, Horizontal, HorizontalBottom, HorizontalTop, BottomLeft, VerticalRight, TopLeft, Single -> WallShape.Horizontal.getSymbol();
+			case Middle, Horizontal, HorizontalBottom, HorizontalTop, BottomLeft,
+					VerticalRight, TopLeft, Single -> WallShape.Horizontal.getSymbol();
 			default -> ' ';
 		};
 	}
 
 	private char getWallLeftExtensionSymbol (Wall wall) {
 		return switch (wall.getShape()) {
-			case Middle, Horizontal, HorizontalBottom, HorizontalTop, BottomRight, VerticalLeft, TopRight, Single -> WallShape.Horizontal.getSymbol();
+			case Middle, Horizontal, HorizontalBottom, HorizontalTop, BottomRight,
+					VerticalLeft, TopRight, Single -> WallShape.Horizontal.getSymbol();
 			default -> ' ';
 		};
 	}
@@ -124,8 +127,10 @@ public class LevelPrinter {
 				hero.getPosition().y,
 				hero.getAmmoAmount());
 		if (!hero.getInventory().isEmpty()) {
-			var invText = hero.getInventory().toString();
-			barText = String.format("%s | Tárgyak: %s", barText, invText.substring(1, barText.length() - 1));
+			barText = String.format("%s | Tárgyak: %s", barText,
+					hero.getInventory().stream()
+							.map(x -> x.toString())
+							.collect(Collectors.joining(", ")));
 		}
 		return barText;
 	}

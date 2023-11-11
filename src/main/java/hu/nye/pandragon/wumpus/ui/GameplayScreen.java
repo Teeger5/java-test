@@ -78,12 +78,12 @@ public class GameplayScreen extends Screen {
 				printWrapper.printf("Sajnos meghalt a karaktered.\n%d lépést tettél meg.\n", numberOfMoves);
 				printWrapper.println("Nyomj meg egy billentyűt a folytatáshoz...");
 				consoleInputWrapper.readFromConsole();
-				break;
+				shouldExit = true;
 			}
-			if (hero.hasItem(Items.Gold) && hero.getPosition().x == level.getStartPoint().x) {
+			if (hero.hasItem(Items.Gold) && hero.getPosition().x == level.getStartPoint().x && hero.getPosition().y == level.getStartPoint().y) {
 				LOGGER.debug("A hős nyert, pozíciója: {}, pálya start hely pozíciója: {}", hero.getPosition(), level.getStartPoint());
 				printWrapper.printf("Győztél, sikeresen visszahoztad az aranyat a kiindulási helyre\n Megtettél %d lépést.\n", numberOfMoves);
-				break;
+				shouldExit = true;
 			}
 			if (shouldExit) {
 				LOGGER.debug("shouldExit = " + shouldExit);
@@ -91,13 +91,15 @@ public class GameplayScreen extends Screen {
 				break;
 			}
 			numberOfMoves++;
+			LOGGER.debug("Pálya kirajzolása");
 			levelPrinter.printLevel(level.toLevelVO());
 			if (messageFromCommandProcessing != null) {
 				printWrapper.println(messageFromCommandProcessing);
 			}
+			LOGGER.debug("HUD kirajzolása");
 			levelPrinter.printHeroBar(hero);
-			printWrapper.print("> ");
-			var command = consoleInputWrapper.readFromConsole().trim().toLowerCase();
+			LOGGER.debug("Parancs kérése");
+			var command = consoleInputWrapper.requestUserInput().toLowerCase();
 			try {
 				inputHandler.handleInput(command);
 				messageFromCommandProcessing = null;

@@ -78,4 +78,10 @@ public abstract class LivingEntity extends Entity {
 	}
 
 	public abstract Entity clone();
+
+/*	public String toString () {
+		return new StringBuilder(name).append(" @ ")
+				.append('[').append(position.x).append(" ; ").append(position.y).append(']')
+				.toString();
+	}*/
 }
