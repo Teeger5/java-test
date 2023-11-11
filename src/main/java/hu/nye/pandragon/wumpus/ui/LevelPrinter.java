@@ -75,19 +75,32 @@ public class LevelPrinter {
 					drawing.append(' ').append(c).append(' ');
 					continue;
 				}
-				if (staticEntity != null && staticEntity.shouldExtendInCell()) {
+				if (staticEntity != null) {
 					if (staticEntity instanceof Wall wall) {
 //						var wallExtensionSymbol = getWallExtensionSymbol(wall);
 						drawing.append(getWallLeftExtensionSymbol(wall))
 								.append(wall.getDisplaySymbol())
-								.append(getWallRightExtensionSymbol(wall));}
-					else {
+								.append(getWallRightExtensionSymbol(wall));
+						continue;
+					}
+					if (staticEntity.shouldExtendInCell()) {
 						char c = staticEntity.getDisplaySymbol();
 						var middle = c;
 						if (livingEntity != null) {
 							middle = livingEntity.getDisplaySymbol();
 						}
 						drawing.append(c).append(middle).append(c);
+					}
+					else if (livingEntity != null) {
+						if (x < size / 2) {
+							drawing.append(' ').append(staticEntity.getDisplaySymbol()).append(livingEntity.getDisplaySymbol());
+						}
+						else {
+							drawing.append(livingEntity.getDisplaySymbol()).append(staticEntity.getDisplaySymbol()).append(' ');
+						}
+					}
+					else {
+						drawing.append(' ').append(staticEntity.getDisplaySymbol()).append(' ');
 					}
 				}
 				else {

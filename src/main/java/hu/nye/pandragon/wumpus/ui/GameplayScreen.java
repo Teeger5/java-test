@@ -80,7 +80,7 @@ public class GameplayScreen extends Screen {
 				consoleInputWrapper.readFromConsole();
 				shouldExit = true;
 			}
-			if (hero.hasItem(Items.Gold) && hero.getPosition().x == level.getStartPoint().x && hero.getPosition().y == level.getStartPoint().y) {
+			if (hero.hasItem(Items.Gold) && hero.getPosition().equals(level.getStartPoint())) {
 				LOGGER.debug("A hős nyert, pozíciója: {}, pálya start hely pozíciója: {}", hero.getPosition(), level.getStartPoint());
 				printWrapper.printf("Győztél, sikeresen visszahoztad az aranyat a kiindulási helyre\n Megtettél %d lépést.\n", numberOfMoves);
 				shouldExit = true;

@@ -245,20 +245,26 @@ public class Level {
 		}
 	}
 
+	public Entity removeLivingEntity (Point position) {
+		return livingEntities.remove(position);
+	}
+
+	public Entity removeStaticEntity (Point position) {
+			return staticEntites.remove(position);
+	}
+
 	/**
-	 * Eltávolít egy pályaelemet a pozíciója alapján
-	 * Először a lényeket nézi, majd ha azt nem talál,
-	 * akkor a statikusakat
+	 * Eltávolít egy lényt a pozíciója alapján
 	 * @param x x koordináta (oszlop)
 	 * @param y y koordináta (sor)
 	 * @return az eltávolított pályaelem, vagy null, ha üres
 	 */
-	public Entity removeEntity (int x, int y) {
-		Entity entity = livingEntities.remove(new Point(x, y));
-		if (entity == null) {
-			entity = staticEntites.remove(new Point(x, y));
-		}
-		return entity;
+	public Entity removeLivingEntity (int x, int y) {
+		return removeLivingEntity(new Point(x, y));
+	}
+
+	public Entity removeStaticEntity (int x, int y) {
+		return removeStaticEntity(new Point(x, y));
 	}
 
 	public Entity getFirstEntityInDirection (Point from, Directions direction) {

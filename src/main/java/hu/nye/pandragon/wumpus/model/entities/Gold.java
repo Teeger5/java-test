@@ -22,6 +22,9 @@ public class Gold extends Entity implements StaticEntity, CanBePIckedUp {
 
 	@Override
 	public void onPickup(Level level, HasInventory entity) {
-		entity.addItem(Items.Gold);
+		if (entity instanceof LivingEntity livingEntity) {
+			entity.addItem(Items.Gold);
+			level.removeStaticEntity(livingEntity.getPosition());
+		}
 	}
 }

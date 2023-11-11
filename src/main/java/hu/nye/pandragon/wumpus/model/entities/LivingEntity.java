@@ -56,7 +56,7 @@ public abstract class LivingEntity extends Entity {
 
 	public void kill (Level level) {
 		alive = false;
-		level.removeEntity(position.x, position.y);
+		level.removeLivingEntity(position);
 	}
 
 	public boolean isAlive() {
