@@ -128,8 +128,8 @@ public class LevelPrinter {
 				hero.getAmmoAmount());
 		if (!hero.getInventory().isEmpty()) {
 			barText = String.format("%s | Tárgyak: %s", barText,
-					hero.getInventory().stream()
-							.map(x -> x.toString())
+					hero.getInventory().entrySet().stream()
+							.map(x -> String.format("%d x %s", x.getValue(), x.getKey().toString()))
 							.collect(Collectors.joining(", ")));
 		}
 		return barText;

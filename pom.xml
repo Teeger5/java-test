@@ -9,9 +9,10 @@
 	<version>1.0-SNAPSHOT</version>
 
 	<properties>
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<exec.mainClass>hu.nye.pandragon.wumpus.Main</exec.mainClass>
 	</properties>
 
 	<dependencies>
@@ -92,8 +93,10 @@
 				<version>0.8.11</version>
 				<configuration>
 					<excludes>
-						<exclude>hu/nye/pandragon/wumpus/model/*</exclude>
+						<exclude>hu/nye/pandragon/wumpus/model/**/*</exclude>
 						<exclude>hu/nye/pandragon/wumpus/Main.*</exclude>
+						<exclude>/hu/nye/pandragon/wumpus/service/traits/*</exclude>
+						<exclude>/hu/nye/pandragon/wumpus/ui/*Wrapper.*</exclude>
 					</excludes>
 				</configuration>
 				<executions>
@@ -130,6 +133,14 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>21</source>
+					<target>21</target>
+				</configuration>
 			</plugin><!--
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

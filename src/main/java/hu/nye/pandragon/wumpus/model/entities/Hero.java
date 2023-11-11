@@ -1,12 +1,12 @@
 package hu.nye.pandragon.wumpus.model.entities;
 
-import hu.nye.pandragon.wumpus.service.traits.HasInventory;
 import hu.nye.pandragon.wumpus.model.Directions;
 import hu.nye.pandragon.wumpus.model.Items;
 import hu.nye.pandragon.wumpus.service.traits.CanShoot;
+import hu.nye.pandragon.wumpus.service.traits.HasInventory;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -18,13 +18,13 @@ public class Hero extends LivingEntity implements CanShoot, HasInventory {
 	 * A játékos nyilainak száma
 	 */
 	private int arrows;
-	private final List<Items> inventory;
+	private final Map<Items, Integer> inventory;
 
 	public Hero() {
 		super("Hős", 'H', true);
 		arrows = 0;
 		direction = Directions.North;
-		inventory = new ArrayList<>();
+		inventory = new HashMap<>();
 	}
 
 	public void decreaseArrows () {
@@ -32,7 +32,7 @@ public class Hero extends LivingEntity implements CanShoot, HasInventory {
 	}
 
 	@Override
-	public List<Items> getInventory() {
+	public Map<Items, Integer> getInventory() {
 		return inventory;
 	}
 
@@ -48,8 +48,8 @@ public class Hero extends LivingEntity implements CanShoot, HasInventory {
 		clone.setPosition(position.x, position.y);
 		clone.setDirection(direction);
 		clone.setAlive(alive);
-		for (Items item : inventory) {
-			clone.addItem(item);
+		for (Map.Entry<Items, Integer> item : inventory.entrySet()) {
+			clone.addItem(item.getKey(), item.getValue());
 		}
 		return clone;
 	}
