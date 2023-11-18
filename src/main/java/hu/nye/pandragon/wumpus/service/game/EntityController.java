@@ -11,9 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.Objects;
 
 /**
  * Ez az osztály egy lény egy pályán való mozgatásáért felel
@@ -100,19 +98,16 @@ public class EntityController {
 		}
 	}
 
-	public void moveInRandomDirection () {
-		var possibleDirections = level.getPossibleMoves(entityPosition);
-		if (!possibleDirections.isEmpty()) {
-			var direction = new ArrayList<>(possibleDirections.keySet()).get(new Random().nextInt(possibleDirections.size()));
-			entity.setDirection(direction);
-			LOGGER.info("Moving {} randomly in {} direction to {} point", entity.getName(), direction, possibleDirections.get(direction));
-			moveForward();
-		}
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		EntityController that = (EntityController) o;
+		return Objects.equals(entity, that.entity) && Objects.equals(level, that.level) && Objects.equals(entityPosition, that.entityPosition);
 	}
 
-	public static void moveEntitesInRandomDirections (List<EntityController> controllerList) {
-		for (EntityController controller : controllerList) {
-			controller.moveInRandomDirection();
-		}
+	@Override
+	public int hashCode() {
+		return Objects.hash(entity, level, entityPosition);
 	}
 }

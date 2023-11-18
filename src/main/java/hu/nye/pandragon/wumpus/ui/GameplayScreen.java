@@ -104,10 +104,13 @@ public class GameplayScreen extends Screen {
 				inputHandler.handleInput(command);
 				messageFromCommandProcessing = null;
 			}
+			catch (NullPointerException e) {
+				e.printStackTrace();
+			}
 			catch (RuntimeException e) {
 				messageFromCommandProcessing = e.getMessage();
 			}
-			EntityController.moveEntitesInRandomDirections(entityControllers);
+//			EntityController.moveEntitesInRandomDirections(entityControllers);
 		}
 	}
 }

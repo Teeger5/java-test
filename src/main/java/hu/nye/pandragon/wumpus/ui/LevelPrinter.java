@@ -2,14 +2,17 @@ package hu.nye.pandragon.wumpus.ui;
 
 import hu.nye.pandragon.wumpus.model.LevelVO;
 import hu.nye.pandragon.wumpus.model.WallShape;
-import hu.nye.pandragon.wumpus.model.entities.Entity;
 import hu.nye.pandragon.wumpus.model.entities.Hero;
 import hu.nye.pandragon.wumpus.model.entities.Wall;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.awt.*;
 import java.util.stream.Collectors;
 
 public class LevelPrinter {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(LevelPrinter.class);
 
 	private PrintWrapper printWrapper;
 
@@ -92,23 +95,21 @@ public class LevelPrinter {
 						drawing.append(c).append(middle).append(c);
 					}
 					else if (livingEntity != null) {
-						if (x < size / 2) {
-							drawing.append(' ').append(staticEntity.getDisplaySymbol()).append(livingEntity.getDisplaySymbol());
-						}
-						else {
-							drawing.append(livingEntity.getDisplaySymbol()).append(staticEntity.getDisplaySymbol()).append(' ');
-						}
+						drawing.append(livingEntity.getDisplaySymbol()).append(staticEntity.getDisplaySymbol()).append(' ');
 					}
 					else {
 						drawing.append(' ').append(staticEntity.getDisplaySymbol()).append(' ');
 					}
 				}
-				else {
-					Entity entity = livingEntity;
+				else if (livingEntity != null) {
+/*					Entity entity = livingEntity;
 					if (entity == null) {
 						entity = staticEntity;
-					}
-					drawing.append(' ').append(entity.getDisplaySymbol()).append(' ');
+					}*/
+					drawing.append(' ').append(livingEntity.getDisplaySymbol()).append(' ');
+				}
+				else {
+					LOGGER.debug("else: point: {}, livingEntity: {}, staticEntity: {}", gettingpoint, livingEntity, staticEntity);
 				}
 			}
 			drawing.append('\n');

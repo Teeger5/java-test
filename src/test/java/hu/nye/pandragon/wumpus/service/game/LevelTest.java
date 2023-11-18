@@ -5,10 +5,12 @@ import hu.nye.pandragon.wumpus.model.entities.Hero;
 import hu.nye.pandragon.wumpus.model.entities.Pit;
 import hu.nye.pandragon.wumpus.model.entities.Wall;
 import hu.nye.pandragon.wumpus.model.entities.Wumpus;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.Arrays;
+import java.util.HashSet;
 
 class LevelTest {
 	Level level;
@@ -26,7 +28,7 @@ class LevelTest {
 		level.placeEntity(4, 4, wumpus);
 		var controllers = level.getEntityControllers();
 
-		assertEquals(controllers.size(), 1);
+		Assertions.assertEquals(controllers.size(), 1);
 	}
 
 	@Test
@@ -34,55 +36,55 @@ class LevelTest {
 		var hero = new Hero();
 		level.placeEntity(2, 2, hero);
 
-		assertEquals(level.getEntityCount(hero), 1);
+		Assertions.assertEquals(level.getEntityCount(hero), 1);
 	}
 
 	@Test
 	public void shouldGetCorrectEntityCount2 () {
-		assertEquals(level.getEntityCount(new Wall()), 32);
+		Assertions.assertEquals(level.getEntityCount(new Wall()), 32);
 	}
 
 	@Test
-	public void shouldRemoveEntity () {
+	public void shouldRemoveLivingEntity () {
 		var hero = new Hero();
 		level.placeEntity(2, 2, hero);
-		var result = level.removeEntity(2, 2);
+		var result = level.removeLivingEntity(2, 2);
 
-		assertSame(result, hero);
+		Assertions.assertSame(result, hero);
 	}
 
 	@Test
-	public void shouldRemoveEntity2 () {
-		var result = level.removeEntity(4, 9);
+	public void shouldremoveLivingEntity2 () {
+		var result = level.removeStaticEntity(4, 9);
 
-		assertEquals(result.getClass(), Wall.class);
+		Assertions.assertEquals(result.getClass(), Wall.class);
 	}
 
 	@Test
 	public void shouldRemoveIfExistsHero () {
 		var hero = new Hero();
 		level.placeEntity(2, 2, hero);
-		assertEquals(level.getEntityCount(hero), 1);
+		Assertions.assertEquals(level.getEntityCount(hero), 1);
 		var result = level.removeEntityIfExists(hero);
-		assertSame(result, hero);
+		Assertions.assertSame(result, hero);
 	}
 
 	@Test
 	public void shouldRemoveIfExistsPit () {
 		var pit = new Pit();
 		level.placeEntity(2, 2, pit);
-		assertEquals(level.getEntityCount(pit), 1);
+		Assertions.assertEquals(level.getEntityCount(pit), 1);
 		var result = level.removeEntityIfExists(pit);
-		assertSame(result, pit);
+		Assertions.assertSame(result, pit);
 	}
 
 	@Test
 	public void shouldRemoveIfExistsNull () {
 		var pit = new Pit();
 		level.placeEntity(2, 2, pit);
-		assertEquals(level.getEntityCount(pit), 1);
+		Assertions.assertEquals(level.getEntityCount(pit), 1);
 		var result = level.removeEntityIfExists(null);
-		assertNull(result);
+		Assertions.assertNull(result);
 	}
 
 	@Test
@@ -91,26 +93,26 @@ class LevelTest {
 		level.placeEntity(2, 2, hero);
 		var result = level.getStartPoint();
 
-		assertEquals(result, hero.getPosition());
+		Assertions.assertEquals(result, hero.getPosition());
 	}
 
 	@Test
 	public void shouldGetCorrectSize () {
 		var level2 = new Level(14);
 
-		assertEquals(level2.getSize(), 14);
+		Assertions.assertEquals(level2.getSize(), 14);
 	}
 
 	@Test
 	public void shouldUseLevelVOConstructorCorrectly () {
 		var level2 = new Level(level.toLevelVO());
 
-		assertEquals(level2.getSize(), 9);
+		Assertions.assertEquals(level2.getSize(), 9);
 	}
 
 	@Test
 	public void shouldGetCorrectMaxWumpus () {
-		assertEquals(level.getMaxWumpus(), 2);
+		Assertions.assertEquals(level.getMaxWumpus(), 2);
 	}
 
 	public int getPossibleMovesCount (int x, int y) {
@@ -121,22 +123,22 @@ class LevelTest {
 
 	@Test
 	public void shouldGetPossibleMoves1 () {
-		assertEquals(getPossibleMovesCount(2, 2), 2);
+		Assertions.assertEquals(getPossibleMovesCount(2, 2), 2);
 	}
 
 	@Test
 	public void shouldGetPossibleMoves2 () {
-		assertEquals(getPossibleMovesCount(8, 2), 2);
+		Assertions.assertEquals(getPossibleMovesCount(8, 2), 2);
 	}
 
 	@Test
 	public void shouldGetPossibleMoves3 () {
-		assertEquals(getPossibleMovesCount(8, 8), 2);
+		Assertions.assertEquals(getPossibleMovesCount(8, 8), 2);
 	}
 
 	@Test
 	public void shouldGetPossibleMoves4 () {
-		assertEquals(getPossibleMovesCount(2, 8), 2);
+		Assertions.assertEquals(getPossibleMovesCount(2, 8), 2);
 	}
 
 	public Class getFirstEntityClassInDirection (Directions direction) {
@@ -150,16 +152,36 @@ class LevelTest {
 
 	@Test
 	public void shouldGetFirstEntityInDirectionEast () {
-		assertEquals(getFirstEntityClassInDirection(Directions.East), Wall.class);
+		Assertions.assertEquals(getFirstEntityClassInDirection(Directions.East), Wall.class);
 	}
 
 	@Test
 	public void shouldGetFirstEntityInDirectionSouth () {
-		assertEquals(getFirstEntityClassInDirection(Directions.South), Wall.class);
+		Assertions.assertEquals(getFirstEntityClassInDirection(Directions.South), Wall.class);
 	}
 
 	@Test
 	public void shouldGetFirstEntityInDirectionWest () {
-		assertEquals(getFirstEntityClassInDirection(Directions.West), Wall.class);
+		Assertions.assertEquals(getFirstEntityClassInDirection(Directions.West), Wall.class);
+	}
+
+	@Test
+	public void shouldGetEntityControllers () {
+		Wumpus w1 = new Wumpus(),
+				w2 = new Wumpus(),
+				w3 = new Wumpus();
+
+		level.placeEntity(2, 2, w1);
+		level.placeEntity(3, 2, w2);
+		level.placeEntity(4, 2, w3);
+
+		var entityControllers = new HashSet<>(Arrays.asList(
+				new EntityController(level, w1),
+				new EntityController(level, w2),
+				new EntityController(level, w3)
+		));
+
+		var result = new HashSet<>(level.getEntityControllers());
+		Assertions.assertEquals(result, entityControllers);
 	}
 }

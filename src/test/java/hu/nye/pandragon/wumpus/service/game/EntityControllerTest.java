@@ -9,6 +9,8 @@ import hu.nye.pandragon.wumpus.model.entities.Wumpus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.awt.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class EntityControllerTest {
@@ -28,6 +30,15 @@ class EntityControllerTest {
 	public void shouldMoveForwardNorth () {
 		level.placeEntity(3, 3, hero);
 		assertTrue(controller.moveForward());
+	}
+
+	@Test
+	public void couldMoveForwardNorth () {
+		var postitionFrom = hero.getPosition();
+		level.placeEntity(3, 3, hero);
+		controller.moveForward();
+		var positionTo = hero.getPosition();
+		assertEquals(hero.getPosition(), new Point(3, 2));
 	}
 
 	@Test
