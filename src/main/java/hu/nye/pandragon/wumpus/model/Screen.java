@@ -43,6 +43,10 @@ public abstract class Screen {
 		consoleInputWrapper = new ConsoleInputWrapper();
 	}
 
+	public boolean isShouldExit() {
+		return shouldExit;
+	}
+
 	public void setShouldExit(boolean shouldExit) {
 		this.shouldExit = shouldExit;
 	}

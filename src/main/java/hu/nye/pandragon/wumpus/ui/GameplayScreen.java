@@ -48,6 +48,9 @@ public class GameplayScreen extends Screen {
 		this.playerName = playerName;
 		numberOfMoves = 0;
 		this.hero = level.getHero();
+		if (hero == null) {
+			throw new RuntimeException("Nincs hős a pályán. Használd a pályaszerkesztőt, hogy hozzáadd a pályához.");
+		}
 		LOGGER.debug("Hős: " + hero);
 
 		this.entityControllers = level.getEntityControllers();

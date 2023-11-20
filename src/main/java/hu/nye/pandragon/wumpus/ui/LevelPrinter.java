@@ -117,6 +117,15 @@ public class LevelPrinter {
 		return drawing.toString();
 	}
 
+	/**
+	 * Eldönti, hogy kell-e meghosszabbítani a falat a jobb oldalán
+	 * Erre akkor van szükség, ha a formája ezt indokolja,
+	 * azaz meg lehet hosszabbítani
+	 * Ez akkor történhet meg, amikor,
+	 * amikor nem formáz sarkot jobbra
+	 * @param wall a fal, aminek a hosszabbításáról döntünk
+	 * @return az eredmény, ami lehet '━' vagy ' '
+	 */
 	private char getWallRightExtensionSymbol (Wall wall) {
 		return switch (wall.getShape()) {
 			case Middle, Horizontal, HorizontalBottom, HorizontalTop, BottomLeft,
@@ -125,6 +134,15 @@ public class LevelPrinter {
 		};
 	}
 
+	/**
+	 * Eldönti, hogy kell-e meghosszabbítani a falat a bal oldalán
+	 * Erre akkor van szükség, ha a formája ezt indokolja,
+	 * azaz meg lehet hosszabbítani
+	 * Ez akkor történhet meg, amikor,
+	 * amikor nem formáz sarkot balra
+	 * @param wall a fal, aminek a hosszabbításáról döntünk
+	 * @return az eredmény, ami lehet '━' vagy ' '
+	 */
 	private char getWallLeftExtensionSymbol (Wall wall) {
 		return switch (wall.getShape()) {
 			case Middle, Horizontal, HorizontalBottom, HorizontalTop, BottomRight,
@@ -133,6 +151,17 @@ public class LevelPrinter {
 		};
 	}
 
+	/**
+	 * Kiírja a hős adatait
+	 * - a nézési irányát
+	 * - a pozícióját
+	 * - a nyilainak számát
+	 * - a tárgyait, ha vannak neki
+	 * Tárgy most csak az arany lehet, abból is csak 1 db
+	 * Ez a sor a pálya alatt jelenik meg a játékban
+	 * @param hero a hős
+	 * @return az adatai egy sorban összefoglalva
+	 */
 	public String drawHeroBar (Hero hero) {
 		var barText = String.format(
 				"Hős: %c | %s %d | %d nyíl",

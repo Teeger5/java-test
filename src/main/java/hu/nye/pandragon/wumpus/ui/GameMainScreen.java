@@ -2,29 +2,34 @@ package hu.nye.pandragon.wumpus.ui;
 
 import hu.nye.pandragon.wumpus.model.LevelVO;
 import hu.nye.pandragon.wumpus.model.PlayernameVO;
+import hu.nye.pandragon.wumpus.model.Screen;
 import hu.nye.pandragon.wumpus.model.Screens;
-import hu.nye.pandragon.wumpus.service.util.ConsoleInputWrapper;
 
 /**
  * Ez az osztály felel a játék irányításáért. Először a főmenü elemeinek kezelését kell megoldani
  */
-public class GameMainScreen {
+public class GameMainScreen extends Screen {
 	private PlayernameVO playerName;
 	private LevelVO levelVO;
-	private PrintWrapper printWrapper;
-	private ConsoleInputWrapper consoleInputWrapper;
 
-	public GameMainScreen(PrintWrapper printWrapper, ConsoleInputWrapper consoleInputWrapper) {
-		this.printWrapper = printWrapper;
-		this.consoleInputWrapper = consoleInputWrapper;
-		onStart();
-		enterMenu();
+	public GameMainScreen() {
+		printWrapper.println("Üdvözöllek Wumpus világában");
 	}
 
-	private void onStart () {
-		printWrapper.println("Üdvözöllek Wumpus világában");
-		requestPlayerName();
+	public PlayernameVO getPlayerName() {
+		return playerName;
+	}
+
+	public void start () {
+		if (playerName == null) {
+			requestPlayerName();
+		}
 		printWrapper.printf("Köszöntelek, %s! Kezdjünk hozzű!\n", playerName);
+		readCommands();
+	}
+
+	public void init () {
+		requestPlayerName();
 	}
 
 	/**
@@ -44,9 +49,12 @@ public class GameMainScreen {
 	 *   amikor a belőle elindított bármelyik folyamat véget ér (pl. kilépünk a pályaszerkesztésből)
 	 *   Kilépéskor viszont a programból lépünk ki
 	 */
-	public void enterMenu () {
+	protected void readCommands () {
 		showMenuOptions();
 		while (true) {
+			if (shouldExit) {
+				break;
+			}
 			printWrapper.print("> ");
 			var command = consoleInputWrapper.readFromConsole();
 			var screen = Screens.parseID(command.trim());
@@ -54,26 +62,14 @@ public class GameMainScreen {
 				case LevelEditor -> enterEditor();
 				case LoadFromDB -> printWrapper.println("Még nem elérhető");
 				case Gameplay -> enterGame();
-				case Exit -> exit();
+				case Exit -> shouldExit = true;
 				case Unknown -> printWrapper.println("Ismeretlen parancs: " + command.trim());
 			}
 			if (screen != Screens.Unknown) {
 				showMenuOptions();
 			}
-/*			if (command.equals("1")) {
-				enterEditor();
-				showMenuOptions();
-			}
-			else if (command.equals("2")) {
-				enterGame();
-			}
-			else if (command.equals("3")) {
-				exit();
-			}
-			else {
-				printWrapper.println("Ismeretlen opció: " + command);
-			}*/
 		}
+		exit();
 	}
 
 	// Ha esetleg később szükség lenne rá, lehet statikus generikus metódusokat is létrehozni
@@ -102,8 +98,13 @@ public class GameMainScreen {
 	 */
 	public void enterGame () {
 		if (levelVO != null) {
-			var game = new GameplayScreen(levelVO, playerName);
-			game.start();
+			try {
+				var game = new GameplayScreen(levelVO, playerName);
+				game.start();
+			}
+			catch (RuntimeException e) {
+				printWrapper.println(e.getMessage());
+			}
 		}
 		else {
 			printWrapper.println("Nincs pálya. Először használd a pályaszerkesztőt, hogy készíts egyet.");

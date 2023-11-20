@@ -18,13 +18,20 @@ public class LevelEditorScreen extends Screen {
 
 	private static final Logger logger = LoggerFactory.getLogger(LevelEditorScreen.class);
 
-	private final Level level;
-	private final InputHandler inputHandler;
+	private Level level;
+	private InputHandler inputHandler;
 
 	public LevelEditorScreen() {
 		printWrapper.println("Pályaszerkesztő");
-		var site = requestMapSize();
-		level = new Level(site);
+	}
+
+	/**
+	 * Inicializálja a pályaszerkesztőt
+	 * Azaz bekéri a pálya méretét, és létrehozza a példányt belőle
+	 */
+	public void init () {
+		var size = requestMapSize();
+		level = new Level(size);
 		inputHandler = new InputHandler(Arrays.asList(
 				new EditorPlaceEntityCommand(level),
 				new EditorExitCommand(this),
@@ -33,13 +40,16 @@ public class LevelEditorScreen extends Screen {
 				new EditorTestCommand(level.toLevelVO())
 		));
 		inputHandler.setPrintWrapper(printWrapper);
-		if (site == -1) {
+		if (size == -1) {
 			printWrapper.println("Kilépés a pályaszerkesztőből...");
 			shouldExit = true;
 		}
 	}
 
 	public void start () {
+		if (level == null) {
+			init();
+		}
 		if (!shouldExit) {
 			readCommands();
 		}

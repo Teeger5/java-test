@@ -22,8 +22,9 @@ public class DefaultCommand implements Command {
 
     @Override
     public void process(String input) {
-        LOGGER.info("Ismeretlen parancs: " + input);
-        System.out.println(UNKNOWN_COMMAND_MESSAGE + input);
+        var message = UNKNOWN_COMMAND_MESSAGE + input;
+        LOGGER.info(message);
+        System.out.println(message);
     }
 
 }

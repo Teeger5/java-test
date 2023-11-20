@@ -2,6 +2,7 @@ package hu.nye.pandragon.wumpus.ui;
 
 import hu.nye.pandragon.wumpus.model.Directions;
 import hu.nye.pandragon.wumpus.model.Items;
+import hu.nye.pandragon.wumpus.model.entities.Gold;
 import hu.nye.pandragon.wumpus.model.entities.Hero;
 import hu.nye.pandragon.wumpus.model.entities.Pit;
 import hu.nye.pandragon.wumpus.model.entities.Wumpus;
@@ -18,14 +19,36 @@ class LevelPrinterTest {
 				"     A  B  C  D  E  F \n" +
 				"  1  ┏━━━━━━━━━━━━━━┓ \n" +
 				"  2  ┃              ┃ \n" +
-				"  3  ┃        ▲     ┃ \n" +
+				"  3  ┃       ▲G     ┃ \n" +
 				"  4  ┃    ░U░       ┃ \n" +
-				"  5  ┃              ┃ \n" +
+				"  5  ┃  U           ┃ \n" +
 				"  6  ┗━━━━━━━━━━━━━━┛ \n";
 
 		level.placeEntity(4, 3, new Hero());
 		level.placeEntity(3, 4, new Pit());
 		level.placeEntity(3, 4, new Wumpus());
+		level.placeEntity(4, 3, new Gold());
+		level.placeEntity(2, 5, new Wumpus());
+
+		var levelPrinter = new LevelPrinter(new PrintWrapper());
+		var drawing = levelPrinter.drawLevel(level.toLevelVO(), false);
+
+		Assertions.assertEquals(drawing, expected);
+	}
+
+	@Test
+	public void shouldPrintGameplayCorrectly2 () {
+		var level = new Level(6);
+		var expected =
+				"     A  B  C  D  E  F \n" +
+						"  1  ┏━━━━━━━━━━━━━━┓ \n" +
+						"  2  ┃              ┃ \n" +
+						"  3  ┃        G     ┃ \n" +
+						"  4  ┃              ┃ \n" +
+						"  5  ┃              ┃ \n" +
+						"  6  ┗━━━━━━━━━━━━━━┛ \n";
+
+		level.placeEntity(4, 3, new Gold());
 
 		var levelPrinter = new LevelPrinter(new PrintWrapper());
 		var drawing = levelPrinter.drawLevel(level.toLevelVO(), false);
