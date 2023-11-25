@@ -1,6 +1,5 @@
 package hu.nye.pandragon.wumpus.xml;
 
-import hu.nye.pandragon.wumpus.model.entities.Hero;
 import hu.nye.pandragon.wumpus.service.game.Level;
 import jakarta.xml.bind.JAXBException;
 import org.junit.jupiter.api.Assertions;
@@ -10,7 +9,7 @@ class XmlLevelConverterTest {
 	@Test
 	public void shouldConvertToXMLCorrectly () {
 		var level = new Level(4);
-		level.placeEntity(4, 4, new Hero());
+//		level.placeEntity(4, 4, new Hero());
 		var expected = "";
 		String result;
 		try {

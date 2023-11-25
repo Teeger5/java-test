@@ -28,14 +28,20 @@ public class XmlLevel {
 
 	public XmlLevel() {}
 
-	public XmlLevel(int size, List<XmlEntity> entities, Hero hero) {
+	public XmlLevel(int size, List<XmlEntity> entities) {
 		this.size = size;
 		this.entities = entities;
-		this.xmlHero = new XmlHero(hero);
 	}
 
 	public XmlLevel(LevelVO levelVO) {
 		this.size = levelVO.getSize();
+		var heroOpt = levelVO.getLivingEntities().values().stream()
+				.filter(e -> e instanceof Hero)
+				.findFirst()
+				.orElse(null);
+		if (heroOpt instanceof Hero hero) {
+			this.xmlHero = new XmlHero(hero);
+		}
 		this.entities = new ArrayList<>();
 		this.entities.addAll(levelVO.getStaticEntities().entrySet().stream()
 				.map(entry -> new XmlEntity(entry.getValue().getCompatibilitySymbol(), entry.getKey()))
