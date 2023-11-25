@@ -4,7 +4,8 @@ public enum Screens {
 	LevelEditor (1, "Pályaszerkesztő indítása"),
 	LoadFromDB (2, "Betöltés az adatbázisból"),
 	Gameplay (3, "Játék indítása"),
-	Exit (4, "Kilépés"),
+	Highscores(4, "Toplista"),
+	Exit (5, "Kilépés"),
 	Unknown (-1, "");
 
 	private final int id;

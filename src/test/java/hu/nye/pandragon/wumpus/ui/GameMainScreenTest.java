@@ -1,6 +1,5 @@
 package hu.nye.pandragon.wumpus.ui;
 
-import com.github.stefanbirkner.systemlambda.SystemLambda;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -57,11 +56,11 @@ class GameMainScreenTest {
 		gameMainScreen.init();
 		System.setIn(new ByteArrayInputStream("4".getBytes()));
 		int status = Integer.MAX_VALUE;
-		try {
+/*		try {
 			status = SystemLambda.catchSystemExit(() -> gameMainScreen.start());
 		} catch (Exception e) {
 			throw new RuntimeException(e);
-		}
+		}*/
 
 		Assertions.assertEquals(status, 0);
 	}

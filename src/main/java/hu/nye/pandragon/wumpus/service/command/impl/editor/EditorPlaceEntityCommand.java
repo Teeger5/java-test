@@ -1,12 +1,12 @@
 package hu.nye.pandragon.wumpus.service.command.impl.editor;
 
 import hu.nye.pandragon.wumpus.model.Entities;
-import hu.nye.pandragon.wumpus.service.game.Level;
+import hu.nye.pandragon.wumpus.model.LevelEditorCommands;
 import hu.nye.pandragon.wumpus.model.entities.Hero;
 import hu.nye.pandragon.wumpus.model.entities.Wumpus;
-import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
 import hu.nye.pandragon.wumpus.service.command.Command;
-import hu.nye.pandragon.wumpus.model.LevelEditorCommands;
+import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
+import hu.nye.pandragon.wumpus.service.game.Level;
 import hu.nye.pandragon.wumpus.service.util.CommandUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,7 @@ public class EditorPlaceEntityCommand implements Command {
 	public void process(String input) {
 		var args = Command.getCommandArgs(input);
 		LOGGER.info("Új pályaelem létrehozása: " + args);
-		var entity = Entities.parse(args[0]).createNewInstance();
+		var entity = Entities.parseName(args[0]).createNewInstance();
 		if (entity instanceof Wumpus && level.getEntityCount(entity) >= level.getMaxWumpus()) {
 			var error = String.format("Wumpusból max %d lehet", level.getMaxWumpus());
 			LOGGER.error(error);

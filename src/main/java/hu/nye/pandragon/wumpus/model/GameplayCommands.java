@@ -12,7 +12,8 @@ public enum GameplayCommands {
 	PickUpGold ("aranyat felszed", "^aranyat felszed$"),
 	Shoot ("lő", "^lő$"),
 	MoveForward ("lép", "^lép$"),
-	GiveUp ("felad", "^felad$");
+	GiveUp ("felad", "^felad$"),
+	SaveAndQuit("halasztás", "^halasztás$");
 
 	private final String usage;
 	private final String regex;

@@ -45,6 +45,10 @@ public abstract class Entity {
 		return blocking;
 	}
 
+	public char getCompatibilitySymbol() {
+		return compatibilitySymbol;
+	}
+
 	public char getDisplaySymbol() {
 		return displaySymbol;
 	}

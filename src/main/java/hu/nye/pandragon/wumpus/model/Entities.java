@@ -28,6 +28,16 @@ public enum Entities {
 			case Hero -> new Hero();
 		};
 	}
+/*
+	public static XmlEntity toXmlEntity (Entity entity) {
+		return switch (Entities.parseSymbol(entity.getCompatibilitySymbol())) {
+			case Wall -> null;
+			case Gold -> null;
+			case Pit -> null;
+			case Wumpus -> null;
+			case Hero hero -> new XmlHero(hero);
+		};
+	}*/
 
 	public boolean isLivingEntity () {
 		return getEntity() instanceof LivingEntity;
@@ -65,9 +75,25 @@ public enum Entities {
 	 * @param name a pályaelem neve
 	 * @return a pályaelem enum értéke, vagy null, ha nem található
 	 */
-	public static Entities parse (String name) {
+	public static Entities parseName (String name) {
+		name = name.toLowerCase();
 		for (Entities e : Entities.values()) {
-			if (name.toLowerCase().equals(e.getEntity().getName().toLowerCase())) {
+			if (name.equals(e.getEntity().getName().toLowerCase())) {
+				return e;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Ez a compatibilitySymbol tulajdonság alapján
+	 * keres meg egy Entities értéket
+	 * @param symbol a pályaelem compatibilitySymbol tulajdonsága
+	 * @return a pályaelemhez taratozó Entities érték
+	 */
+	public static Entities parseSymbol (char symbol) {
+		for (Entities e : Entities.values()) {
+			if (symbol == e.getEntity().getCompatibilitySymbol()) {
 				return e;
 			}
 		}

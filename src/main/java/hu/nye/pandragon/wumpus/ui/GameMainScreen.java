@@ -4,20 +4,18 @@ import hu.nye.pandragon.wumpus.model.LevelVO;
 import hu.nye.pandragon.wumpus.model.PlayernameVO;
 import hu.nye.pandragon.wumpus.model.Screen;
 import hu.nye.pandragon.wumpus.model.Screens;
+import lombok.Getter;
 
 /**
  * Ez az osztály felel a játék irányításáért. Először a főmenü elemeinek kezelését kell megoldani
  */
 public class GameMainScreen extends Screen {
+	@Getter
 	private PlayernameVO playerName;
 	private LevelVO levelVO;
 
 	public GameMainScreen() {
 		printWrapper.println("Üdvözöllek Wumpus világában");
-	}
-
-	public PlayernameVO getPlayerName() {
-		return playerName;
 	}
 
 	public void start () {
@@ -51,10 +49,7 @@ public class GameMainScreen extends Screen {
 	 */
 	protected void readCommands () {
 		showMenuOptions();
-		while (true) {
-			if (shouldExit) {
-				break;
-			}
+		while (!shouldExit) {
 			printWrapper.print("> ");
 			var command = consoleInputWrapper.readFromConsole();
 			var screen = Screens.parseID(command.trim());
@@ -72,11 +67,6 @@ public class GameMainScreen extends Screen {
 		exit();
 	}
 
-	// Ha esetleg később szükség lenne rá, lehet statikus generikus metódusokat is létrehozni
-	static <A, B> String concat (A a, B b) {
-		return a.toString() + b.toString();
-	}
-
 	/**
 	 * Ez a metódus visszaad egy szöveges listát a főmenüben elérhető menüpontokkal
 	 */
@@ -90,7 +80,10 @@ public class GameMainScreen extends Screen {
 	public void enterEditor () {
 		var editor = new LevelEditorScreen();
 		editor.start();
-		levelVO = editor.getLevelVO();
+		var levelVO = editor.getLevelVO();
+		if (levelVO != null && levelVO.getSize() > 0) {
+			this.levelVO = levelVO;
+		}
 	}
 
 	/**

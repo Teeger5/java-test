@@ -7,6 +7,10 @@ public enum Directions {
 	West('W', '◀'),
 	Unknown('-', '-');
 
+	public char getCompatibilitySymbol() {
+		return compatibilitySymbol;
+	}
+
 	public char getDisplaySymbol() {
 		return displaySymbol;
 	}
@@ -38,6 +42,12 @@ public enum Directions {
 		this.displaySymbol = displaySymbol;
 	}
 
+	/**
+	 * Megkeresi a megadott jelhez tartozó irányt
+	 * (N, E, S, W)
+	 * @param c
+	 * @return
+	 */
 	public static Directions parseSymbol (char c) {
 		return switch (c) {
 			case 'N' -> North;
