@@ -60,7 +60,7 @@ public class GameplayScreen extends Screen {
 				new HeroShootCommand(level),
 				new GameplayExitCommand(this),
 				new HeroPickUpCommand(level),
-				new GameSaveCommand(playerName, levelVO)
+				new GameSaveCommand(playerName, level)
 		));
 		inputHandler.setPrintWrapper(printWrapper);
 	}

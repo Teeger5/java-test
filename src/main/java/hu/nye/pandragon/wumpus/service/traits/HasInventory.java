@@ -25,10 +25,12 @@ public interface HasInventory {
 	 */
 	default void addItem (Items item, int count) {
 		var inv = getInventory();
-		inv.put(item, switch (inv.get(item)) {
-			case null -> count;
-			case Integer currentCount -> currentCount + count;
-		});
+		if (!inv.containsKey(item)) {
+			inv.put(item, 1);
+		}
+		else {
+			inv.put(item, inv.get(item) + count);
+		}
 		if (inv.get(item) < 1) {
 			inv.remove(item);
 		}

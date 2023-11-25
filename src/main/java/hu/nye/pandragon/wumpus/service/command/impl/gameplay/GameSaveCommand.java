@@ -1,11 +1,11 @@
 package hu.nye.pandragon.wumpus.service.command.impl.gameplay;
 
 import hu.nye.pandragon.wumpus.model.GameplayCommands;
-import hu.nye.pandragon.wumpus.model.LevelVO;
 import hu.nye.pandragon.wumpus.model.PlayernameVO;
 import hu.nye.pandragon.wumpus.persistence.impl.JdbcGameStateRepository;
 import hu.nye.pandragon.wumpus.service.command.Command;
 import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
+import hu.nye.pandragon.wumpus.service.game.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,11 +17,11 @@ import java.sql.SQLException;
 public class GameSaveCommand implements Command {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(GameSaveCommand.class);
-	private final LevelVO levelVO;
+	private final Level level;
 	private final PlayernameVO playername;
 
-	public GameSaveCommand(PlayernameVO playername, LevelVO levelVO) {
-		this.levelVO = levelVO;
+	public GameSaveCommand(PlayernameVO playername, Level level) {
+		this.level = level;
 		this.playername = playername;
 	}
 
@@ -32,15 +32,15 @@ public class GameSaveCommand implements Command {
 
 	@Override
 	public void process(String input) {
-		LOGGER.info("Játékállás mentése");
+		LOGGER.info("Játékállás mentése {} játékosnak", playername);
 		try {
 			var repository = new JdbcGameStateRepository();
-			repository.save(playername, levelVO);
+			repository.save(playername, level.toLevelVO());
 		} catch (SQLException e) {
 			var msg = "Hiba történt a játékállás mentésekor";
 			LOGGER.error("{}: {}", msg, e.getMessage());
 			throw new RuntimeException(msg);
 		}
-		LOGGER.info("Játékállás mentve");
+		LOGGER.info("Játékállás mentve {} játékosnak", playername);
 	}
 }
