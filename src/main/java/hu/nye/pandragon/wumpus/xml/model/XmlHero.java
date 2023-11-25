@@ -2,7 +2,6 @@ package hu.nye.pandragon.wumpus.xml.model;
 
 import hu.nye.pandragon.wumpus.model.Directions;
 import hu.nye.pandragon.wumpus.model.Items;
-import hu.nye.pandragon.wumpus.model.entities.Entity;
 import hu.nye.pandragon.wumpus.model.entities.Hero;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -37,12 +36,13 @@ public class XmlHero {
 	 * Létrehoz egy Hero objektumot az itt lévő adatok alapján
 	 * @return egy új Hero objektum
 	 */
-	public Entity getEntity(Point position) {
+	public Hero getEntity(Point position) {
 		var hero = new Hero();
 		hero.setPosition(position);
 		hero.setDirection(Directions.parseSymbol(direction.charAt(0)));
 		hero.setAmmoAmount(arrows);
-		if (Boolean.getBoolean(hasGold)) {
+		System.out.printf("hasGold: %s -> %s\n", hasGold, Boolean.parseBoolean(hasGold));
+		if (Boolean.parseBoolean(hasGold)) {
 			hero.addItem(Items.Gold);
 		}
 		return hero;

@@ -60,9 +60,11 @@ public class XmlLevel {
 			var entity = entry.getValue();
 			if (entity instanceof LivingEntity livingEntity) {
 				if (livingEntity instanceof Hero) {
-					entity = xmlHero.getEntity(entry.getKey());
+					livingEntites.put(entry.getKey(), xmlHero.getEntity(entry.getKey()));
 				}
-				livingEntites.put(entry.getKey(), livingEntity);
+				else {
+					livingEntites.put(entry.getKey(), livingEntity);
+				}
 			}
 			else {
 				staticEntities.put(entry.getKey(), entity);

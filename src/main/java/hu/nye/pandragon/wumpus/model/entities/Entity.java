@@ -1,5 +1,6 @@
 package hu.nye.pandragon.wumpus.model.entities;
 
+
 public abstract class Entity {
 	/**
 	 * A pályaelem neve

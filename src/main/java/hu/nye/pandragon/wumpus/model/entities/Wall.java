@@ -3,10 +3,12 @@ package hu.nye.pandragon.wumpus.model.entities;
 import hu.nye.pandragon.wumpus.model.WallShape;
 import hu.nye.pandragon.wumpus.service.traits.StaticEntity;
 import hu.nye.pandragon.wumpus.service.traits.WallsFitTo;
+import lombok.EqualsAndHashCode;
 
 import java.awt.*;
 import java.util.Map;
 
+@EqualsAndHashCode
 public class Wall extends Entity implements StaticEntity, WallsFitTo {
 
 	private WallShape shape;
@@ -57,5 +59,16 @@ public class Wall extends Entity implements StaticEntity, WallsFitTo {
 		var bottom = entities.get(new Point(x, y + 1)) instanceof WallsFitTo;
 		var left = entities.get(new Point(x - 1, y)) instanceof WallsFitTo;
 		shape = WallShape.getShape(top, right, bottom, left);
+	}
+
+	/**
+	 * A teszteléskor az XML-ből beolvasott falak nem voltak egyenlőek
+	 * Ezért van szükség erre az equals() implementációra,
+	 * ami akkor ad vissza igazat, ha az objektum a Wall osztály példánya
+	 * @param o erről döntünk
+	 * @return a Wall osztály példánya-e
+	 */
+	public boolean equals (Object o) {
+		return o == null || this == o || this.getClass().equals(o.getClass());
 	}
 }

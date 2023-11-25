@@ -1,7 +1,9 @@
 package hu.nye.pandragon.wumpus.model;
 
-import hu.nye.pandragon.wumpus.model.entities.LivingEntity;
 import hu.nye.pandragon.wumpus.model.entities.Entity;
+import hu.nye.pandragon.wumpus.model.entities.LivingEntity;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -16,6 +18,8 @@ import java.util.Map;
  *  - a kezdőpontot
  * A kezdőpont pálya beolvasásakor a hős aktuális helye lehetne
  */
+@EqualsAndHashCode
+@ToString
 public class LevelVO {
 
 	/**
