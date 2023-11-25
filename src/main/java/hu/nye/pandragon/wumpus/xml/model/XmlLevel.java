@@ -2,9 +2,11 @@ package hu.nye.pandragon.wumpus.xml.model;
 
 import hu.nye.pandragon.wumpus.model.LevelVO;
 import hu.nye.pandragon.wumpus.model.entities.Entity;
+import hu.nye.pandragon.wumpus.model.entities.Hero;
 import hu.nye.pandragon.wumpus.model.entities.LivingEntity;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.awt.*;
@@ -18,14 +20,18 @@ import java.util.stream.Collectors;
 public class XmlLevel {
 	@XmlAttribute
 	private int size;
-	@XmlElement(name = "Entities")
+	@XmlElement(name = "Hero")
+	private XmlHero xmlHero;
+	@XmlElementWrapper(name = "Entities")
+	@XmlElement(name = "Entity")
 	private List<XmlEntity> entities;
 
 	public XmlLevel() {}
 
-	public XmlLevel(int size, List<XmlEntity> entities) {
+	public XmlLevel(int size, List<XmlEntity> entities, Hero hero) {
 		this.size = size;
 		this.entities = entities;
+		this.xmlHero = new XmlHero(hero);
 	}
 
 	public XmlLevel(LevelVO levelVO) {
@@ -47,6 +53,9 @@ public class XmlLevel {
 		for (Map.Entry<Point, Entity> entry : entities.entrySet()) {
 			var entity = entry.getValue();
 			if (entity instanceof LivingEntity livingEntity) {
+				if (livingEntity instanceof Hero) {
+					entity = xmlHero.getEntity(entry.getKey());
+				}
 				livingEntites.put(entry.getKey(), livingEntity);
 			}
 			else {

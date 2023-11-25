@@ -12,7 +12,7 @@ public class Wall extends Entity implements StaticEntity, WallsFitTo {
 	private WallShape shape;
 
 	public Wall () {
-		super(true, "Fal", '_', false, true);
+		super(true, "Fal", 'W', false, true);
 		displaySymbol = ' ';
 		shape = WallShape.Single;
 	}

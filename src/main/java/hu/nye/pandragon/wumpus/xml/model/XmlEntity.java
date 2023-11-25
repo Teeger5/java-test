@@ -24,9 +24,10 @@ import java.awt.*;
 public class XmlEntity {
 	/**
 	 * A pályaelem szimbóluma lesz a mező értéke
+	 * Azért String, mert a char-t számként írja a kimenetben
 	 */
 	@XmlValue
-	protected char compatibilitySymbol;
+	protected String compatibilitySymbol;
 	/**
 	 * A pozíciója pedig egy attribútuma
 	 * Az X koordinátája a pályán
@@ -42,7 +43,7 @@ public class XmlEntity {
 	public XmlEntity() {}
 
 	public XmlEntity(char compatibilitySymbol, Point position) {
-		this.compatibilitySymbol = compatibilitySymbol;
+		this.compatibilitySymbol = Character.toString(compatibilitySymbol);
 		this.posX = position.x;
 		this.posY = position.y;
 	}
@@ -56,7 +57,7 @@ public class XmlEntity {
 	 * @return a pályaelem példánya
 	 */
 	public Entity getEntity() {
-		var entity = Entities.parseSymbol(compatibilitySymbol);
+		var entity = Entities.parseSymbol(compatibilitySymbol.charAt(0));
 		if (entity != null) {
 			return entity.createNewInstance();
 		}

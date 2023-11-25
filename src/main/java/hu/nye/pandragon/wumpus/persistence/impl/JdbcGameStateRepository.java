@@ -120,7 +120,7 @@ public class JdbcGameStateRepository implements GameStateRepository {
 	private void insertGameState(PlayernameVO playername, LevelVO levelVO) throws SQLException, JAXBException {
 		try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_GAMESTATE_STATEMENT)) {
 			var playerID = getPlayerID(playername);
-			var levelXml = XmlLevelConverter.toXML(levelVO);
+			var levelXml = XmlLevelConverter.toXML(levelVO, false);
 			preparedStatement.setInt(1, playerID);
 			preparedStatement.setString(2, levelXml);
 			preparedStatement.setString(3, levelXml);

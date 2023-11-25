@@ -4,37 +4,41 @@ import hu.nye.pandragon.wumpus.model.Directions;
 import hu.nye.pandragon.wumpus.model.Items;
 import hu.nye.pandragon.wumpus.model.entities.Entity;
 import hu.nye.pandragon.wumpus.model.entities.Hero;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+import java.awt.*;
+
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "Hero")
-public class XmlHero extends XmlEntity {
+public class XmlHero {
 	@XmlAttribute
 	private int arrows;
 	@XmlAttribute
-	private char direction;
+	private String direction;
 	@XmlAttribute
-	private boolean hasGold;
+	private String hasGold;
 
 	public XmlHero () {}
 
 	public XmlHero(Hero hero) {
-		super(hero.getCompatibilitySymbol(), hero.getPosition());
 		this.arrows = hero.getAmmoAmount();
-		this.direction = hero.getDirection().getCompatibilitySymbol();
-		this.hasGold = hero.hasItem(Items.Gold);
+		this.direction = Character.toString(hero.getDirection().getCompatibilitySymbol());
+		this.hasGold = Boolean.toString(hero.hasItem(Items.Gold));
 	}
 
 	/**
 	 * Létrehoz egy Hero objektumot az itt lévő adatok alapján
 	 * @return egy új Hero objektum
 	 */
-	public Entity getEntity() {
+	public Entity getEntity(Point position) {
 		var hero = new Hero();
-		hero.setPosition(getPosition());
-		hero.setDirection(Directions.parseSymbol(direction));
+		hero.setPosition(position);
+		hero.setDirection(Directions.parseSymbol(direction.charAt(0)));
 		hero.setAmmoAmount(arrows);
-		if (hasGold) {
+		if (Boolean.getBoolean(hasGold)) {
 			hero.addItem(Items.Gold);
 		}
 		return hero;
