@@ -4,11 +4,17 @@ import hu.nye.pandragon.wumpus.model.LevelVO;
 import hu.nye.pandragon.wumpus.model.PlayernameVO;
 import hu.nye.pandragon.wumpus.model.Screen;
 import hu.nye.pandragon.wumpus.model.Screens;
+import hu.nye.pandragon.wumpus.persistence.impl.JdbcGameStateRepository;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
+
+import java.sql.SQLException;
+import java.util.stream.Collectors;
 
 /**
  * Ez az osztály felel a játék irányításáért. Először a főmenü elemeinek kezelését kell megoldani
  */
+@Slf4j
 public class GameMainScreen extends Screen {
 	@Getter
 	private PlayernameVO playerName;
@@ -57,6 +63,7 @@ public class GameMainScreen extends Screen {
 				case LevelEditor -> enterEditor();
 				case LoadFromDB -> printWrapper.println("Még nem elérhető");
 				case Gameplay -> enterGame();
+				case Highscores -> showHighscores();
 				case Exit -> shouldExit = true;
 				case Unknown -> printWrapper.println("Ismeretlen parancs: " + command.trim());
 			}
@@ -103,6 +110,21 @@ public class GameMainScreen extends Screen {
 			printWrapper.println("Nincs pálya. Először használd a pályaszerkesztőt, hogy készíts egyet.");
 		}
 
+	}
+
+	public void showHighscores () {
+		try {
+			var database = new JdbcGameStateRepository();
+			var highscoresMap = database.getScoreboard();
+			var highscores = highscoresMap.entrySet().stream()
+//					.sorted(Map.Entry.comparingByValue())
+					.sorted((o1, o2) -> -o1.getValue().compareTo(o2.getValue()))
+					.map(e -> String.format("%4d - %s", e.getValue(), e.getKey()))
+					.collect(Collectors.joining("\n"));
+			printWrapper.println("Toplista\n" + highscores);
+		} catch (SQLException e) {
+
+		}
 	}
 
 	/**
