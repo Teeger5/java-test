@@ -9,14 +9,14 @@ public interface GameStateRepository {
 	 * @param playername a játékos neve
 	 * @param levelVO a pálya
 	 */
-	void save (PlayernameVO playername, LevelVO levelVO);
+	void save (PlayernameVO playername, LevelVO levelVO) throws Exception;
 
 	/**
 	 * Játékállás betöltése
 	 * @param playername a játékos neve
 	 * @return a pálya, ami mentve volt
 	 */
-	LevelVO load (PlayernameVO playername);
+	LevelVO load (PlayernameVO playername) throws Exception;
 
 	/**
 	 * Erőforrások bezárása
