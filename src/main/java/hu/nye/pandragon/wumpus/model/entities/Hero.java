@@ -4,14 +4,15 @@ import hu.nye.pandragon.wumpus.model.Directions;
 import hu.nye.pandragon.wumpus.model.Items;
 import hu.nye.pandragon.wumpus.service.traits.CanShoot;
 import hu.nye.pandragon.wumpus.service.traits.HasInventory;
+import lombok.EqualsAndHashCode;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * Ez az osztály a játékost, mint a főhőst írja le
  */
+@EqualsAndHashCode
 public class Hero extends LivingEntity implements CanShoot, HasInventory {
 
 	/**
@@ -81,18 +82,5 @@ public class Hero extends LivingEntity implements CanShoot, HasInventory {
 		sb.append("\tdisplaySymbol = ").append(displaySymbol + ",\n");
 		sb.append("}");
 		return sb.toString();
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Hero hero = (Hero) o;
-		return arrows == hero.arrows && Objects.equals(position, hero.position) && Objects.equals(inventory, hero.inventory);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(arrows, position, inventory);
 	}
 }

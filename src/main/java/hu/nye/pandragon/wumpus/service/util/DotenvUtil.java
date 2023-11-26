@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -22,19 +23,31 @@ public class DotenvUtil {
 	}
 
 	public DotenvUtil() {
-		variables = loadDotenv();
+		this(Path.of(".env"));
 	}
 
-	private Map<String, String> loadDotenv () {
+	public DotenvUtil (Path file) {
+		this.variables = loadDotenv(readFile(file));
+	}
+
+	public DotenvUtil (String text) {
+		this.variables = loadDotenv(List.of(text.split("\n")));
+	}
+
+	private List<String> readFile (Path file) {
 		try {
-			return Files.readAllLines(Path.of(".env")).stream()
-					.map(s -> s.contains("=") ?
-							new String[] { s.substring(0, s.indexOf('=')), s.substring(s.indexOf('=') + 1) }
-							: new String[] { s, "" })
-					.collect(Collectors.toMap(x -> x[0], x -> x[1]));
+			return Files.readAllLines(file);
 		} catch (IOException e) {
-			log.error("Hiba a .env fájl olvasásakor: " + e.getMessage());
+			log.error("Hiba a .env fájl olvasásakor ({}): {}", file, e.getMessage());
 			throw new RuntimeException(e);
 		}
+	}
+
+	private Map<String, String> loadDotenv (List<String> lines) {
+		return lines.stream()
+				.map(s -> s.contains("=") ?
+						new String[] { s.substring(0, s.indexOf('=')), s.substring(s.indexOf('=') + 1) }
+						: new String[] { s, "" })
+				.collect(Collectors.toMap(x -> x[0], x -> x[1]));
 	}
 }

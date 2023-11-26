@@ -289,15 +289,13 @@ public class Level {
 			case South: dy = 1; break;
 			case West: dx = -1; break;
 		}
-		point.x += dx;
-		point.y += dy;
-		while (entity == null || entity instanceof StaticEntity && goesThroughNonBlocking&&!entity.isBlocking()) {
-			entity = livingEntities.get(point);
-			if (entity == null || entity instanceof StaticEntity && goesThroughNonBlocking && !entity.isBlocking()) {
-				entity = staticEntites.get(point);
-			}
+		while (entity == null || entity instanceof StaticEntity && goesThroughNonBlocking && !entity.isBlocking()) {
 			point.x += dx;
 			point.y += dy;
+			entity = livingEntities.get(point);
+			if (entity == null) {
+				entity = staticEntites.get(point);
+			}
 		}
 		return entity;
 	}
