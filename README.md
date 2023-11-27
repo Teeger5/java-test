@@ -16,6 +16,7 @@ Pálya mentése, és kilépés a pályaszerkesztőből
 
 ### Játék parancsok
 `lép`
+
 A hős előre lép egyet, azaz az előtte lévő pozícióra
 
 `fordul jobbra|balra`
@@ -36,9 +37,11 @@ Játék mentése az adatbázisba
 ## Hátra lévő fontos feladatok
 A jelenlegi állapot alapján
 - Teszteket kell írni, minél többet
-- Implementálni kell az toplista megjelenítését
 - Implementálni kell a játékállás adatbázisból való betöltését
 - Meg kell csinálni az XML fájlba való mentést és betöltést
+- A nyert játékok számát menteni kell az adatbázisban
+- Megjelölni a kezdőhelyet a pályán kirajzoláskor
 
 ## Kérdések
 - Szabad-e használni a Lombok-ot?
+- A mentés és a halasztás parancs működése

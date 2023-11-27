@@ -1,5 +1,7 @@
 package hu.nye.pandragon.wumpus.model;
 
+import lombok.EqualsAndHashCode;
+
 /**
  * Ez az osztály tárolja a játékos nevét.
  * Komolyan
@@ -8,6 +10,7 @@ package hu.nye.pandragon.wumpus.model;
  * De ilyenből tetszőleges helyen létre lehet hozni bármennyit,
  * ha esetleg mégis rossz adatot szeretnénk megadni valahol a kódban
  */
+@EqualsAndHashCode
 public class PlayernameVO {
 	private final String playerName;
 

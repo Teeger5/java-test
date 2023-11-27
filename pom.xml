@@ -117,6 +117,7 @@
 						<exclude>/hu/nye/pandragon/wumpus/service/traits/*</exclude>
 						<exclude>/hu/nye/pandragon/wumpus/ui/*Wrapper.*</exclude>
 						<exclude>/hu/nye/pandragon/wumpus/ui/GameMainScreen*</exclude>
+						<exclude>/hu/nye/pandragon/wumpus/persistence/impl/Xml*</exclude>
 						<exclude>/hu/nye/pandragon/wumpus/xml/model/*</exclude>
 					</excludes>
 				</configuration>

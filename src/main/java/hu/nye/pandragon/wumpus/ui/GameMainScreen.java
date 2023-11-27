@@ -123,7 +123,8 @@ public class GameMainScreen extends Screen {
 					.collect(Collectors.joining("\n"));
 			printWrapper.println("Toplista\n" + highscores);
 		} catch (SQLException e) {
-
+			log.error("showHighscores hiba: " + e.getMessage());
+			printWrapper.println("A lista nem elérhető");
 		}
 	}
 

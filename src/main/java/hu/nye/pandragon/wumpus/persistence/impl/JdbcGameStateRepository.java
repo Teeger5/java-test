@@ -94,7 +94,8 @@ public class JdbcGameStateRepository implements GameStateRepository {
 	@Override
 	public LevelVO load(PlayernameVO playername) {
 		try (var statement = connection.prepareStatement(SELECT_USER_GAMESTATE)) {
-			statement.setString(1, playername.toString());
+			var playerid = getPlayerID(playername);
+			statement.setInt(1, playerid);
 			var resultSet = statement.executeQuery();
 			resultSet.next();
 			var level = resultSet.getString(1);
