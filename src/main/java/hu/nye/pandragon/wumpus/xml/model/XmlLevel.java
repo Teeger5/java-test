@@ -13,13 +13,16 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @XmlRootElement(name = "Level")
 public class XmlLevel {
 	@XmlAttribute
 	private int size;
+	@XmlAttribute
+	private int startX;
+	@XmlAttribute
+	private int startY;
 	@XmlElement(name = "Hero")
 	private XmlHero xmlHero;
 	@XmlElementWrapper(name = "Entities")
@@ -54,20 +57,20 @@ public class XmlLevel {
 	public LevelVO toLevelVO () {
 		var staticEntities = new HashMap<Point, Entity>();
 		var livingEntites = new HashMap<Point, LivingEntity>();
-		var entities = this.entities.stream()
-				.collect(Collectors.toMap(XmlEntity::getPosition, XmlEntity::getEntity));
-		for (Map.Entry<Point, Entity> entry : entities.entrySet()) {
-			var entity = entry.getValue();
+//		var entities = this.entities.stream()
+//				.collect(Collectors.toMap(XmlEntity::getPosition, XmlEntity::getEntity));
+		for (XmlEntity xmlEntity : entities) {
+			var entity = xmlEntity.getEntity();
 			if (entity instanceof LivingEntity livingEntity) {
 				if (livingEntity instanceof Hero) {
-					livingEntites.put(entry.getKey(), xmlHero.getEntity(entry.getKey()));
+					livingEntites.put(xmlEntity.getPosition(), xmlHero.getEntity(xmlEntity.getPosition()));
 				}
 				else {
-					livingEntites.put(entry.getKey(), livingEntity);
+					livingEntites.put(xmlEntity.getPosition(), livingEntity);
 				}
 			}
 			else {
-				staticEntities.put(entry.getKey(), entity);
+				staticEntities.put(xmlEntity.getPosition(), entity);
 			}
 		}
 		return new LevelVO(staticEntities, livingEntites, size);

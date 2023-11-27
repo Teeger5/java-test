@@ -62,6 +62,7 @@ public class Level {
 		startpoint = new Point(2, 2);
 		determineStartPoint();
 		determineMaxWumpus();
+		alignWalls();
 	}
 
 	/**
