@@ -2,12 +2,12 @@ package hu.nye.pandragon.wumpus.ui;
 
 import hu.nye.pandragon.wumpus.model.*;
 import hu.nye.pandragon.wumpus.model.entities.Hero;
+import hu.nye.pandragon.wumpus.persistence.impl.JdbcGameStateRepository;
 import hu.nye.pandragon.wumpus.service.command.InputHandler;
 import hu.nye.pandragon.wumpus.service.command.impl.gameplay.*;
 import hu.nye.pandragon.wumpus.service.game.EntityController;
 import hu.nye.pandragon.wumpus.service.game.Level;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
 import java.util.List;
@@ -15,9 +15,10 @@ import java.util.List;
 /**
  * Ez az osztály a játékot, mint a játékmenetet írja le és irányítja
  */
+@Slf4j
 public class GameplayScreen extends Screen {
 
-	private static final Logger LOGGER  = LoggerFactory.getLogger(GameplayScreen.class);
+//	private static final log log  = logFactory.getlog(GameplayScreen.class);
 
 	/**
 	 * A pálya
@@ -51,7 +52,7 @@ public class GameplayScreen extends Screen {
 		if (hero == null) {
 			throw new RuntimeException("Nincs hős a pályán. Használd a pályaszerkesztőt, hogy hozzáadd a pályához.");
 		}
-		LOGGER.debug("Hős: " + hero);
+		log.debug("Hős: " + hero);
 
 		this.entityControllers = level.getEntityControllers();
 		inputHandler = new InputHandler(Arrays.asList(
@@ -70,39 +71,48 @@ public class GameplayScreen extends Screen {
 	}
 
 	protected void readCommands () {
-		LOGGER.info("Játék parancsok olvasásának kezdése");
-		LOGGER.debug("Pálya start hely: " + level.getStartPoint());
+		log.info("Játék parancsok olvasásának kezdése");
+		log.debug("Pálya start hely: " + level.getStartPoint());
 		printWrapper.println("A játék elkezdődött\nJátékos: " + playerName);
 		printWrapper.println(GameplayCommands.getMenuText());
 		numberOfMoves = 0;
 		var messageFromCommandProcessing = "A cél eljutni az aranyhoz, felvenni, és visszahozni ugyanide";
 		while (true) {
 			if (!hero.isAlive()) {
-				LOGGER.debug("A hős meghalt, megtett lépések száma: " + numberOfMoves);
+				log.debug("A hős meghalt, megtett lépések száma: " + numberOfMoves);
 				printWrapper.printf("Sajnos meghalt a karaktered.\n%d lépést tettél meg.\n", numberOfMoves);
 				printWrapper.println("Nyomj meg egy billentyűt a folytatáshoz...");
 				consoleInputWrapper.readFromConsole();
 				shouldExit = true;
 			}
 			if (hero.hasItem(Items.Gold) && hero.getPosition().equals(level.getStartPoint())) {
-				LOGGER.debug("A hős nyert, pozíciója: {}, pálya start hely pozíciója: {}", hero.getPosition(), level.getStartPoint());
+				log.debug("A hős nyert, pozíciója: {}, pálya start hely pozíciója: {}", hero.getPosition(), level.getStartPoint());
 				printWrapper.printf("Győztél, sikeresen visszahoztad az aranyat a kiindulási helyre\n Megtettél %d lépést.\n", numberOfMoves);
+				try {
+					log.debug("Eredmény mentése");
+					var repository = new JdbcGameStateRepository();
+					repository.increaseScore(playerName);
+					repository.close();
+					log.debug("Az eredmény mentése nem dobott kivételt");
+				} catch (Exception e) {
+					printWrapper.println(e.getMessage());
+				}
 				shouldExit = true;
 			}
 			if (shouldExit) {
-				LOGGER.debug("shouldExit = " + shouldExit);
+				log.debug("shouldExit = " + shouldExit);
 				printWrapper.println("Kilépés a játékból...");
 				break;
 			}
 			numberOfMoves++;
-			LOGGER.debug("Pálya kirajzolása");
+			log.debug("Pálya kirajzolása");
 			levelPrinter.printLevel(level.toLevelVO());
 			if (messageFromCommandProcessing != null) {
 				printWrapper.println(messageFromCommandProcessing);
 			}
-			LOGGER.debug("HUD kirajzolása");
+			log.debug("HUD kirajzolása");
 			levelPrinter.printHeroBar(hero);
-			LOGGER.debug("Parancs kérése");
+			log.debug("Parancs kérése");
 			var command = consoleInputWrapper.requestUserInput().toLowerCase();
 			try {
 				inputHandler.handleInput(command);

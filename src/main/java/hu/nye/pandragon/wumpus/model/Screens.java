@@ -2,8 +2,8 @@ package hu.nye.pandragon.wumpus.model;
 
 public enum Screens {
 	LevelEditor (1, "Pályaszerkesztő indítása"),
-	LoadFromDB (2, "Betöltés az adatbázisból"),
-	Gameplay (3, "Játék indítása"),
+	Gameplay (2, "Játék indítása"),
+	LoadFromDB (3, "Játék folytatása"),
 	Highscores(4, "Toplista"),
 	Exit (5, "Kilépés"),
 	Unknown (-1, "");
@@ -31,7 +31,7 @@ public enum Screens {
 		catch (NumberFormatException e) {
 			return Unknown;
 		}
-		for (Screens s : Screens.values()) {
+		for (Screens s : values()) {
 			if (s.getId() == parsedId) {
 				return s;
 			}

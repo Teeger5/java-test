@@ -6,8 +6,7 @@ import hu.nye.pandragon.wumpus.persistence.GameStateRepository;
 import hu.nye.pandragon.wumpus.service.util.DotenvUtil;
 import hu.nye.pandragon.wumpus.xml.XmlLevelConverter;
 import jakarta.xml.bind.JAXBException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -23,9 +22,10 @@ import java.util.Map;
  *   - lekérdezésre, és
  *    - a toplistához szükséges adat lekérdezésére
  */
+@Slf4j
 public class JdbcGameStateRepository implements GameStateRepository {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(JdbcGameStateRepository.class);
+//	private static final Logger log = LoggerFactory.getLogger(JdbcGameStateRepository.class);
 
 	/**
 	 * Játékállás mentéséhez szükséges
@@ -58,11 +58,16 @@ public class JdbcGameStateRepository implements GameStateRepository {
 	 */
 	private static final String INSERT_NEW_USER_STATEMENT = "INSERT IGNORE INTO players (name) VALUES (?);";
 
-	private Connection connection;
+	private final Connection connection;
 
-	public JdbcGameStateRepository() throws SQLException {
+	public JdbcGameStateRepository() {
 		var dotenv = new DotenvUtil();
-		this.connection = DriverManager.getConnection(dotenv.get("DBLINK"), dotenv.get("DBUSER"), dotenv.get("DBPASS"));
+		try {
+			this.connection = DriverManager.getConnection(dotenv.get("DBLINK"), dotenv.get("DBUSER"), dotenv.get("DBPASS"));
+		} catch (SQLException e) {
+			log.error("Hiba a kapcsolat létrehozásakor: " + e.getMessage());
+			throw new RuntimeException("Nem sikerült csatlakozni az adatbázishoz");
+		}
 	}
 
 	@Override
@@ -70,8 +75,8 @@ public class JdbcGameStateRepository implements GameStateRepository {
 		try {
 			insertGameState(playername, levelVO);
 		} catch (SQLException | JAXBException e) {
-			e.printStackTrace();
-			LOGGER.error("Hiba a játékiállás mentésekor '{}' felhasználónak: {}", playername, e.getMessage());
+			log.error("Hiba a játékiállás mentésekor '{}' felhasználónak: {}", playername, e.getMessage());
+			throw new RuntimeException("nem sikerült menteni a játékot az adatbázisba");
 		}
 	}
 
@@ -84,8 +89,8 @@ public class JdbcGameStateRepository implements GameStateRepository {
 			}
 			resultSet.close();
 		} catch (SQLException e) {
-			e.printStackTrace();
-			LOGGER.error("Hiba a pontszámok lekérdezésekor: " + e.getMessage());
+			log.error("Hiba a pontszámok lekérdezésekor: " + e.getMessage());
+			throw new RuntimeException("Nem sikerült lekérdezni a pontszámokat");
 		}
 		return map;
 	}
@@ -95,15 +100,18 @@ public class JdbcGameStateRepository implements GameStateRepository {
 	public LevelVO load(PlayernameVO playername) {
 		try (var statement = connection.prepareStatement(SELECT_USER_GAMESTATE)) {
 			var playerid = getPlayerID(playername);
+			log.debug("load player ID: " + playerid);
 			statement.setInt(1, playerid);
 			var resultSet = statement.executeQuery();
-			resultSet.next();
+			if (!resultSet.next()) {
+				log.warn("Nem található mentett játékállás {} felhasználónak", playerid);
+				throw new RuntimeException("Nem található mentett játékállás");
+			}
 			var level = resultSet.getString(1);
-			var levelVO = XmlLevelConverter.toLevelVO(level);
-			return levelVO;
+			return XmlLevelConverter.toLevelVO(level);
 		} catch (SQLException | JAXBException e) {
 			var msg = "Hiba történt a pálya betöltésekor";
-			LOGGER.error("{}: {}", msg, e.getMessage());
+			log.error("{}: {}", msg, e.getMessage());
 			throw new RuntimeException(msg);
 		}
 	}
@@ -113,8 +121,8 @@ public class JdbcGameStateRepository implements GameStateRepository {
 		try {
 			connection.close();
 		} catch (SQLException e) {
-			LOGGER.error("Hiba az erőforrások bezárásakor: " + e.getMessage());
-			e.printStackTrace();
+			log.error("Hiba az erőforrások bezárásakor: " + e.getMessage());
+			throw new RuntimeException("Nem sikerült lezárni az adatbázis-kapcsolatot");
 		}
 	}
 
@@ -143,7 +151,7 @@ public class JdbcGameStateRepository implements GameStateRepository {
 	/**
 	 * Játékos hozzáadása az adatbázishoz, ha még nem létezik
 	 * Ha már létezik, akkor nem változik
-	 * @param playername
+	 * @param playername az új játékos neve
 	 * @throws SQLException
 	 */
 	private void insertNewPlayer (PlayernameVO playername) throws SQLException {
@@ -151,5 +159,21 @@ public class JdbcGameStateRepository implements GameStateRepository {
 			statement.setString(1, playername.toString());
 			statement.executeQuery();
 		}
+	}
+
+	public void increaseScore (PlayernameVO playername, int amount) {
+		try (var statement = connection.prepareStatement("INSERT INTO players (name, score) VALUES (?, ?) ON DUPLICATE KEY UPDATE score = score + ?;")) {
+			statement.setString(1, playername.toString());
+			statement.setInt(2, amount);
+			statement.setInt(3, amount);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			log.error("Hiba a pontszám növelésekor {} játékosnál: {}", playername, e.getMessage());
+			throw new RuntimeException("Nem sikerült frissíteni az nyert játékok számát");
+		}
+	}
+
+	public void increaseScore (PlayernameVO playername) {
+		increaseScore(playername, 1);
 	}
 }

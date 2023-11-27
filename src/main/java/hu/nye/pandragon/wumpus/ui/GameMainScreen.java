@@ -8,7 +8,6 @@ import hu.nye.pandragon.wumpus.persistence.impl.JdbcGameStateRepository;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.sql.SQLException;
 import java.util.stream.Collectors;
 
 /**
@@ -61,7 +60,7 @@ public class GameMainScreen extends Screen {
 			var screen = Screens.parseID(command.trim());
 			switch (screen) {
 				case LevelEditor -> enterEditor();
-				case LoadFromDB -> printWrapper.println("Még nem elérhető");
+				case LoadFromDB -> loadGameFromDB();
 				case Gameplay -> enterGame();
 				case Highscores -> showHighscores();
 				case Exit -> shouldExit = true;
@@ -122,9 +121,21 @@ public class GameMainScreen extends Screen {
 					.map(e -> String.format("%4d - %s", e.getValue(), e.getKey()))
 					.collect(Collectors.joining("\n"));
 			printWrapper.println("Toplista\n" + highscores);
-		} catch (SQLException e) {
-			log.error("showHighscores hiba: " + e.getMessage());
-			printWrapper.println("A lista nem elérhető");
+		} catch (Exception e) {
+//			log.error("showHighscores hiba: " + e.getMessage());
+//			printWrapper.println("A lista nem elérhető");
+			printWrapper.println(e.getMessage());
+		}
+	}
+
+	public void loadGameFromDB () {
+		try {
+			var repository = new JdbcGameStateRepository();
+			var level = repository.load(playerName);
+			this.levelVO = level;
+			enterGame();
+		} catch (Exception e) {
+			printWrapper.println(e.getMessage());
 		}
 	}
 

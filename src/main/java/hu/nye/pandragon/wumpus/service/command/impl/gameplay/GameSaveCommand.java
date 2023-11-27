@@ -9,8 +9,6 @@ import hu.nye.pandragon.wumpus.service.game.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.SQLException;
-
 /**
  * Ez a parancs a játék mentésére szolgál
  */
@@ -33,14 +31,14 @@ public class GameSaveCommand implements Command {
 	@Override
 	public void process(String input) {
 		LOGGER.info("Játékállás mentése {} játékosnak", playername);
-		try {
+//		try {
 			var repository = new JdbcGameStateRepository();
 			repository.save(playername, level.toLevelVO());
-		} catch (SQLException e) {
-			var msg = "Hiba történt a játékállás mentésekor";
-			LOGGER.error("{}: {}", msg, e.getMessage());
-			throw new RuntimeException(msg);
-		}
+//		} catch (Exception e) {
+//			var msg = "Hiba történt a játékállás mentésekor";
+//			LOGGER.error("{}: {}", msg, e.getMessage());
+//			throw new RuntimeException(e.getMessage());
+//		}
 		LOGGER.info("Játékállás mentve {} játékosnak", playername);
 	}
 }
