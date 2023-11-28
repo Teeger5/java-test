@@ -7,15 +7,16 @@ import hu.nye.pandragon.wumpus.model.entities.Hero;
 import hu.nye.pandragon.wumpus.model.entities.LivingEntity;
 import hu.nye.pandragon.wumpus.service.traits.ActionOnLivingEntityEnters;
 import hu.nye.pandragon.wumpus.service.traits.CanShoot;
+import lombok.EqualsAndHashCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.awt.*;
-import java.util.Objects;
 
 /**
  * Ez az osztály egy lény egy pályán való mozgatásáért felel
  */
+@EqualsAndHashCode
 public class EntityController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(EntityController.class);
@@ -96,18 +97,5 @@ public class EntityController {
 			}
 			shooter.onShoot();
 		}
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		EntityController that = (EntityController) o;
-		return Objects.equals(entity, that.entity) && Objects.equals(level, that.level) && Objects.equals(entityPosition, that.entityPosition);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(entity, level, entityPosition);
 	}
 }

@@ -1,7 +1,9 @@
 package hu.nye.pandragon.wumpus.model;
 
 import hu.nye.pandragon.wumpus.model.entities.*;
+import lombok.Getter;
 
+@Getter
 public enum Entities {
 	Wall(new Wall()),
 	Gold(new Gold()),
@@ -10,10 +12,6 @@ public enum Entities {
 	Hero(new Hero());
 
 	// Konstruktorok
-
-	public Entity getEntity () {
-		return entity;
-	}
 
 	public String getName () {
 		return entity.getName();
@@ -28,21 +26,7 @@ public enum Entities {
 			case Hero -> new Hero();
 		};
 	}
-/*
-	public static XmlEntity toXmlEntity (Entity entity) {
-		return switch (Entities.parseSymbol(entity.getCompatibilitySymbol())) {
-			case Wall -> null;
-			case Gold -> null;
-			case Pit -> null;
-			case Wumpus -> null;
-			case Hero hero -> new XmlHero(hero);
-		};
-	}*/
-
-	public boolean isLivingEntity () {
-		return getEntity() instanceof LivingEntity;
-	}
-
+	
 	/**
 	 * Egy mintául szolgáló példány az egyes pályaelemekből,
 	 * így a tulajdonságaikat könnyen le lehet kérdezni

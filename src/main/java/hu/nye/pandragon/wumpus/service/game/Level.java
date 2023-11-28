@@ -7,6 +7,7 @@ import hu.nye.pandragon.wumpus.model.entities.Hero;
 import hu.nye.pandragon.wumpus.model.entities.LivingEntity;
 import hu.nye.pandragon.wumpus.model.entities.Wall;
 import hu.nye.pandragon.wumpus.service.traits.StaticEntity;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,10 +26,12 @@ public class Level {
 	/**
 	 * A pálya egy oldalának mérete
 	 */
+	@Getter
 	private final int size;
 	/**
 	 * A pályán lévő Wumpus lények max száma
 	 */
+	@Getter
 	private int maxWumpus;
 	/**
 	 * Ez a map tartalmazza a pályaelemeket és az elhelyezkedésüket
@@ -308,11 +311,4 @@ public class Level {
 		}
 	}
 
-	public int getSize() {
-		return size;
-	}
-
-	public int getMaxWumpus() {
-		return maxWumpus;
-	}
 }

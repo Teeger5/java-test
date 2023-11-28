@@ -1,5 +1,8 @@
 package hu.nye.pandragon.wumpus.model;
 
+import lombok.Getter;
+
+@Getter
 public enum Screens {
 	LevelEditor (1, "Pályaszerkesztő indítása"),
 	Gameplay (2, "Játék indítása"),
@@ -10,13 +13,6 @@ public enum Screens {
 
 	private final int id;
 	private final String name;
-	public int getId() {
-		return id;
-	}
-
-	public String getName() {
-		return name;
-	}
 
 	Screens(int id, String name) {
 		this.id = id;

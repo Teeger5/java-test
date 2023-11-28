@@ -4,10 +4,14 @@ import hu.nye.pandragon.wumpus.model.WallShape;
 import hu.nye.pandragon.wumpus.service.traits.StaticEntity;
 import hu.nye.pandragon.wumpus.service.traits.WallsFitTo;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 import java.util.Map;
 
+@Getter
+@Setter
 @EqualsAndHashCode
 public class Wall extends Entity implements StaticEntity, WallsFitTo {
 
@@ -17,14 +21,6 @@ public class Wall extends Entity implements StaticEntity, WallsFitTo {
 		super(true, "Fal", 'W', false, true);
 		displaySymbol = ' ';
 		shape = WallShape.Single;
-	}
-
-	public WallShape getShape() {
-		return shape;
-	}
-
-	public void setShape(WallShape shape) {
-		this.shape = shape;
 	}
 
 	@Override

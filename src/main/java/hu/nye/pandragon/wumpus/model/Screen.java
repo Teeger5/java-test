@@ -3,6 +3,8 @@ package hu.nye.pandragon.wumpus.model;
 import hu.nye.pandragon.wumpus.service.util.ConsoleInputWrapper;
 import hu.nye.pandragon.wumpus.ui.LevelPrinter;
 import hu.nye.pandragon.wumpus.ui.PrintWrapper;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Ez az osztály egy képernyőt ír le
@@ -17,6 +19,8 @@ public abstract class Screen {
 	 * Amikor ez == true, akkor a readCommands()-ban a ciklus elején ezt olvasva
 	 * meg kell azt szakítani break; használatával
 	 */
+	@Getter
+	@Setter
 	protected boolean shouldExit;
 	/**
 	 * A PrintWrapper felel a kiíratás működtetéséért.
@@ -43,25 +47,9 @@ public abstract class Screen {
 		consoleInputWrapper = new ConsoleInputWrapper();
 	}
 
-	public boolean isShouldExit() {
-		return shouldExit;
-	}
-
-	public void setShouldExit(boolean shouldExit) {
-		this.shouldExit = shouldExit;
-	}
-
 	public void setPrintWrapper(PrintWrapper printWrapper) {
 		this.printWrapper = printWrapper;
 		levelPrinter = new LevelPrinter(printWrapper);
-	}
-
-	public void setLevelPrinter(LevelPrinter levelPrinter) {
-		this.levelPrinter = levelPrinter;
-	}
-
-	public void setConsoleInputWrapper(ConsoleInputWrapper consoleInputWrapper) {
-		this.consoleInputWrapper = consoleInputWrapper;
 	}
 
 	/**

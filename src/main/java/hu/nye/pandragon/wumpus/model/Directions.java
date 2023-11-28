@@ -1,19 +1,14 @@
 package hu.nye.pandragon.wumpus.model;
 
+import lombok.Getter;
+
+@Getter
 public enum Directions {
 	North('N', '▲'),
 	East('E', '▶'),
 	South('S', '▼'),
 	West('W', '◀'),
 	Unknown('-', '-');
-
-	public char getCompatibilitySymbol() {
-		return compatibilitySymbol;
-	}
-
-	public char getDisplaySymbol() {
-		return displaySymbol;
-	}
 
 	public Directions getClockwiseNext () {
 		return switch (this) {
@@ -45,8 +40,8 @@ public enum Directions {
 	/**
 	 * Megkeresi a megadott jelhez tartozó irányt
 	 * (N, E, S, W)
-	 * @param c
-	 * @return
+	 * @param c az irány betűje
+	 * @return a hozzá tartozó irány, vagy Unknown
 	 */
 	public static Directions parseSymbol (char c) {
 		return switch (c) {

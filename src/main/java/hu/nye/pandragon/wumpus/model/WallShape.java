@@ -1,5 +1,8 @@
 package hu.nye.pandragon.wumpus.model;
 
+import lombok.Getter;
+
+@Getter
 public enum WallShape {
 	Verticcal('┃'),
 	Horizontal('━'),
@@ -17,10 +20,6 @@ public enum WallShape {
 	// ┏━━━━━━━━━━━━━━━━━┓
 	// ┃        OK       ┃
 	// ┗━━━━━━━━━━━━━━━━━┛
-
-	public char getSymbol() {
-		return symbol;
-	}
 
 	private final char symbol;
 	WallShape(char c) {

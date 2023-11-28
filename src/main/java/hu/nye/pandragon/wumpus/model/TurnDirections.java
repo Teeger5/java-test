@@ -1,12 +1,11 @@
 package hu.nye.pandragon.wumpus.model;
 
+import lombok.Getter;
+
+@Getter
 public enum TurnDirections {
 	Left ("balra"), Right ("jobbra");
 	private final String name;
-
-	public String getName() {
-		return name;
-	}
 
 	TurnDirections(String name) {
 		this.name = name;

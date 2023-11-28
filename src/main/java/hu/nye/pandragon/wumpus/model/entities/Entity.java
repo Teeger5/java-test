@@ -1,27 +1,34 @@
 package hu.nye.pandragon.wumpus.model.entities;
 
 
+import lombok.Getter;
+
 public abstract class Entity {
 	/**
 	 * A pályaelem neve
 	 */
+	@Getter
 	protected final String name;
 	/**
 	 * Az a szimbólum, amely a pályán jelképezi ezt a pályaelemet
 	 */
+	@Getter
 	protected char displaySymbol;
 	/**
 	 * Ez egy egységes szimbólum, ami mindenhol ezt a típusú pályaelemet azonosítja
 	 * Hasznos például fájlból való beolvasááskor
 	 */
+	@Getter
 	protected final char compatibilitySymbol;
 	/**
 	 * Át lehet-e menni rajta, vagy beleütközünk-e?
 	 */
+	@Getter
 	protected final boolean blocking;
 	/**
 	 * Csak egy lehet belőle a pályán?
 	 */
+	@Getter
 	protected final boolean unique;
 	/**
 	 * Kirajzoláskor az egész cellát ki kell-e törltenie,
@@ -38,28 +45,8 @@ public abstract class Entity {
 		this.displaySymbol = compatibilitySymbol;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public boolean isBlocking() {
-		return blocking;
-	}
-
-	public char getCompatibilitySymbol() {
-		return compatibilitySymbol;
-	}
-
-	public char getDisplaySymbol() {
-		return displaySymbol;
-	}
-
 	public boolean shouldExtendInCell() {
 		return extendsInCell;
-	}
-
-	public boolean isUnique() {
-		return unique;
 	}
 
 	/**

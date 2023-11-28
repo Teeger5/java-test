@@ -2,6 +2,8 @@ package hu.nye.pandragon.wumpus.model.entities;
 
 import hu.nye.pandragon.wumpus.model.Directions;
 import hu.nye.pandragon.wumpus.service.game.Level;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.awt.*;
 
@@ -9,6 +11,8 @@ import java.awt.*;
  * Ez az osztály a lényeket írja le
  * Ezekről tudni lehet, hogy élnek-e
  */
+@Getter
+@Setter
 public abstract class LivingEntity extends Entity {
 	/**
 	 * Él-e a lénynek ez a példánya
@@ -32,26 +36,13 @@ public abstract class LivingEntity extends Entity {
 		alive = true;
 		this.position = new Point(0, 0);
 	}
-//	void move (Map<Point, Entity> entities, int x, int y);
 
 	public void setPosition (int x, int y) {
 		position.setLocation(x, y);
 	}
 
 	public void setPosition (Point point) {
-		position.setLocation(point.x, point.y);
-	}
-
-	public Point getPosition () {
-		return position;
-	}
-
-	public Directions getDirection() {
-		return direction;
-	}
-
-	public void setDirection(Directions direction) {
-		this.direction = direction;
+		position.setLocation(point);
 	}
 
 	public void kill (Level level) {
