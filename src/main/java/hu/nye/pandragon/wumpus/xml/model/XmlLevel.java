@@ -8,6 +8,7 @@ import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import lombok.Getter;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Getter
 @XmlRootElement(name = "Level")
 public class XmlLevel {
 	@XmlAttribute
@@ -23,6 +25,8 @@ public class XmlLevel {
 	private int startX;
 	@XmlAttribute
 	private int startY;
+	@XmlAttribute
+	private int steps;
 	@XmlElement(name = "Hero")
 	private XmlHero xmlHero;
 	@XmlElementWrapper(name = "Entities")
@@ -31,13 +35,9 @@ public class XmlLevel {
 
 	public XmlLevel() {}
 
-	public XmlLevel(int size, List<XmlEntity> entities) {
-		this.size = size;
-		this.entities = entities;
-	}
-
 	public XmlLevel(LevelVO levelVO) {
 		this.size = levelVO.getSize();
+		this.steps = levelVO.getNumberOfMoves();
 		var heroOpt = levelVO.getLivingEntities().values().stream()
 				.filter(e -> e instanceof Hero)
 				.findFirst()
@@ -54,6 +54,11 @@ public class XmlLevel {
 				.collect(Collectors.toList()));
 		this.startX = levelVO.getStartpoint().x;
 		this.startY = levelVO.getStartpoint().y;
+	}
+
+	public XmlLevel (LevelVO levelVO, int steps) {
+		this(levelVO);
+		this.steps = steps;
 	}
 
 	public LevelVO toLevelVO () {
@@ -75,6 +80,6 @@ public class XmlLevel {
 				staticEntities.put(xmlEntity.getPosition(), entity);
 			}
 		}
-		return new LevelVO(staticEntities, livingEntites, size, new Point(startX, startY));
+		return new LevelVO(staticEntities, livingEntites, size, new Point(startX, startY), steps);
 	}
 }

@@ -71,8 +71,12 @@ public class Level {
 	 * LevelVO objektum létrehozása a pálya adataival
 	 * @return a LevelVO objektum
 	 */
+	public LevelVO toLevelVO (int steps) {
+		return new LevelVO(staticEntites, livingEntities, size, startpoint, steps);
+	}
+
 	public LevelVO toLevelVO () {
-		return new LevelVO(staticEntites, livingEntities, size, startpoint);
+		return toLevelVO(0);
 	}
 
 	private <V extends Entity> Entity removeEntityIfExists (Entity entity, Map<Point, V> map) {

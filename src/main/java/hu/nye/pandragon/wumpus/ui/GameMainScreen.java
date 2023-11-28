@@ -94,8 +94,11 @@ public class GameMainScreen extends Screen {
 
 	/**
 	 * Belépés a játékba
+	 * A kezdeti lépésszámot akkor kell beállítani (0 > n),
+	 * amikor a játék egy korábbi játékmenet folytatása
+	 * @param initialNumberOfMoves a kezdeti lépésszám
 	 */
-	public void enterGame () {
+	public void enterGame (int initialNumberOfMoves) {
 		if (levelVO != null) {
 			try {
 				var game = new GameplayScreen(levelVO, playerName);
@@ -109,6 +112,10 @@ public class GameMainScreen extends Screen {
 			printWrapper.println("Nincs pálya. Először használd a pályaszerkesztőt, hogy készíts egyet.");
 		}
 
+	}
+
+	private void enterGame () {
+		enterGame(0);
 	}
 
 	public void showHighscores () {
@@ -132,8 +139,8 @@ public class GameMainScreen extends Screen {
 		try {
 			var repository = new JdbcGameStateRepository();
 			var level = repository.load(playerName);
-			this.levelVO = level;
-			enterGame();
+			this.levelVO = level.toLevelVO();
+			enterGame(level.getSteps());
 		} catch (Exception e) {
 			printWrapper.println(e.getMessage());
 		}

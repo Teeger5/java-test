@@ -1,25 +1,27 @@
 package hu.nye.pandragon.wumpus.service.command.impl.gameplay;
 
 import hu.nye.pandragon.wumpus.model.GameplayCommands;
+import hu.nye.pandragon.wumpus.model.LevelVO;
 import hu.nye.pandragon.wumpus.model.PlayernameVO;
 import hu.nye.pandragon.wumpus.persistence.impl.JdbcGameStateRepository;
 import hu.nye.pandragon.wumpus.service.command.Command;
 import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
 import hu.nye.pandragon.wumpus.service.game.Level;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Ez a parancs a játék mentésére szolgál
  */
+@Slf4j
 public class GameSaveCommand implements Command {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(GameSaveCommand.class);
-	private final Level level;
+	private final LevelVO level;
 	private final PlayernameVO playername;
 
-	public GameSaveCommand(PlayernameVO playername, Level level) {
-		this.level = level;
+	public GameSaveCommand(PlayernameVO playername, Level level, AtomicInteger steps) {
+		log.debug("Eddig megtett lépések száma: " + steps.get());
+		this.level = level.toLevelVO(steps.get());
 		this.playername = playername;
 	}
 
@@ -30,15 +32,16 @@ public class GameSaveCommand implements Command {
 
 	@Override
 	public void process(String input) {
-		LOGGER.info("Játékállás mentése {} játékosnak", playername);
-//		try {
+		log.info("Játékállás mentése {} játékosnak", playername);
+		try {
 			var repository = new JdbcGameStateRepository();
-			repository.save(playername, level.toLevelVO());
-//		} catch (Exception e) {
-//			var msg = "Hiba történt a játékállás mentésekor";
-//			LOGGER.error("{}: {}", msg, e.getMessage());
-//			throw new RuntimeException(e.getMessage());
-//		}
-		LOGGER.info("Játékállás mentve {} játékosnak", playername);
+			repository.save(playername, level);
+		} catch (Exception e) {
+			var msg = "Hiba történt a játékállás mentésekor";
+			log.error("{}: {}", msg, e.getMessage());
+			throw e instanceof RuntimeException runtimeException ?
+					runtimeException : new RuntimeException(msg);
+		}
+		log.info("Játékállás mentve {} játékosnak", playername);
 	}
 }

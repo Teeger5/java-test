@@ -3,6 +3,7 @@ package hu.nye.pandragon.wumpus.model;
 import hu.nye.pandragon.wumpus.model.entities.Entity;
 import hu.nye.pandragon.wumpus.model.entities.LivingEntity;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.ToString;
 
 import java.awt.*;
@@ -35,21 +36,31 @@ public class LevelVO {
 	/**
 	 * A pálya egy oldalának mérete
 	 */
+	@Getter
 	private final int size;
 	/**
 	 * A hős kiinduló pozíciója
 	 */
 	private final Point startpoint;
+	/**
+	 * A játék során megtett léséek száma
+	 * Ez akkor számít, amikor a pálya
+	 * egy folyamatban lévő játékmenetet tartalmaz
+	 */
+	@Getter
+	private final int numberOfMoves;
 
 	public LevelVO(
 			Map<Point, Entity> staticEntities,
 			Map<Point, LivingEntity> livingEntities,
 			int size,
-			Point startpoint) {
+			Point startpoint,
+			int numberOfMoves) {
 		this.staticEntities = staticEntities;
 		this.livingEntities = livingEntities;
 		this.size = size;
 		this.startpoint = startpoint;
+		this.numberOfMoves = numberOfMoves;
 	}
 
 	public Map<Point, Entity> getStaticEntities() {
@@ -58,10 +69,6 @@ public class LevelVO {
 
 	public Map<Point, LivingEntity> getLivingEntities() {
 		return deepCopyLiving(livingEntities);
-	}
-
-	public int getSize() {
-		return size;
 	}
 
 	public Point getStartpoint () {

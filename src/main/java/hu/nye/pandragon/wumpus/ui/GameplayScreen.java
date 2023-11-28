@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Ez az osztály a játékot, mint a játékmenetet írja le és irányítja
@@ -31,7 +32,7 @@ public class GameplayScreen extends Screen {
 	/**
 	 * Hány lépést tesz meg a játékos
 	 */
-	private int numberOfMoves;
+	private final AtomicInteger numberOfMoves;
 	/**
 	 * A játékos neve
 	 */
@@ -47,7 +48,7 @@ public class GameplayScreen extends Screen {
 	public GameplayScreen(LevelVO levelVO, PlayernameVO playerName) {
 		this.level = new Level(levelVO);
 		this.playerName = playerName;
-		numberOfMoves = 0;
+		numberOfMoves = new AtomicInteger(0);
 		this.hero = level.getHero();
 		if (hero == null) {
 			throw new RuntimeException("Nincs hős a pályán. Használd a pályaszerkesztőt, hogy hozzáadd a pályához.");
@@ -61,7 +62,7 @@ public class GameplayScreen extends Screen {
 				new HeroShootCommand(level),
 				new GameplayExitCommand(this),
 				new HeroPickUpCommand(level),
-				new GameSaveCommand(playerName, level)
+				new GameSaveCommand(playerName, level, numberOfMoves)
 		));
 		inputHandler.setPrintWrapper(printWrapper);
 	}
@@ -75,7 +76,6 @@ public class GameplayScreen extends Screen {
 		log.debug("Pálya start hely: " + level.getStartPoint());
 		printWrapper.println("A játék elkezdődött\nJátékos: " + playerName);
 		printWrapper.println(GameplayCommands.getMenuText());
-		numberOfMoves = 0;
 		var messageFromCommandProcessing = "A cél eljutni az aranyhoz, felvenni, és visszahozni ugyanide";
 		while (true) {
 			if (!hero.isAlive()) {
@@ -87,7 +87,7 @@ public class GameplayScreen extends Screen {
 			}
 			if (hero.hasItem(Items.Gold) && hero.getPosition().equals(level.getStartPoint())) {
 				log.debug("A hős nyert, pozíciója: {}, pálya start hely pozíciója: {}", hero.getPosition(), level.getStartPoint());
-				printWrapper.printf("Győztél, sikeresen visszahoztad az aranyat a kiindulási helyre\n Megtettél %d lépést.\n", numberOfMoves);
+				printWrapper.printf("Győztél, sikeresen visszahoztad az aranyat a kiindulási helyre\n Megtettél %d lépést.\n", numberOfMoves.get());
 				try {
 					log.debug("Eredmény mentése");
 					var repository = new JdbcGameStateRepository();
@@ -104,7 +104,7 @@ public class GameplayScreen extends Screen {
 				printWrapper.println("Kilépés a játékból...");
 				break;
 			}
-			numberOfMoves++;
+			numberOfMoves.getAndIncrement();
 			log.debug("Pálya kirajzolása");
 			levelPrinter.printLevel(level.toLevelVO());
 			if (messageFromCommandProcessing != null) {
@@ -119,7 +119,7 @@ public class GameplayScreen extends Screen {
 				messageFromCommandProcessing = null;
 			}
 			catch (NullPointerException e) {
-				e.printStackTrace();
+				log.error("Hiba a parancs feldolgozásakor: {}", e);
 			}
 			catch (RuntimeException e) {
 				messageFromCommandProcessing = e.getMessage();

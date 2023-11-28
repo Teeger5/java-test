@@ -2,6 +2,7 @@ package hu.nye.pandragon.wumpus.persistence;
 
 import hu.nye.pandragon.wumpus.model.LevelVO;
 import hu.nye.pandragon.wumpus.model.PlayernameVO;
+import hu.nye.pandragon.wumpus.xml.model.XmlLevel;
 
 public interface GameStateRepository {
 	/**
@@ -16,7 +17,7 @@ public interface GameStateRepository {
 	 * @param playername a játékos neve
 	 * @return a pálya, ami mentve volt
 	 */
-	LevelVO load (PlayernameVO playername) throws Exception;
+	XmlLevel load (PlayernameVO playername) throws Exception;
 
 	/**
 	 * Erőforrások bezárása
