@@ -36,14 +36,20 @@ public class LevelVO {
 	 * A pálya egy oldalának mérete
 	 */
 	private final int size;
+	/**
+	 * A hős kiinduló pozíciója
+	 */
+	private final Point startpoint;
 
 	public LevelVO(
 			Map<Point, Entity> staticEntities,
 			Map<Point, LivingEntity> livingEntities,
-			int size) {
+			int size,
+			Point startpoint) {
 		this.staticEntities = staticEntities;
 		this.livingEntities = livingEntities;
 		this.size = size;
+		this.startpoint = startpoint;
 	}
 
 	public Map<Point, Entity> getStaticEntities() {
@@ -56,6 +62,10 @@ public class LevelVO {
 
 	public int getSize() {
 		return size;
+	}
+
+	public Point getStartpoint () {
+		return new Point(startpoint);
 	}
 
 	private static Map<Point, Entity> deepCopy (Map<Point, Entity> map) {

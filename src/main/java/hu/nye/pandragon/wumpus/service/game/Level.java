@@ -59,8 +59,7 @@ public class Level {
 		size = levelVO.getSize();
 		staticEntites = levelVO.getStaticEntities();
 		livingEntities = levelVO.getLivingEntities();
-		startpoint = new Point(2, 2);
-		determineStartPoint();
+		startpoint = levelVO.getStartpoint();
 		determineMaxWumpus();
 		alignWalls();
 	}
@@ -70,7 +69,7 @@ public class Level {
 	 * @return a LevelVO objektum
 	 */
 	public LevelVO toLevelVO () {
-		return new LevelVO(staticEntites, livingEntities, size);
+		return new LevelVO(staticEntites, livingEntities, size, startpoint);
 	}
 
 	private <V extends Entity> Entity removeEntityIfExists (Entity entity, Map<Point, V> map) {

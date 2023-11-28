@@ -38,7 +38,6 @@ public class InputHandler {
 	 * a bemenetre alkalmazható parancs lesz végrehajtva.
 	 * A bemenetet a metódus kisbetűssé alakítja, erre külön nincs szükség
 	 * @param input bemenet a felhasználótól.
-	 * @param printWrapper kiíratáshoz használt PrintWrapper
 	 */
 	public void handleInput(String input) {
 		input = input.trim().toLowerCase();

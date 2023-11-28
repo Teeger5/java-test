@@ -52,6 +52,8 @@ public class XmlLevel {
 		this.entities.addAll(levelVO.getLivingEntities().entrySet().stream()
 				.map(entry -> new XmlEntity(entry.getValue().getCompatibilitySymbol(), entry.getKey()))
 				.collect(Collectors.toList()));
+		this.startX = levelVO.getStartpoint().x;
+		this.startY = levelVO.getStartpoint().y;
 	}
 
 	public LevelVO toLevelVO () {
@@ -73,6 +75,6 @@ public class XmlLevel {
 				staticEntities.put(xmlEntity.getPosition(), entity);
 			}
 		}
-		return new LevelVO(staticEntities, livingEntites, size);
+		return new LevelVO(staticEntities, livingEntites, size, new Point(startX, startY));
 	}
 }
