@@ -45,7 +45,7 @@ Kilépés a játékból
 `halasztás`
 Játék mentése az adatbázisba
 
-## Hátra lévő fontos feladatok
+## Hátrlévő fontos feladatok
 A jelenlegi állapot alapján
 - Teszteket kell írni, minél többet
 - Megjelölni a kezdőhelyet a pályán kirajzoláskor
