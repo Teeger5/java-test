@@ -67,6 +67,10 @@ public class GameplayScreen extends Screen {
 		inputHandler.setPrintWrapper(printWrapper);
 	}
 
+	public void setNumberOfMoves (int steps) {
+		numberOfMoves.set(steps);
+	}
+
 	public void start () {
 		readCommands();
 	}

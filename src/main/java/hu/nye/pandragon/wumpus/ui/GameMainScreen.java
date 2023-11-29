@@ -102,6 +102,7 @@ public class GameMainScreen extends Screen {
 		if (levelVO != null) {
 			try {
 				var game = new GameplayScreen(levelVO, playerName);
+				game.setNumberOfMoves(initialNumberOfMoves);
 				game.start();
 			}
 			catch (RuntimeException e) {
@@ -140,6 +141,7 @@ public class GameMainScreen extends Screen {
 			var repository = new JdbcGameStateRepository();
 			var level = repository.load(playerName);
 			this.levelVO = level.toLevelVO();
+			log.debug("Pálya betöltése az adatbázisből, eddig megtett lépések száma: " + levelVO.getNumberOfMoves());
 			enterGame(level.getSteps());
 		} catch (Exception e) {
 			printWrapper.println(e.getMessage());
