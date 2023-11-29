@@ -25,11 +25,14 @@ class DefaultCommandTest {
 	 * A log bejegyzés miatt más módszert
 	 * kell keresni nnek a teszteléséhez
 	 */
+	@Test
 	public void shouldPrintMessage () {
 		var outputStreamCaptor = new ByteArrayOutputStream();
 		System.setOut(new PrintStream(outputStreamCaptor));
 		defaultCommand.process(INPUT_STRING);
 		var result = outputStreamCaptor.toString().trim();
+		// az 1. sor log
+		result = result.substring(result.indexOf('\n') + 1);
 		Assertions.assertEquals("Ismeretlen parancs: " + INPUT_STRING, result);
 	}
 }

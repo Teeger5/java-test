@@ -14,6 +14,28 @@ import org.junit.jupiter.api.Test;
 @Slf4j
 class XmlLevelConverterTest {
 
+	static String XML_CODE = """
+			<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+			<Level size="4" startX="3" startY="3" steps="0">
+			    <Hero arrows="2" direction="W" hasGold="true"/>
+			    <Entities>
+			        <Entity posX="1" posY="1">W</Entity>
+			        <Entity posX="4" posY="1">W</Entity>
+			        <Entity posX="1" posY="4">W</Entity>
+			        <Entity posX="1" posY="2">W</Entity>
+			        <Entity posX="4" posY="2">W</Entity>
+			        <Entity posX="2" posY="1">W</Entity>
+			        <Entity posX="2" posY="4">W</Entity>
+			        <Entity posX="4" posY="4">W</Entity>
+			        <Entity posX="1" posY="3">W</Entity>
+			        <Entity posX="4" posY="3">W</Entity>
+			        <Entity posX="3" posY="1">W</Entity>
+			        <Entity posX="3" posY="4">W</Entity>
+			        <Entity posX="3" posY="3">H</Entity>
+			    </Entities>
+			</Level>
+			""";
+
 	Level level;
 
 	@BeforeEach
@@ -28,59 +50,20 @@ class XmlLevelConverterTest {
 
 	@Test
 	public void shouldConvertToXMLCorrectly () {
-		var expected = """
-				<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-				<Level size="4">
-				    <Hero arrows="2" direction="W" hasGold="true"/>
-				    <Entities>
-				        <Entity posX="1" posY="1">W</Entity>
-				        <Entity posX="4" posY="1">W</Entity>
-				        <Entity posX="1" posY="4">W</Entity>
-				        <Entity posX="1" posY="2">W</Entity>
-				        <Entity posX="4" posY="2">W</Entity>
-				        <Entity posX="2" posY="1">W</Entity>
-				        <Entity posX="2" posY="4">W</Entity>
-				        <Entity posX="4" posY="4">W</Entity>
-				        <Entity posX="1" posY="3">W</Entity>
-				        <Entity posX="4" posY="3">W</Entity>
-				        <Entity posX="3" posY="1">W</Entity>
-				        <Entity posX="3" posY="4">W</Entity>
-				        <Entity posX="3" posY="3">H</Entity>
-				    </Entities>
-				</Level>
-				""";
+		var expected =  XML_CODE;
 		String result;
 		try {
 			result = XmlLevelConverter.toXML(level.toLevelVO(), true);
+			log.debug("toXML: " + result);
 		} catch (JAXBException e) {
 			throw new RuntimeException(e);
 		}
-		Assertions.assertEquals(result, expected);
+		Assertions.assertEquals(expected, result);
 	}
 
 	@Test
 	public void shouldConvertToLevelVOCorrectly () {
-		var input = """
-				<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-				<Level size="4">
-				    <Hero arrows="2" direction="W" hasGold="true"/>
-				    <Entities>
-				        <Entity posX="1" posY="1">W</Entity>
-				        <Entity posX="4" posY="1">W</Entity>
-				        <Entity posX="1" posY="4">W</Entity>
-				        <Entity posX="1" posY="2">W</Entity>
-				        <Entity posX="4" posY="2">W</Entity>
-				        <Entity posX="2" posY="1">W</Entity>
-				        <Entity posX="2" posY="4">W</Entity>
-				        <Entity posX="4" posY="4">W</Entity>
-				        <Entity posX="1" posY="3">W</Entity>
-				        <Entity posX="4" posY="3">W</Entity>
-				        <Entity posX="3" posY="1">W</Entity>
-				        <Entity posX="3" posY="4">W</Entity>
-				        <Entity posX="3" posY="3">H</Entity>
-				    </Entities>
-				</Level>
-				""";
+		var input = XML_CODE;
 		var expected = level.toLevelVO();
 		LevelVO result;
 		try {

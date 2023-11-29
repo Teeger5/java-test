@@ -83,8 +83,8 @@ public class GameplayScreen extends Screen {
 		var messageFromCommandProcessing = "A cél eljutni az aranyhoz, felvenni, és visszahozni ugyanide";
 		while (true) {
 			if (!hero.isAlive()) {
-				log.debug("A hős meghalt, megtett lépések száma: " + numberOfMoves);
-				printWrapper.printf("Sajnos meghalt a karaktered.\n%d lépést tettél meg.\n", numberOfMoves);
+				log.debug("A hős meghalt, megtett lépések száma: " + numberOfMoves.get());
+				printWrapper.printf("Sajnos meghalt a karaktered.\n%d lépést tettél meg.\n", numberOfMoves.get());
 				printWrapper.println("Nyomj meg egy billentyűt a folytatáshoz...");
 				consoleInputWrapper.readFromConsole();
 				shouldExit = true;
