@@ -27,7 +27,7 @@ public class LevelPrinter {
 	 * @param levelVO a pálya
 	 */
 	public void printEditorLevel (LevelVO levelVO) {
-		printWrapper.println(drawLevel(levelVO, true));
+		printWrapper.println(drawLevel2(levelVO, true));
 	}
 
 	/**
@@ -35,7 +35,7 @@ public class LevelPrinter {
 	 * @param levelVO a pálya
 	 */
 	public void printLevel (LevelVO levelVO) {
-		printWrapper.println(drawLevel(levelVO, false));
+		printWrapper.println(drawLevel2(levelVO, false));
 	}
 
 	/**
@@ -102,10 +102,6 @@ public class LevelPrinter {
 					}
 				}
 				else if (livingEntity != null) {
-/*					Entity entity = livingEntity;
-					if (entity == null) {
-						entity = staticEntity;
-					}*/
 					drawing.append(' ').append(livingEntity.getDisplaySymbol()).append(' ');
 				}
 				else {
@@ -177,4 +173,72 @@ public class LevelPrinter {
 		}
 		return barText;
 	}
+
+	public String drawLevel2 (LevelVO levelVO, boolean isEditing) {
+		var drawing = new StringBuilder();
+		var size = levelVO.getSize();
+		var staticEntities = levelVO.getStaticEntities();
+		var livingEntities = levelVO.getLivingEntities();
+		var startpoint = levelVO.getStartpoint();
+		drawing.append("    ");
+		for (int i = 0; i < size; i++) {
+			drawing.append(' ').append((char) (65 + i)).append(' ');
+		}
+		drawing.append('\n');
+		var gettingpoint = new Point(0, 0);
+		for (int y = 1; y <= size; y++) {
+			drawing.append(String.format(" %2d ", y));
+			for (int x = 1; x <= size; x++) {
+				gettingpoint.setLocation(x, y);
+				var livingEntity = livingEntities.get(gettingpoint);
+//				logger.debug(String.format("  -> %2d %2d %s", j, i, (entity == null ? "null" : entity.getName())));
+				var staticEntity = staticEntities.get(gettingpoint);
+//				logger.debug(String.format(" ==> %2d %2d %s", j, i, (entity == null ? "null" : entity.getName())));
+				char left = ' ', middle = ' ', right = ' ';
+				if (staticEntity == null && livingEntity == null) {
+					middle = isEditing ? '•' : ' ';
+					if (!isEditing && gettingpoint.equals(startpoint)) {
+						left = WallShape.Startpoint.getSymbol();
+						right = left;
+					}
+				}
+				else if (staticEntity != null) {
+					if (staticEntity instanceof Wall wall) {
+						left = getWallLeftExtensionSymbol(wall);
+						middle = wall.getDisplaySymbol();
+						right = getWallRightExtensionSymbol(wall);
+					}
+					else if (staticEntity.shouldExtendInCell()) {
+						left = staticEntity.getDisplaySymbol();
+						middle = left;
+						if (livingEntity != null) {
+							middle = livingEntity.getDisplaySymbol();
+						}
+						right = left;
+					}
+					else if (livingEntity != null) {
+						left = livingEntity.getDisplaySymbol();
+						middle = staticEntity.getDisplaySymbol();
+					}
+					else {
+						middle = staticEntity.getDisplaySymbol();
+					}
+				}
+				else if (livingEntity != null) {
+					middle = livingEntity.getDisplaySymbol();
+					if (!isEditing && gettingpoint.equals(startpoint)) {
+						left = WallShape.Startpoint.getSymbol();
+						right = left;
+					}
+				}
+				else {
+					LOGGER.debug("else: point: {}, livingEntity: {}, staticEntity: {}", gettingpoint, livingEntity, staticEntity);
+				}
+				drawing.append(left).append(middle).append(right);
+			}
+			drawing.append('\n');
+		}
+		return drawing.toString();
+	}
+
 }

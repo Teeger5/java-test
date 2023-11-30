@@ -2,6 +2,10 @@ package hu.nye.pandragon.wumpus.model;
 
 import lombok.Getter;
 
+/**
+ * Ebben az enum-ban lehetséges fal formák vannak leírva
+ * Ezek határozzák meg, milyen karakter lesz kirajzolva
+ */
 @Getter
 public enum WallShape {
 	Verticcal('┃'),
@@ -15,7 +19,8 @@ public enum WallShape {
 	HorizontalTop('┻'),
 	HorizontalBottom('┳'),
 	Middle('╋'),
-	Single('█');
+	Single('█'),
+	Startpoint('⚑');
 
 	// ┏━━━━━━━━━━━━━━━━━┓
 	// ┃        OK       ┃
@@ -26,6 +31,18 @@ public enum WallShape {
 		symbol = c;
 	}
 
+	/**
+	 * Ez a metódus kiválasztja a fal legmegfelelőbb alakját
+	 * a körülötte lévő elemek alapján
+	 * Például ha 3 fal elem L betű formában van egymás mellett,
+	 * és ez az elem a sakron lévő, akkor sarok karaktert fog kiválasztani.
+	 * Ez kirajzoláskor számít
+	 * @param top van-e fal efelett
+	 * @param right van-e fal a jobb oldalán
+	 * @param bottom van-e fal alatta
+	 * @param left van-e fal a bal oldalán
+	 * @return az ezek alapján kiválasztott forma
+	 */
 	public static WallShape getShape (boolean top, boolean right, boolean bottom, boolean left) {
 		var x = 0;
 		if (right) { x |= 1; }
