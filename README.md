@@ -29,8 +29,7 @@ lehet úgy is implementálni, hogy az eszköztárban lévő nyilak, mint tárgya
 A parancsok feldolgozása és értelmezése elsőre bonyolultnak tűnt a Sudoku projektnél, 
 viszont miután sikerült megérteni, hogyan működik, itt is jól lehet alkalmazni egy hasonló
 megközelítést, ami kicsit egyszerűbb. Itt kimaradtak a `Performer`-ek, és 
-a parancsban leírt műveletet a parancs implementációja végzi el közvetlenül. 
-Ez azért változott így, mert így sem túl hosszú egy parancs kódja.
+a parancsban leírt műveletet a parancs implementációja végzi el közvetlenül.
 
 Most csak az XML-formájú mentés / betöltés érhető el itt, de lehetőség szerint lesz JSON is, 
 viszont azt még ki kell találni, milyen formában lehetne megoldani. Az adatok bekerülnek 
