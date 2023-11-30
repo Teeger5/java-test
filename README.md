@@ -10,8 +10,28 @@ A pályaelemek tulajdonságai alapvetően:
 - egyedi-e (csak egy lehet belőle a pályán)
 - szétterül-e egy cellában (a térképen kirajzoláskor be kell-e teríteni a mezőt a karakterével, vagy elég középre rajzolni egyet. A verem szétterül az érthetőség miatt)
 
-A fal egy érdekes eset viszont: a megjelenített karakterek illeszkednek egymáshoz. Azaz, ha 3 fal sarkot formálva van a pályán egymás mellett, L betű szerűen, akkor az egyik karaktere függőleges, a másiké vízszintes, a sarkon lévőe pedig sarok dobozrajzoló karakter lesz. Sok ilyen eshetőség van, pl. formázhatnak elágazást, + jelet is.
+Minden pályaelem rendelkezik ezekkel a tulajdonságokkal, és lehetnek egyedi tulajdonságaik is (pl. a fal formája, ami a megjelenített karaktert is meghatárorozza).
 
+A játékban a képességeket trait-eknek nevezik. Trait például a lövés képessége (CanShoot), és a tárgyak tárolásának a képessége (HasInventory).
+
+A HasInventory-nak érdekessége leht, hogy default interface metódusokat használ. 
+Azaz, egy kötelezően implementálandó metódusa van az interfacenek (getInventory()), 
+a többi metódus ezt felhasználva hozzá tud férni a tárgyakhoz, és tud módosításokat is végezni
+a játékos tárgyain (változtatni a mennyiségen, elkérni a számukat, és ellenőrizni egy tárgy meglétét).
+
+A CanShoot implementációja a hősnél egy `arrows` változóval történik, ami tárolja a nyilak számát.
+Egy későbbi verzióban érdemes lehet a nyilat is tárggyá tenni, mert ezzel jobban beleillene a kialakításba; 
+lehet úgy is implementálni, hogy az eszköztárban lévő nyilak, mint tárgyak számát vegye figyelembe.
+
+A parancsok feldolgozása és értelmezése elsőre bonyolultnak tűnt a Sudoku projektnél, 
+viszont miután sikerült megérteni, hogyan működik, itt is jól lehet alkalmazni egy hasonló
+megközelítést, ami kicsit egyszerűbb. Itt kimaradtak a `Performer`-ek, és 
+a parancsban leírt műveletet a parancs implementációja végzi el közvetlenül. 
+Ez azért változott így, mert így sem túl hosszó egy parancs kódja.
+
+Most csak az XML-formájú mentés / betöltés érhető el itt, de lehetőség szerint lesz JSON is, 
+viszont azt még ki kell találni, milyen formában lehetne megoldani. Az adatok bekerülnek 
+az adatbázisba XML formában, ezen nem lenne célszerű változtatni. Helyet kell találni neki.
 
 ### Pályaszerkesztő parancsok
 `legyen hős|fal|verem|wumpus|arany oszlop sor`
