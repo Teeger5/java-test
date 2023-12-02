@@ -8,6 +8,7 @@ import hu.nye.pandragon.wumpus.model.entities.LivingEntity;
 import hu.nye.pandragon.wumpus.model.entities.Wall;
 import hu.nye.pandragon.wumpus.service.traits.StaticEntity;
 import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,9 +44,13 @@ public class Level {
 	 */
 	private final Point startpoint;
 	private final Map<Point, LivingEntity> livingEntities;
+	@Getter
+	@Setter
+	private boolean editing;
 
 	public Level(int size) {
 		this.size = size;
+		this.editing = false;
 		livingEntities = new HashMap<>();
 		staticEntites = new HashMap<>();
 		for (int i = 1; i <= size; i++) {
@@ -243,7 +248,7 @@ public class Level {
 			e.setPosition(x, y);
 			livingEntities.put(e.getPosition(), e);
 			LOGGER.debug("add living entity: entities: " + livingEntities);
-			if (entity instanceof Hero && startpoint.x == 0) {
+			if (entity instanceof Hero && (startpoint.x == 0 || editing)) {
 				determineStartPoint();
 			}
 		}
@@ -315,4 +320,7 @@ public class Level {
 		}
 	}
 
+	public void setStartpoint (int x, int y) {
+		startpoint.setLocation(x, y);
+	}
 }

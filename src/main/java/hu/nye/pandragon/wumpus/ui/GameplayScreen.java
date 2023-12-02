@@ -50,6 +50,7 @@ public class GameplayScreen extends Screen {
 		this.playerName = playerName;
 		numberOfMoves = new AtomicInteger(0);
 		this.hero = level.getHero();
+		levelPrinter.setLevel(level);
 		if (hero == null) {
 			throw new RuntimeException("Nincs hős a pályán. Használd a pályaszerkesztőt, hogy hozzáadd a pályához.");
 		}
@@ -110,12 +111,12 @@ public class GameplayScreen extends Screen {
 			}
 			numberOfMoves.getAndIncrement();
 			log.debug("Pálya kirajzolása");
-			levelPrinter.printLevel(level.toLevelVO());
+			levelPrinter.printLevel();
 			if (messageFromCommandProcessing != null) {
 				printWrapper.println(messageFromCommandProcessing);
 			}
 			log.debug("HUD kirajzolása");
-			levelPrinter.printHeroBar(hero);
+			levelPrinter.printHeroBar();
 			log.debug("Parancs kérése");
 			var command = consoleInputWrapper.requestUserInput().toLowerCase();
 			try {

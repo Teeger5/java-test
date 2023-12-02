@@ -6,8 +6,6 @@ import hu.nye.pandragon.wumpus.model.Screen;
 import hu.nye.pandragon.wumpus.service.command.InputHandler;
 import hu.nye.pandragon.wumpus.service.command.impl.editor.*;
 import hu.nye.pandragon.wumpus.service.game.Level;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 
@@ -15,8 +13,6 @@ import java.util.Arrays;
  * Ez az osztály a pályaszerkesztőt írja le, és működteti
  */
 public class LevelEditorScreen extends Screen {
-
-	private static final Logger logger = LoggerFactory.getLogger(LevelEditorScreen.class);
 
 	private Level level;
 	private InputHandler inputHandler;
@@ -32,6 +28,7 @@ public class LevelEditorScreen extends Screen {
 	public void init () {
 		var size = requestMapSize();
 		level = new Level(size);
+		levelPrinter.setLevel(level);
 		inputHandler = new InputHandler(Arrays.asList(
 				new EditorPlaceEntityCommand(level),
 				new EditorExitCommand(this),
@@ -40,6 +37,7 @@ public class LevelEditorScreen extends Screen {
 				new EditorTestCommand(level.toLevelVO())
 		));
 		inputHandler.setPrintWrapper(printWrapper);
+		level.setEditing(true);
 		if (size == -1) {
 			printWrapper.println("Kilépés a pályaszerkesztőből...");
 			shouldExit = true;
@@ -89,10 +87,12 @@ public class LevelEditorScreen extends Screen {
 		var messageFromProcessing = "Próbáld ki az egyik parancsot";
 		while (true) {
 			if (shouldExit) {
-				printWrapper.println("Rendben, majd próbáld ki a pályát!");
+				if (level != null) {
+					printWrapper.println("Rendben, majd próbáld ki a pályát!");
+				}
 				break;
 			}
-			levelPrinter.printEditorLevel(level.toLevelVO());
+			levelPrinter.printEditorLevel();
 			if (messageFromProcessing != null) {
 				printWrapper.println(messageFromProcessing);
 			}

@@ -124,6 +124,7 @@
 						<exclude>hu/nye/pandragon/wumpus/model/**/*</exclude>
 						<exclude>hu/nye/pandragon/wumpus/Main.*</exclude>
 						<exclude>/hu/nye/pandragon/wumpus/service/traits/*</exclude>
+						<exclude>/hu/nye/pandragon/wumpus/service/command/impl/gameplay/GameSaveCommand**</exclude>
 						<exclude>/hu/nye/pandragon/wumpus/ui/*Wrapper.*</exclude>
 						<exclude>/hu/nye/pandragon/wumpus/ui/GameMainScreen*</exclude>
 						<exclude>/hu/nye/pandragon/wumpus/persistence/**</exclude>

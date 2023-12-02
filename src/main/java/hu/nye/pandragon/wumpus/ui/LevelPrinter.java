@@ -4,6 +4,8 @@ import hu.nye.pandragon.wumpus.model.LevelVO;
 import hu.nye.pandragon.wumpus.model.WallShape;
 import hu.nye.pandragon.wumpus.model.entities.Hero;
 import hu.nye.pandragon.wumpus.model.entities.Wall;
+import hu.nye.pandragon.wumpus.service.game.Level;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,9 +16,21 @@ public class LevelPrinter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(LevelPrinter.class);
 
-	private PrintWrapper printWrapper;
+	private final PrintWrapper printWrapper;
+	@Setter
+	private Level level;
+
+	public LevelPrinter (Level level) {
+		printWrapper = new PrintWrapper();
+		this.level = level;
+	}
 
 	public LevelPrinter(PrintWrapper printWrapper) {
+		this.printWrapper = printWrapper;
+	}
+
+	public LevelPrinter (PrintWrapper printWrapper, Level level) {
+		this.level = level;
 		this.printWrapper = printWrapper;
 	}
 
@@ -24,28 +38,25 @@ public class LevelPrinter {
 	 * Pálya kirajzolása és kiírása szerkesztést segítő módon,
 	 * azaz az üres helyeken egy pont lesz,
 	 * hogy könnyebben azonosítható legyen egy pont a pályán
-	 * @param levelVO a pálya
 	 */
-	public void printEditorLevel (LevelVO levelVO) {
-		printWrapper.println(drawLevel2(levelVO, true));
+	public void printEditorLevel () {
+		printWrapper.println(drawLevel2(level.toLevelVO(), true));
 	}
 
 	/**
 	 * Pálya kirajzolása és kiírása
-	 * @param levelVO a pálya
 	 */
-	public void printLevel (LevelVO levelVO) {
-		printWrapper.println(drawLevel2(levelVO, false));
+	public void printLevel () {
+		printWrapper.println(drawLevel2(level.toLevelVO(), false));
 	}
 
 	/**
 	 * Kiírja a hős adatait a következő formában:
 	 * Hős: ikon | oszlop_betűje sor_száma |x nyíl | Tárgyak: ...
 	 * A tárgyakat csak akkor írja, ha vannak a hősnek
-	 * @param hero a hős
 	 */
-	public void printHeroBar (Hero hero) {
-		printWrapper.println(drawHeroBar(hero));
+	public void printHeroBar () {
+		printWrapper.println(drawHeroBar(level.getHero()));
 	}
 
 	/**
@@ -54,7 +65,7 @@ public class LevelPrinter {
 	 * @param isEditing szerkesztés közben van-e
 	 * @return a pályáról készült rajz
 	 */
-	public String drawLevel (LevelVO levelVO, boolean isEditing) {
+	private String drawLevel (LevelVO levelVO, boolean isEditing) {
 		var drawing = new StringBuilder();
 		var size = levelVO.getSize();
 		var staticEntities = levelVO.getStaticEntities();
@@ -158,7 +169,7 @@ public class LevelPrinter {
 	 * @param hero a hős
 	 * @return az adatai egy sorban összefoglalva
 	 */
-	public String drawHeroBar (Hero hero) {
+	private String drawHeroBar (Hero hero) {
 		var barText = String.format(
 				"Hős: %c | %s %d | %d nyíl",
 				hero.getDisplaySymbol(),
@@ -174,7 +185,7 @@ public class LevelPrinter {
 		return barText;
 	}
 
-	public String drawLevel2 (LevelVO levelVO, boolean isEditing) {
+	private String drawLevel2 (LevelVO levelVO, boolean isEditing) {
 		var drawing = new StringBuilder();
 		var size = levelVO.getSize();
 		var staticEntities = levelVO.getStaticEntities();
@@ -184,6 +195,7 @@ public class LevelPrinter {
 		for (int i = 0; i < size; i++) {
 			drawing.append(' ').append((char) (65 + i)).append(' ');
 		}
+		drawing.setLength(drawing.length() - 1);
 		drawing.append('\n');
 		var gettingpoint = new Point(0, 0);
 		for (int y = 1; y <= size; y++) {
@@ -198,8 +210,8 @@ public class LevelPrinter {
 				if (staticEntity == null && livingEntity == null) {
 					middle = isEditing ? '•' : ' ';
 					if (!isEditing && gettingpoint.equals(startpoint)) {
-						left = WallShape.Startpoint.getSymbol();
-						right = left;
+						left = '>';
+						right = '<';
 					}
 				}
 				else if (staticEntity != null) {
@@ -227,8 +239,8 @@ public class LevelPrinter {
 				else if (livingEntity != null) {
 					middle = livingEntity.getDisplaySymbol();
 					if (!isEditing && gettingpoint.equals(startpoint)) {
-						left = WallShape.Startpoint.getSymbol();
-						right = left;
+						left = '>';
+						right = '<';
 					}
 				}
 				else {
@@ -236,6 +248,7 @@ public class LevelPrinter {
 				}
 				drawing.append(left).append(middle).append(right);
 			}
+			drawing.setLength(drawing.length() - 1);
 			drawing.append('\n');
 		}
 		return drawing.toString();
