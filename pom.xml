@@ -57,7 +57,16 @@
 			<artifactId>mariadb-java-client</artifactId>
 			<version>2.1.2</version>
 		</dependency>
-
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.15.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.15.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -119,6 +128,7 @@
 						<exclude>/hu/nye/pandragon/wumpus/ui/GameMainScreen*</exclude>
 						<exclude>/hu/nye/pandragon/wumpus/persistence/**</exclude>
 						<exclude>/hu/nye/pandragon/wumpus/xml/model/*</exclude>
+						<exclude>/hu/nye/pandragon/wumpus/json/model/*</exclude>
 					</excludes>
 				</configuration>
 				<executions>

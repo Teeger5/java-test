@@ -14,9 +14,9 @@ import org.junit.jupiter.api.Test;
 @Slf4j
 class XmlLevelConverterTest {
 
-	static String XML_CODE = """
+	static String XML_CODE_PRETTY = """
 			<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-			<Level size="4" startX="3" startY="3" steps="0">
+			<Level size="4" startX="3" startY="3" steps="3">
 			    <Hero arrows="2" direction="W" hasGold="true"/>
 			    <Entities>
 			        <Entity posX="1" posY="1">W</Entity>
@@ -36,16 +36,49 @@ class XmlLevelConverterTest {
 			</Level>
 			""";
 
-	Level level;
+	static String XML_CODE = """
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Level size="4" startX="3" startY="3" steps="3"><Hero arrows="2" direction="W" hasGold="true"/><Entities><Entity posX="1" posY="1">W</Entity><Entity posX="4" posY="1">W</Entity><Entity posX="1" posY="4">W</Entity><Entity posX="1" posY="2">W</Entity><Entity posX="4" posY="2">W</Entity><Entity posX="2" posY="1">W</Entity><Entity posX="2" posY="4">W</Entity><Entity posX="4" posY="4">W</Entity><Entity posX="1" posY="3">W</Entity><Entity posX="4" posY="3">W</Entity><Entity posX="3" posY="1">W</Entity><Entity posX="3" posY="4">W</Entity><Entity posX="3" posY="3">H</Entity></Entities></Level>""";
+
+	LevelVO levelVO;
 
 	@BeforeEach
 	public void setup () {
-		level = new Level(4);
+		var level = new Level(4);
 		var hero = new Hero();
 		level.placeEntity(3, 3, hero);
 		hero.setDirection(Directions.West);
 		hero.setAmmoAmount(2);
 		hero.addItem(Items.Gold);
+		levelVO = level.toLevelVO(3);
+	}
+
+	@Test
+	public void shouldConvertToXMLCorrectlyPretty () {
+		var expected =  XML_CODE_PRETTY;
+		String result;
+		try {
+			result = XmlLevelConverter.toXML(levelVO, true);
+			log.debug("toXML: " + result);
+		} catch (JAXBException e) {
+			throw new RuntimeException(e);
+		}
+		Assertions.assertEquals(expected, result);
+	}
+
+	@Test
+	public void shouldConvertToLevelVOCorrectlyPretty () {
+		var input = XML_CODE_PRETTY;
+		var expected = levelVO;
+		LevelVO result;
+		try {
+			result = XmlLevelConverter.toLevelVO(input);
+			log.debug("staticEntites equals: " + expected.getStaticEntities().equals(result.getStaticEntities()));
+			log.debug("expected - result static entities: {} - {}", expected.getStaticEntities().size(), result.getStaticEntities().size());
+			log.debug("xml -> levelVO -> xml: " + XmlLevelConverter.toXML(result, true));
+		} catch (JAXBException e) {
+			throw new RuntimeException(e);
+		}
+		Assertions.assertEquals(expected, result);
 	}
 
 	@Test
@@ -53,7 +86,7 @@ class XmlLevelConverterTest {
 		var expected =  XML_CODE;
 		String result;
 		try {
-			result = XmlLevelConverter.toXML(level.toLevelVO(), true);
+			result = XmlLevelConverter.toXML(levelVO, false);
 			log.debug("toXML: " + result);
 		} catch (JAXBException e) {
 			throw new RuntimeException(e);
@@ -64,13 +97,13 @@ class XmlLevelConverterTest {
 	@Test
 	public void shouldConvertToLevelVOCorrectly () {
 		var input = XML_CODE;
-		var expected = level.toLevelVO();
+		var expected = levelVO;
 		LevelVO result;
 		try {
 			result = XmlLevelConverter.toLevelVO(input);
 			log.debug("staticEntites equals: " + expected.getStaticEntities().equals(result.getStaticEntities()));
 			log.debug("expected - result static entities: {} - {}", expected.getStaticEntities().size(), result.getStaticEntities().size());
-			log.debug("xml -> levelVO -> xml: " + XmlLevelConverter.toXML(result, true));
+			log.debug("xml -> levelVO -> xml: " + XmlLevelConverter.toXML(result, false));
 		} catch (JAXBException e) {
 			throw new RuntimeException(e);
 		}

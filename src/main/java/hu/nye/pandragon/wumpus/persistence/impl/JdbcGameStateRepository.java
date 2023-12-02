@@ -57,8 +57,14 @@ public class JdbcGameStateRepository implements GameStateRepository {
 	 * Új játékos hozzáadása az adatbázishoz
 	 * Nem módosítja, ha már létezik ilyen nevű
 	 */
+	/**
+	 * Új játékos hozzáadása
+	 */
 	private static final String INSERT_NEW_USER_STATEMENT = "INSERT IGNORE INTO players (name) VALUES (?);";
-
+	/**
+	 * A játékos pontszámának növelése megadott mennyiséggel
+	 */
+	private static String INCREMENT_PLAYER_SCORE_STATEMENT = "INSERT INTO players (name, score) VALUES (?, ?) ON DUPLICATE KEY UPDATE score = score + ?;";
 	private final Connection connection;
 
 	public JdbcGameStateRepository() {
@@ -163,7 +169,7 @@ public class JdbcGameStateRepository implements GameStateRepository {
 	}
 
 	public void increaseScore (PlayernameVO playername, int amount) {
-		try (var statement = connection.prepareStatement("INSERT INTO players (name, score) VALUES (?, ?) ON DUPLICATE KEY UPDATE score = score + ?;")) {
+		try (var statement = connection.prepareStatement(INCREMENT_PLAYER_SCORE_STATEMENT)) {
 			statement.setString(1, playername.toString());
 			statement.setInt(2, amount);
 			statement.setInt(3, amount);
