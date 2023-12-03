@@ -31,11 +31,9 @@ viszont miután sikerült megérteni, hogyan működik, itt is jól lehet alkalm
 megközelítést, ami kicsit egyszerűbb. Itt kimaradtak a `Performer`-ek, és 
 a parancsban leírt műveletet a parancs implementációja végzi el közvetlenül.
 
-Most csak az XML-formájú mentés / betöltés érhető el itt, de lehetőség szerint lesz JSON is, 
-viszont azt még ki kell találni, milyen formában lehetne megoldani. Az adatok bekerülnek 
-az adatbázisba XML formában, ezen nem lenne célszerű változtatni. Helyet kell találni neki.
+Az adatok mentése az adatbázisban XML-ben történik. A JSON csak teszteknél van használatban.
 
-### Pályaszerkesztő parancsok
+### Pályaszerkesztő parancsai
 `legyen hős|fal|verem|wumpus|arany oszlop sor`
 Új pályaelem létrehozása a megadott pozíción
 
@@ -48,7 +46,7 @@ Hős forgatása a megadott égtáj irányába
 `kész`
 Pálya mentése, és kilépés a pályaszerkesztőből
 
-### Játék parancsok
+### Játék parancsai
 `lép`
 A hős előre lép egyet, azaz az előtte lévő pozícióra
 
@@ -66,8 +64,3 @@ Kilépés a játékból
 
 `halasztás`
 Játék mentése az adatbázisba
-
-## Hátrlévő fontos feladatok
-A jelenlegi állapot alapján
-- Teszteket kell írni, minél többet
-- Megjelölni a kezdőhelyet a pályán kirajzoláskor
