@@ -161,7 +161,7 @@ public class JdbcGameStateRepository implements GameStateRepository {
 	 * @param playername az új játékos neve
 	 * @throws SQLException
 	 */
-	private void insertNewPlayer (PlayernameVO playername) throws SQLException {
+	public void insertNewPlayer (PlayernameVO playername) throws SQLException {
 		try (var statement = connection.prepareStatement(INSERT_NEW_USER_STATEMENT)) {
 			statement.setString(1, playername.toString());
 			statement.executeQuery();

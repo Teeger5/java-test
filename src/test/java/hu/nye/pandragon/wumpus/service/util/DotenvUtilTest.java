@@ -6,6 +6,10 @@ import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;
 
+/**
+ * A Dotenv tesztelésében fájlbeolvasásra is szükség van,
+ * ezért a fájlnak léteznie kell a tesztek futtatásához
+ */
 class DotenvUtilTest {
 	DotenvUtil dotenvUtil;
 

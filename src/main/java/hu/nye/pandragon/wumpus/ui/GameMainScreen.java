@@ -8,6 +8,7 @@ import hu.nye.pandragon.wumpus.persistence.impl.JdbcGameStateRepository;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+import java.sql.SQLException;
 import java.util.stream.Collectors;
 
 /**
@@ -26,6 +27,14 @@ public class GameMainScreen extends Screen {
 	public void start () {
 		if (playerName == null) {
 			requestPlayerName();
+		}
+		try {
+			log.debug("Játékos hozzáadása az adatbázishoz");
+			var repository = new JdbcGameStateRepository();
+			repository.insertNewPlayer(playerName);
+			repository.close();
+		} catch (SQLException e) {
+			log.error("Hiba az új játékos adatbázishoz adásakor", e);
 		}
 		printWrapper.printf("Köszöntelek, %s! Kezdjünk hozzű!\n", playerName);
 		readCommands();
@@ -136,6 +145,10 @@ public class GameMainScreen extends Screen {
 		}
 	}
 
+	/**
+	 * Játék betöltése az adatbázisből
+	 * Felülírja a jelenlegi pályát
+	 */
 	public void loadGameFromDB () {
 		try {
 			var repository = new JdbcGameStateRepository();
@@ -155,8 +168,4 @@ public class GameMainScreen extends Screen {
 		printWrapper.printf("Viszontlátásra, %s!\n", playerName);
 		System.exit(0);
 	}
-
-	/*
-	A mentést és a betöltést meg kell kérdeznem, nem egyértelmű, mire vonatkozik
-	 */
 }
