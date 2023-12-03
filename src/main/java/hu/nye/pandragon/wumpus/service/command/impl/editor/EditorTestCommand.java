@@ -1,10 +1,10 @@
 package hu.nye.pandragon.wumpus.service.command.impl.editor;
 
-import hu.nye.pandragon.wumpus.model.LevelVO;
-import hu.nye.pandragon.wumpus.model.PlayernameVO;
-import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
-import hu.nye.pandragon.wumpus.service.command.Command;
 import hu.nye.pandragon.wumpus.model.LevelEditorCommands;
+import hu.nye.pandragon.wumpus.model.PlayernameVO;
+import hu.nye.pandragon.wumpus.service.command.Command;
+import hu.nye.pandragon.wumpus.service.command.CommandMatcherResult;
+import hu.nye.pandragon.wumpus.service.game.Level;
 import hu.nye.pandragon.wumpus.ui.GameplayScreen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,10 +15,10 @@ import org.slf4j.LoggerFactory;
 public class EditorTestCommand implements Command {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(EditorTestCommand.class);
-	private final LevelVO levelVO;
+	private final Level level;
 
-	public EditorTestCommand(LevelVO levelVO) {
-		this.levelVO = levelVO;
+	public EditorTestCommand(Level level) {
+		this.level = level;
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class EditorTestCommand implements Command {
 	public void process(String input) {
 		LOGGER.info("Pálya tesztelésének indítása...");
 
-		var gameplay = new GameplayScreen(levelVO, new PlayernameVO("Teszt"));
+		var gameplay = new GameplayScreen(level.toLevelVO(), new PlayernameVO("Teszt"));
 		gameplay.start();
 
 		LOGGER.info("A játékos kilépett a pálya teszteléséből");

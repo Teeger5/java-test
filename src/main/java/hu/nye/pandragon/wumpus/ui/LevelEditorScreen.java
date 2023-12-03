@@ -34,7 +34,7 @@ public class LevelEditorScreen extends Screen {
 				new EditorExitCommand(this),
 				new EditorRotateCommand(level),
 				new EditorRemoveEntityCommand(level),
-				new EditorTestCommand(level.toLevelVO())
+				new EditorTestCommand(level)
 		));
 		inputHandler.setPrintWrapper(printWrapper);
 		level.setEditing(true);
