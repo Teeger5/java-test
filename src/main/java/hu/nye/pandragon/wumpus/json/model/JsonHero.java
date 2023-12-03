@@ -2,12 +2,14 @@ package hu.nye.pandragon.wumpus.json.model;
 
 import hu.nye.pandragon.wumpus.model.Items;
 import hu.nye.pandragon.wumpus.model.entities.Hero;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
 
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
 @Jacksonized
 public class JsonHero {
 	private int arrows;
@@ -15,8 +17,6 @@ public class JsonHero {
 	private boolean hasGold;
 
 	public JsonHero (Hero hero) {
-		arrows = hero.getAmmoAmount();
-		direction = hero.getDirection().getCompatibilitySymbol();
-		hasGold = hero.hasItem(Items.Gold);
+		this(hero.getAmmoAmount(), hero.getDirection().getCompatibilitySymbol(), hero.hasItem(Items.Gold));
 	}
 }

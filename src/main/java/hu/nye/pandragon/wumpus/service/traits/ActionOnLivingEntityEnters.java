@@ -1,6 +1,7 @@
 package hu.nye.pandragon.wumpus.service.traits;
 
 import hu.nye.pandragon.wumpus.model.entities.LivingEntity;
+import hu.nye.pandragon.wumpus.service.game.Level;
 
 /**
  * Az ezt implementáló pályaelemekre lépő
@@ -11,5 +12,5 @@ public interface ActionOnLivingEntityEnters {
 	 * Ez a metódus akkor fut le, amikor egy lény rálép erre a pályaelemre
 	 * @param livingEntity a lény, aki ide lépett
 	 */
-	void onLivingEntityEnters (LivingEntity livingEntity);
+	void onLivingEntityEnters (Level level, LivingEntity livingEntity);
 }

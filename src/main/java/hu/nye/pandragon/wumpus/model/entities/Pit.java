@@ -1,5 +1,6 @@
 package hu.nye.pandragon.wumpus.model.entities;
 
+import hu.nye.pandragon.wumpus.service.game.Level;
 import hu.nye.pandragon.wumpus.service.traits.ActionOnLivingEntityEnters;
 import hu.nye.pandragon.wumpus.service.traits.StaticEntity;
 
@@ -14,7 +15,7 @@ public class Pit extends Entity implements StaticEntity, ActionOnLivingEntityEnt
 	}
 
 	@Override
-	public void onLivingEntityEnters(LivingEntity livingEntity) {
+	public void onLivingEntityEnters(Level level, LivingEntity livingEntity) {
 		if (livingEntity instanceof Hero hero) {
 			hero.decreaseArrows();
 		}

@@ -60,10 +60,10 @@ public class EntityController {
 			}
 			LOGGER.debug("hero move next entity: " + nextEntity);
 			if (nextEntity instanceof ActionOnLivingEntityEnters location) {
-				location.onLivingEntityEnters(hero);
+				location.onLivingEntityEnters(level, hero);
 			}
 		}
-		LOGGER.debug("moveForward: ", entity);
+		LOGGER.debug("moveForward: " + entity);
 		level.removeEntityIfExists(entity);
 		if (entity.isAlive()) {
 			level.placeEntity(x, y, entity);

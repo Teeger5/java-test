@@ -10,9 +10,9 @@ public class Wumpus extends LivingEntity implements ActionOnLivingEntityEnters {
 	}
 
 	@Override
-	public void onLivingEntityEnters(LivingEntity livingEntity) {
+	public void onLivingEntityEnters(Level level, LivingEntity livingEntity) {
 		if (livingEntity instanceof Hero hero) {
-			hero.kill(null);
+			hero.kill(level);
 		}
 	}
 
