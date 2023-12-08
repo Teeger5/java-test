@@ -49,57 +49,6 @@ több metódus hívását egyetlen metódusban.
 
 ### Példa
 ```java
-// Egy alrendszer, amely egy sárkányt ír le
-class Eyes {
-	public void openEyes() {
-		System.out.println("Opening the eyes...");
-	}
-
-	public void closeEyes() {
-		System.out.println("Closing the eyes...");
-	}
-}
-
-class Mouth {
-	public void breatheFire() {
-		System.out.println("Breathing fire...");
-	}
-
-	public void roarLoudly() {
-		System.out.println("Roaring loudly...");
-	}
-}
-
-class Wings {
-	public void startFlying() {
-		System.out.println("Starting flying...");
-	}
-
-	public void stopFlying() {
-		System.out.println("Stopping flying...");
-	}
-}
-
-class Nose {
-	public void snoreSoftly() {
-		System.out.println("Snoring softly...");
-	}
-
-	public void stopSnoring() {
-		System.out.println("Stopping snoring...");
-	}
-}
-
-class Body {
-	public void curlUp() {
-		System.out.println("Curling up...");
-	}
-
-	public void stretchWings() {
-		System.out.println("Stretching the wings...");
-	}
-}
-
 // A Facade, amely egy egyszerű API-t biztosít a sárkányhoz
 class DragonFacade {
 	private Nose nose;
@@ -143,7 +92,25 @@ public DragonFacade() {
 
 ## Adapter
 
+Az adapter tervezési minta lehetővé teszi egy meglévő osztály / interface használatát 
+egy másik interface-en keresztül.
+
+Például legyen adott egy USB-hub és egy kártyaolvasó. Az adapter tervezési minta 
+lényege az, hogy az adaptálandó osztály (a kártyaolvasó) 
+átadja az adapternek (az USB-hub) aaz adatait (a memóriakártyát), 
+és ezáltal az adapter meg tudja valósítani az illesztést (csatlakoztatni a számítógéphez).
+
+### Előnyei
+- Nem kell régi kódot átalakítani vagy újraírni kompatibilisan
+- Növeli a modularitást
+- Csökkenti az ismétlődő kódot
+
+### Hátrányai
+- Növelheti a kód hosszát és bonyolultságát, ha sok adapter osztályt kelllétrehoznunk
+- Csökkentheti a teljesítményt vagy a stabilitást
+
 ### Példa
+Ez a Java `Iterator` és `Enaumeration` interfészeit mutatja be, mint adaptált és adapter.
 ```java
 public interface Iterator<E> {
 
@@ -181,8 +148,6 @@ public interface Enumeration<E> {
 	}
 }
 ```
-
-Eddig van most kész
 
 ## Decorator
 
