@@ -248,8 +248,123 @@ redRectangle.draw();
 Viselkedési tervezési minták jönnek
 
 ## Iterator
+Az iterator tervezési minta használatával bejárhatunk egy tárolóban lévő elemeket, 
+anélkül, hogy tudnánk a konkrét tároló belső működését. 
+
+Az iterator minta általában a következőképp épül fel:
+- Van egy tároló, amelynek van egy olyan metódusa, amely visszaad egy iterátort, 
+- és egy másik metódusa, 
+amely visszaadja az elemet a következő bejáráshoz. Az iterátort úgy lehet létrehozni, 
+hogy egy tárolót adunk hozzá, és megvizsgáljuk, hogy rendelkezik-e még elemekkel. 
+Ha igen, akkor használjuk az iterátort a for ciklusban vagy más hasonló ciklusokban.
 
 ## Chain of Responsibility
+A Chain of Responsibility tervezési minta egy olyan viselkedési tervezési minta, 
+amelynek az alapelemei egy feldolgozandó kérés, és egy sor feldolgozási objektum. 
+Minden feldolgozási objektum tartalmaz logikát, amely meghatározza, hogy milyen 
+típusú kérést képes kezelni. Amikor egy nem tudja kezelni a feldolgozandó kérést,
+akkor  átadja a következőnek a sorban.
+
+### Példa
+```java
+
+// A sárkánynak van neve és ereje
+// Ez lesz a kérésben a feldolgozandó objektum
+public class Dragon {
+	private String name;
+	private int power;
+
+	public Dragon(String name, int power) {
+		this.name = name;
+		this.power = power;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public int getPower() {
+		return power;
+	}
+}
+
+// Az absztrakt alap osztály a kérés kezelő objektumoknak
+// Ezzel rövidebb lehet a kód, mint egy interfésszel
+public abstract class DragonHandler {
+	protected DragonHandler nextHandler; // a következő kezelő a láncban
+
+	public void setNextHandler(DragonHandler nextHandler) {
+		this.nextHandler = nextHandler;
+	}
+
+	// a kérés feldolgozása
+	public abstract void handle(Dragon dragon);
+}
+
+// Egy konkrét kezelő osztály, amely a tűz erejű sárkányokat kezeli
+public class FireDragonHandler extends DragonHandler {
+
+	@Override
+	public void handle(Dragon dragon) {
+		if (dragon.getPower() == 1) { // ha a sárkány tűz erejű
+			System.out.println(dragon.getName() + " egy tűz erejű sárkány, aki lángokat okád");
+		} else if (nextHandler != null) { // ha nem, továbbítja a kérést a következő kezelőnek
+			nextHandler.handle(dragon);
+		} else { // ha nincs több kezelő, akkor nem tudja feldolgozni a kérést
+			System.out.println("Nem tudom kezelni ezt a sárkányt: " + dragon.toString());
+		}
+	}
+}
+
+// Egy konkrét kezelő osztály, amely a villám erejű sárkányokat kezeli
+public class LightningDragonHandler extends DragonHandler {
+
+	@Override
+	public void handle(Dragon dragon) {
+		if (dragon.getPower() == 2) {
+			System.out.println(dragon.getName() + " egy villám erejű sárkány, aki villanásokat szór");
+		} else if (nextHandler != null) {
+			nextHandler.handle(dragon);
+		} else {
+			System.out.println("Nem tudom kezelni ezt a sárkányt: " + dragon.toString());
+		}
+	}
+}
+
+// Egy konkrét kezelő osztály, amely a jég erejű sárkányokat kezeli
+public class IceDragonHandler extends DragonHandler {
+
+	@Override
+	public void handle(Dragon dragon) {
+		if (dragon.getPower() == 3) {
+			System.out.println(dragon.getName() + " egy jég erejű sárkány, aki jégcsapokat lő");
+		} else if (nextHandler != null) {
+			nextHandler.handle(dragon);
+		} else {
+			System.out.println("Nem tudom kezelni ezt a sárkányt: " + dragon.toString());
+		}
+	}
+}
+
+public void test() {
+	DragonHandler fireHandler = new FireDragonHandler();
+	DragonHandler iceHandler = new IceDragonHandler();
+	DragonHandler lightningHandler = new LightningDragonHandler();
+
+	fireHandler.setNextHandler(iceHandler);
+	iceHandler.setNextHandler(lightningHandler);
+
+	Dragon fireDragon = new Dragon("Thornr", 1);
+	Dragon iceDragon = new Dragon("Shruikan", 2);
+	Dragon lightningDragon = new Dragon("Glaedr", 3);
+	Dragon unknownDragon = new Dragon("Doragon ga arimasu ka", 4);
+
+	fireHandler.handle(fireDragon);
+	fireHandler.handle(iceDragon);
+	fireHandler.handle(lightningDragon);
+	fireHandler.handle(unknownDragon);
+}
+```
 
 ## Command
 
