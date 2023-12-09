@@ -151,6 +151,97 @@ public interface Enumeration<E> {
 
 ## Decorator
 
+A Decorator tervezési minta egy olyan minta, amely lehetővé teszi, hogy 
+egy objektum viselkedését dinamikusan bővítsük anélkül, hogy megváltoztatnánk 
+az objektum osztályát vagy öröklési hierarchiáját. A Decorator minta hasznos, 
+ha sokféle variáció van egy alapvető viselkedésen, és nem akarunk létrehozni 
+sok osztályt, hogy kezeljünk minden variációt.   
+A Decorator minta egy absztrakt osztályt vagy interfészt használ, amely 
+meghatározza az alapvető viselkedést, és egy vagy több dekorátor osztályt,
+amely felülírja a viselkedésüket, kiegészítve valamivel, és tartalmaz egy referenciát 
+az alap objektumra. A dekorátor osztályok egymásra  is épülhetnek, hogy különböző 
+kombinációkat hozzanak létre.  
+
+Szükséges részek:
+- Egy absztrakt objektum, ami az alap viselkedést írja le
+- Egy osztály, ami ezt implementálja
+- Egy másik osztály (a dekorátor), ami implementálja
+- Dekorátor osztályok, amik az objektum dekorátor megvalósítását öröklik
+
+A dekorátor osztályokat tetszőleges számban lehet egymásba ágyazni a 
+példányosításukkor, és mind érvényesíteni fogják a hatásukat az objektumon.
+
+### EElőnyei
+- Rugalmas
+- Könnyen bővíthető
+- Elkerüli az osztályhierarchia túlzott bonyolítását
+
+### Hátrányai
+
+### Példa
+```java
+public interface Shape {
+   void draw();
+}
+
+// Ez az osztály a Shape egy implementációja
+public class Rectangle implements Shape {
+
+   @Override
+   public void draw() {
+      System.out.println("Téglalap");
+   }
+}
+
+// Ez egy másik implementációja
+public class Circle implements Shape {
+
+   @Override
+   public void draw() {
+      System.out.println("Kör");
+   }
+}
+
+// Az absztrakt dekorátor osztály, ami szintén implementálja a Shape-et
+public abstract class ShapeDecorator implements Shape {
+   protected Shape decoratedShape;
+
+   public ShapeDecorator(Shape decoratedShape){
+      this.decoratedShape = decoratedShape;
+   }
+
+   public void draw(){
+      decoratedShape.draw();
+   }	
+}
+
+// Ez egy konkrét dekorátor, ami örökli az absztrakt osztályt
+public class RedShapeDecorator extends ShapeDecorator {
+
+   public RedShapeDecorator(Shape decoratedShape) {
+      super(decoratedShape);		
+   }
+
+   @Override
+   public void draw() {
+      decoratedShape.draw();	       
+      setRedBorder(decoratedShape);
+   }
+
+   private void setRedBorder(Shape decoratedShape){
+      System.out.println("A színe piros");
+   }
+}
+
+// A használatuk így történik:
+Shape redCircle = new RedShapeDecorator(new Circle());
+
+Shape redRectangle = new RedShapeDecorator(new Rectangle());
+
+redCircle.draw();
+redRectangle.draw();
+```
+
 Viselkedési tervezési minták jönnek
 
 ## Iterator
