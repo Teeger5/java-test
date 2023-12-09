@@ -177,6 +177,9 @@ példányosításukkor, és mind érvényesíteni fogják a hatásukat az objekt
 - Elkerüli az osztályhierarchia túlzott bonyolítását
 
 ### Hátrányai
+- Sok kód
+- Bonyolítja a hibakeresést
+- Nagyobb memőria-használat
 
 ### Példa
 ```java
