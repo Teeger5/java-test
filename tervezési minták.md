@@ -237,9 +237,11 @@ public class RedShapeDecorator extends ShapeDecorator {
 }
 
 // A használatuk így történik:
-Shape redCircle = new RedShapeDecorator(new Circle());
+    public void test() {
+	    Shape redCircle = new RedShapeDecorator(new Circle());
 
-Shape redRectangle = new RedShapeDecorator(new Rectangle());
+	    Shape redRectangle = new RedShapeDecorator(new Rectangle());
+    }
 
 redCircle.draw();
 redRectangle.draw();
@@ -367,6 +369,107 @@ public void test() {
 ```
 
 ## Command
+A Command tervezési minta egy olyan viselkedési minta, amely egy objektumot használ arra, 
+hogy reprezentáljon egy műveletet, amelyet egy másik objektumon kell végrehajtani. 
+Ezzel a mintával elválaszthatjuk a hívó és a fogadó objektumokat.
+
+A Command tervezési minta a következő elemekből áll:
+- Command: egy interfész vagy absztrakt osztály, amely definiálja a műveletet, 
+amelyet a fogadón kell végrehajtani. 
+- ConcreteCommand: egy osztály, amely implementálja / örökli a Command-ot, 
+és tárolja a fogadó (Receiver) referenciáját és a művelet paramétereit. 
+- Receiver: egy osztály, amely tartalmazza a művelet logikáját és a végrehajtásához 
+szükséges adatokat. 
+- Invoker: egy osztály, amely tárolja és kezeli a Command objektumokat, 
+és meghívja őket a megfelelő időben. 
+- Client: egy osztály, amely létrehozza a ConcreteCommand objektumokat, és átadja 
+őket az Invoker-nek.
+
+### Példa
+```java
+// Command interfész
+public interface Command {
+	void execute();
+}
+
+// ConcreteCommand osztály, amely a sárkány tűzokádását reprezentálja
+public class FireBreathCommand implements Command {
+	private Dragon dragon;
+
+	public FireBreathCommand(Dragon dragon) {
+		this.dragon = dragon;
+	}
+
+	@Override
+	public void execute() {
+		dragon.breatheFire();
+	}
+}
+
+// ConcreteCommand osztály, amely a sárkány repülését reprezentálja
+public class FlyCommand implements Command {
+	private Dragon dragon;
+
+	public FlyCommand(Dragon dragon) {
+		this.dragon = dragon;
+	}
+
+	@Override
+	public void execute() {
+		dragon.fly();
+	}
+}
+
+// Receiver osztály
+public class Dragon {
+	private String name;
+
+	public Dragon(String name) {
+		this.name = name;
+	}
+
+	public void breatheFire() {
+		System.out.println(name + " tüzet okád");
+	}
+
+	public void fly() {
+		System.out.println(name + " repül");
+	}
+}
+
+// Invoker osztály
+public class Dragonrider {
+	private String name;
+	private List<Command> commands;
+
+	public Dragonrider(String name) {
+		this.name = name;
+		commands = new ArrayList<>();
+	}
+
+	public void addCommand(Command command) {
+		commands.add(command);
+	}
+
+	public void executeCommands() {
+		System.out.println(name + " parancsokat ad a sárkánynak");
+		for (Command command : commands) {
+			command.execute();
+		}
+	}
+}
+
+public void test() {
+		Dragon dragon = new Dragon("Thorn");
+	Dragonrider dragonrider = new Dragonrider("Murtagh");
+	Command fireBreath = new FireBreathCommand(dragon);
+	Command fly = new FlyCommand(dragon);
+
+	dragonrider.addCommand(fireBreath);
+	dragonrider.addCommand(fly);
+	dragonrider.executeCommands();
+}
+```
 
 ## Template Method
 
