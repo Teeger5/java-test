@@ -473,6 +473,84 @@ public void test() {
 
 ## Template Method
 
+A Template Method tervezési minta meghatározza egy algoritmus vázát egy metódusban, 
+és néhány lépést a leszármazott osztályokra bíz. A Template Method lehetővé teszi 
+a leszármazott osztályoknak, hogy bizonyos lépéseket újra meghatározzanak 
+az algoritmus szerkezetének megváltoztatása nélkül1.
+
+### Példa
+```java
+// Absztrakt osztály, amely a sárkány létrehozásának vázát adja meg
+public abstract class Dragon {
+	// Template metódus, amely a sárkány létrehozásának lépéseit hívja meg
+	public final void createDragon() {
+		createBody();
+		createWings();
+		createTail();
+		createHead();
+	}
+
+	//Absztrakt metódusok, amelyeket a leszármazott osztályoknak meg kell valósítaniuk
+	public abstract void createBody();
+	public abstract void createWings();
+	public abstract void createTail();
+	public abstract void createHead();
+}
+
+// Konkrét osztály, amely egy piros sárkányt hoz létre
+public class RedDragon extends Dragon {
+	@Override
+	public void createBody() {
+		System.out.println("Vörös pikelyekkel borított sárkánytest készítése");
+	}
+
+	@Override
+	public void createWings() {
+		System.out.println("2 nagy vörös szárny készítése");
+	}
+
+	@Override
+	public void createTail() {
+		System.out.println("Hosszú, vörös, tüskés farok készítése");
+	}
+
+	@Override
+	public void createHead() {
+		System.out.println("Vörös fej készítése szarvakkal és éles fogakkal");
+	}
+}
+
+//Konkrét osztály, amely egy kék sárkányt hoz létre
+public class BlueDragon extends Dragon {
+	@Override
+	public void createBody() {
+		System.out.println("Kék pikkelyekkel borított sárkánytetst készítése");
+	}
+
+	@Override
+	public void createWings() {
+		System.out.println("2 kis kék szárny készítése");
+	}
+
+	@Override
+	public void createTail() {
+		System.out.println("Rövid, kék farok készítése");
+	}
+
+	@Override
+	public void createHead() {
+		System.out.println("Kék fej készítése szarvakkal és éles fogakkal");
+	}
+}
+
+public void test() {
+	Dragon redDragon = new RedDragon();
+	redDragon.createDragon();
+	Dragon blueDragon = new BlueDragon();
+	blueDragon.createDragon();
+}
+```
+
 **Létrehozási tervezési minták jönnek**
 
 ## Singleton
