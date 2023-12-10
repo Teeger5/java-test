@@ -1,5 +1,7 @@
 # Tervezési minták egy OO programozási nyelvben. MVC,
 
+## MVC
+
 Az MVC tervezési minta egy olyan módszer, amellyel felépíthetünk és szervezhetünk 
 webes alkalmazásokat. Az MVC három fő részből áll: a modellből, a nézetből és a vezérlőből. 
 Ezek a részek különállóak, de együttműködnek egymással.
@@ -24,14 +26,14 @@ vagy frissíteni a modellben, és milyen nézetet kell megjeleníteni a felhaszn
 ### Előnyei
 - Segít elkerülni a kódismétlést 
 - Növeli a kód újrafelhasználhatóságát és karbantarthatóságát
-- Megkönnyíti a fejlesztők közötti együttműködést. 
+- Megkönnyíti a fejlesztők közötti együttműködést
 
 ### Hátrányai
 - Bonyolultabbá teheti az alkalmazás szerkezetét
 - Több fájlt és osztályt igényelhet
 
 # Más tervezési minták
-Szerkezeti tervezési minták jönnek.
+**Szerkezeti tervezési minták jönnek**
 
 ## Facade
 
@@ -476,7 +478,7 @@ public void test() {
 A Template Method tervezési minta meghatározza egy algoritmus vázát egy metódusban, 
 és néhány lépést a leszármazott osztályokra bíz. A Template Method lehetővé teszi 
 a leszármazott osztályoknak, hogy bizonyos lépéseket újra meghatározzanak 
-az algoritmus szerkezetének megváltoztatása nélkül1.
+az algoritmus szerkezetének megváltoztatása nélkül.
 
 ### Példa
 ```java
@@ -660,6 +662,18 @@ public class Dragon {
 ```
 
 ## Builder
+A Builder tervezési minta egy olyan tervezési minta, amely lehetővé teszi, 
+hogy összetett objektumokat hozzunk létre lépésről lépésre, anélkül, 
+hogy megváltoztatnánk az objektum reprezentációját. Ezt a mintát akkor használjuk, 
+amikor különböző változatlan objektumokat akarunk létrehozni ugyanazzal 
+az objektum-építési folyamattal
+
+A Builder minta hasznos lehet, ha az objektumunk sok tulajdonsággal rendelkezik, 
+és néhányuk opcionális. Ebben az esetben elkerülhetjük a túlterhelt konstruktorokat 
+vagy a setter metódusokat, és helyette egy folyékony interfészt használhatunk, 
+amely visszaadja ugyanazt a Builder objektumot minden tulajdonság beállítása után. 
+Végül a Builder objektum egy build () metódust biztosít, amely visszaadja 
+a kívánt objektumot
 
 ## Factory Method
 
