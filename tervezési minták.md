@@ -249,7 +249,7 @@ redCircle.draw();
 redRectangle.draw();
 ```
 
-Viselkedési tervezési minták jönnek
+**Viselkedési tervezési minták jönnek**
 
 ## Iterator
 Az iterator tervezési minta használatával bejárhatunk egy tárolóban lévő elemeket, 
