@@ -554,6 +554,32 @@ public void test() {
 **Létrehozási tervezési minták jönnek**
 
 ## Singleton
+A Singleton tervezési minta olyan létrehozási minta, amely garantálja, 
+hogy egy osztálynak csak egy példánya létezik, és egy globális hozzáférési pontot 
+biztosít hozzá. A Singleton minta hasznos lehet olyan osztályok esetében, 
+amelyek a naplózásért, az adatbázis-kezelésért vagy 
+más erőforrások megosztásáért felelősek.
+
+A Singleton minta megvalósításához általában szükség van 
+egy privát konstruktorra, egy statikus mezőre, amely tárolja az osztály példányát, 
+és egy nyilvános statikus metódusra, amely visszaadja ezt a példányt. 
+A metódus neve általában `getInstance`.
+
+### Példa
+```java
+public class Dragon {
+	private static Dragon instance;
+
+	private Dragon() {}
+
+	public static Dragon getInstance() {
+		if (instance == null) {
+			instance = new Dragon();
+		}
+		return instance;
+	}
+}
+```
 
 ## Strategy
 
