@@ -720,7 +720,54 @@ public class Dragon {
 }
 ```
 
-## Factory Method
-
 ## Prototype
+A Prototype tervezési minta lehetővé teszi, hogy új objektumokat hozzunk létre 
+egy meglévő objektum másolásával. Ez hasznos lehet, ha az objektum létrehozása 
+sok időt és erőforrást igényel, és már rendelkezünk egy hasonló objektummal. 
+A Prototype minta azt követeli meg, hogy az objektum, amelyet másolni akarunk, 
+biztosítsa a másolási funkciót. Nem szabad, hogy ezt más osztály végezze el
 
+A Prototype minta egyik megvalósítása lehet a `clone()` metódust.
+Ehhez meg kell valósítanunk a Cloneable interfészt. Amikor klónozni próbálunk, 
+el kell döntenünk, hogy sekély vagy mély másolatot készítünk-e 
+az objektumról. Ez követelményektől függ, és egy tervezési döntés.
+
+### Példa
+```java
+public class Dragon {
+	private String color;
+	private boolean canBreathFire;
+
+	public Dragon(String color, boolean fire) {
+		this.color = color;
+		this.canBreathFire = fire;
+	}
+
+	public Dragon clone() {
+		Dragon sarkanyKlon = new Dragon(this.color, this.canBreathFire);
+		return sarkanyKlon;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Dragon dragon = (Dragon) o;
+		return canBreathFire == dragon.canBreathFire && Objects.equals(color, dragon.color);
+	}
+
+	@Override
+	public String toString() {
+		return "Ez egy " + color + " sárkány, amely " + (canBreathFire ? "tud" : "nem tud") + " tüzet okádni.";
+	}
+}
+
+public void test() {
+	Dragon redDragon = new Dragon("piros", true);
+	System.out.println(redDragon);
+	Dragon redDragonClone = redDragon.clone();
+	System.out.println(redDragonClone);
+	System.out.println(redDragon.equals(redDragonClone));
+}
+
+```
