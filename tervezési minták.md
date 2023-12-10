@@ -551,6 +551,84 @@ public void test() {
 }
 ```
 
+## Strategy
+
+A Strategy tervezési minta egy viselkedési minta, amely lehetővé teszi, hogy
+egy osztály viselkedését futásidőben kicseréljük egy másikra, amely ugyanazt
+az interfészt valósítja meg. Ez hasznos, ha többféle algoritmus közül kell
+választani, amelyek ugyanazt a feladatot végzik el, eltérő módon.
+
+A Strategy tervezési minta alkalmazásához három fő komponensre van szükség:
+- Egy stratégia interfész, amely meghatározza az algoritmusok közös műveleteit
+- Egy vagy több konkrét stratégia osztály, 
+amely implementálja a stratégia interfészt, és megvalósítja az algoritmust
+- Egy kontextus osztály, amely tartalmaz egy stratégia interfész típusú attribútumot, 
+és egy metódust, amely átadja a feladatot a stratégia objektumnak
+
+### Előnyei
+- Növeli a kód rugalmasságát
+- Elválasztja a viselkedést az osztálytól, amely használja
+
+### Példa
+```java
+// A stratégia interfész
+public interface Fire {
+	void breatheFire();
+}
+
+// Egy konkrét stratégia osztály, amely normál tüzet okád
+public class NormalFire implements Fire {
+	@Override
+	public void breatheFire() {
+		System.out.println("A sárkány normál tüzet okád, ami elégeti az ellenfeleit");
+	}
+}
+
+// Egy másik konkrét stratégia osztály, amely jeges tüzet okád
+public class IceFire implements Fire {
+	@Override
+	public void breatheFire() {
+		System.out.println("A sárkány jeges tüzet okád, ami lefagyasztja az ellenfeleit");
+	}
+}
+
+// Egy harmadik konkrét stratégia osztály, amely villámokat okád
+public class LightningFire implements Fire {
+	@Override
+	public void breatheFire() {
+		System.out.println("A sárkány villámokat okád, ami elkábítja az ellenfeleit");
+	}
+}
+
+// A kontextus osztály, amely használja a tűz objektumokat
+public class Dragon {
+	private Fire fire;
+
+	public Dragon(Fire fire) {
+		this.fire = fire;
+	}
+
+	public void breatheFire() {
+		fire.breatheFire();
+	}
+
+	public void setFire(Fire fire) {
+		this.fire = fire;
+	}
+}
+
+public void test() {
+	Dragon dragon = new Dragon(new NormalFire());
+	dragon.breatheFire();
+
+	dragon.setFire(new IceFire());
+	dragon.breatheFire();
+
+	dragon.setFire(new LightningFire());
+	dragon.breatheFire();
+}
+```
+
 **Létrehozási tervezési minták jönnek**
 
 ## Singleton
@@ -580,8 +658,6 @@ public class Dragon {
 	}
 }
 ```
-
-## Strategy
 
 ## Builder
 
