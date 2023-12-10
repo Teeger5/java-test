@@ -663,17 +663,62 @@ public class Dragon {
 
 ## Builder
 A Builder tervezési minta egy olyan tervezési minta, amely lehetővé teszi, 
-hogy összetett objektumokat hozzunk létre lépésről lépésre, anélkül, 
-hogy megváltoztatnánk az objektum reprezentációját. Ezt a mintát akkor használjuk, 
-amikor különböző változatlan objektumokat akarunk létrehozni ugyanazzal 
-az objektum-építési folyamattal
+hogy összetett objektumokat hozzunk létre lépésről lépésre. 
+Ezt a mintát akkor használjuk, amikor változatlan objektumokat akarunk létrehozni.
 
 A Builder minta hasznos lehet, ha az objektumunk sok tulajdonsággal rendelkezik, 
-és néhányuk opcionális. Ebben az esetben elkerülhetjük a túlterhelt konstruktorokat 
-vagy a setter metódusokat, és helyette egy folyékony interfészt használhatunk, 
-amely visszaadja ugyanazt a Builder objektumot minden tulajdonság beállítása után. 
-Végül a Builder objektum egy build () metódust biztosít, amely visszaadja 
-a kívánt objektumot
+és néhányuk opcionális. Ebben az esetben elkerülhetjük a osszú konstruktorokat, 
+és helyette egy olyan API-t használhatunk, amely minden érték beállítása után 
+visszaadja ugyanazt a Builder objektumot. Végül a Builder objektum 
+egy `build()` metódust biztosít, amely visszaadja a kívánt objektumot.
+
+### Példa
+```java
+public class Dragon {
+
+	private String color;
+	private int size;
+
+	private boolean fire;
+	private boolean wings;
+
+	private Dragon(Builder builder) {
+		this.color = builder.color;
+		this.size = builder.size;
+		this.fire = builder.fire;
+		this.wings = builder.wings;
+	}
+
+	//Builder osztály
+	public static class Builder {
+		// Kötelezőek
+		private String color;
+		private int size;
+
+		private boolean fire;
+		private boolean wings;
+
+		public Builder(String color, int size) {
+			this.color = color;
+			this.size = size;
+		}
+
+		public Builder setFire(boolean fire) {
+			this.fire = fire;
+			return this;
+		}
+
+		public Builder setWings(boolean wings) {
+			this.wings = wings;
+			return this;
+		}
+
+		public Dragon build() {
+			return new Dragon(this);
+		}
+	}
+}
+```
 
 ## Factory Method
 
